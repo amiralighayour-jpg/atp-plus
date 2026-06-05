@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0F766E">
+<title>پنل مالی ATP+</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#0F766E;--teal2:#14B8A6;--bg:#F0F5F4;--card:#fff;--ink:#1F2937;--muted:#6B7280;--line:#E5E7EB;--green:#0F9D6E;--green2:#10B981;--amber:#F59E0B;--red:#EF4444;--blue:#3B82F6;--navy:#1F4E78}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;font-family:'Vazirmatn',Tahoma,sans-serif;background:var(--bg);color:var(--ink)}
+input,select,textarea,button{font-family:inherit}
+.login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:linear-gradient(160deg,var(--teal),var(--teal2));color:#fff}
+.login .logo{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:44px;margin-bottom:16px}
+.login h1{font-size:22px;font-weight:800;margin:0}.login p{font-size:13px;opacity:.85;margin:6px 0 26px}
+.login .box{background:#fff;border-radius:16px;padding:20px;width:100%;max-width:320px;color:var(--ink)}
+.login input{width:100%;padding:13px;border:1.5px solid var(--line);border-radius:10px;font-size:18px;text-align:center;letter-spacing:3px;margin-bottom:12px}
+.login button{width:100%;padding:13px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.login .err{color:#FECACA;font-size:12px;text-align:center;height:16px;margin-bottom:6px}
+.topbar{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.topbar .t{font-size:15px;font-weight:700}.topbar .s{font-size:10px;opacity:.85;margin-top:2px}
+.ibtn{background:rgba(255,255,255,.18);border:none;color:#fff;width:34px;height:34px;border-radius:9px;font-size:15px;cursor:pointer;margin-right:4px}
+.nav{display:flex;gap:4px;background:#DBEAE8;padding:4px;overflow-x:auto;position:sticky;top:58px;z-index:40;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav button{flex:0 0 auto;padding:9px 13px;border:none;background:transparent;border-radius:9px;font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap}
+.nav button.on{background:#fff;color:var(--teal);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.wrap{max-width:1150px;margin:0 auto;padding:14px}
+.page{display:none}.page.on{display:block}
+.banner{background:#FFF7ED;border:1px solid #FED7AA;color:#9A3412;font-size:11.5px;padding:8px 12px;border-radius:9px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.banner b{font-weight:800}
+.grid{display:grid;gap:10px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:720px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}}
+.stat{background:#fff;border-radius:13px;padding:13px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.stat .v{font-size:20px;font-weight:800;color:var(--teal)}.stat .v.g{color:var(--green)}.stat .v.r{color:var(--red)}.stat .v.b{color:var(--blue)}.stat .v.a{color:var(--amber)}
+.stat .l{font-size:11px;color:var(--muted);margin-top:3px}
+.card{background:#fff;border-radius:13px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:14px;color:var(--teal);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#F1F7F6;color:var(--teal);padding:8px 6px;text-align:right;font-weight:700;border-bottom:2px solid var(--line)}
+td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right}
+tr:hover td{background:#FAFBFB}
+.tscroll{overflow-x:auto}
+.pill{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px}
+.p-fin{background:#DBEAFE;color:#1E40AF}.p-wh{background:#EDE9FE;color:#5B21B6}.p-done{background:#D1FAE5;color:#065F46}.p-rej{background:#FEE2E2;color:#991B1B}.p-wait{background:#FEF3C7;color:#92400E}.p-ok{background:#D1FAE5;color:#065F46}.p-due{background:#FEE2E2;color:#991B1B}.p-soon{background:#FEF3C7;color:#92400E}.p-ours{background:#D1FAE5;color:#065F46}.p-theirs{background:#FEF3C7;color:#92400E}
+.btn{padding:9px 14px;border:none;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;color:#fff}
+.btn.ap{background:var(--green2)}.btn.rj{background:var(--red)}.btn.p{background:linear-gradient(135deg,var(--teal),var(--teal2))}.btn.s{background:#EEF1F6;color:var(--ink)}
+.btn:active{transform:scale(.97)}.btn.sm{padding:6px 10px;font-size:11px;border-radius:7px}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap}
+.empty{text-align:center;padding:30px;color:var(--muted)}.empty .i{font-size:36px;opacity:.35}
+.fg{margin-bottom:11px}.fl{display:block;font-size:12px;font-weight:600;margin-bottom:5px;color:#374151}
+.fi,.fs{width:100%;padding:9px;border:1.5px solid var(--line);border-radius:9px;font-size:13px;text-align:right;background:#FAFBFC}
+.fi:focus,.fs:focus{outline:none;border-color:var(--teal2);background:#fff}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.fr4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:720px){.fr4{grid-template-columns:repeat(2,1fr)}}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:14px}
+.ov.show{display:flex}
+.modal{background:#fff;width:100%;max-width:560px;border-radius:16px;max-height:92vh;overflow-y:auto}
+.mh{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff}
+.mh .t{font-size:15px;font-weight:700;color:var(--teal)}.mh .x{background:#F3F4F6;border:none;width:30px;height:30px;border-radius:8px;font-size:15px;cursor:pointer}
+.mb{padding:16px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1F2937;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;opacity:0;transition:.25s;z-index:300;pointer-events:none}
+.toast.show{opacity:1}
+.note{background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;font-size:11.5px;padding:9px 12px;border-radius:9px;margin-bottom:12px;line-height:1.7}
+.note.warn{background:#FFF7ED;border-color:#FED7AA;color:#9A3412}
+.note.blue{background:#EFF6FF;border-color:#BFDBFE;color:#1E40AF}
+.hint{font-size:10.5px;color:var(--muted);margin-top:4px}
+.seg{display:flex;gap:6px;margin-bottom:10px}
+.seg button{flex:1;padding:9px;border:1.5px solid var(--line);background:#fff;border-radius:9px;font-weight:700;font-size:12.5px;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.sec-h{font-size:13px;font-weight:800;color:var(--teal);margin:16px 2px 8px}
+@media print{
+  body{background:#fff}
+  body *{visibility:hidden}
+  #printArea,#printArea *{visibility:visible}
+  #printArea{position:absolute;inset:0;display:block !important;padding:18px}
+  .no-print{display:none !important}
+}
+#printArea{display:none}
+.fi-doc{font-family:'Vazirmatn',Tahoma,sans-serif;color:#111;direction:rtl}
+.fi-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px double var(--teal);padding-bottom:10px;margin-bottom:10px}
+.fi-brand{font-size:20px;font-weight:800;color:var(--teal)}.fi-brand small{display:block;font-size:10px;color:#666;font-weight:500;margin-top:3px}
+.fi-badge{background:#D1FAE5;color:#065F46;font-size:11px;font-weight:800;padding:6px 12px;border-radius:6px;text-align:center}
+.fi-meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:12px;margin-bottom:12px}
+.fi-meta div{padding:3px 0;border-bottom:1px dashed #ddd}.fi-meta b{color:var(--teal)}
+.fi-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px}
+.fi-tbl th{background:var(--teal);color:#fff;padding:7px 4px;border:1px solid var(--teal)}
+.fi-tbl td{padding:6px 4px;border:1px solid #ccc;text-align:center}.fi-tbl td.r{text-align:right}
+.fi-tot{margin-right:auto;width:62%;font-size:12px}
+.fi-tot .r{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #ddd}
+.fi-tot .grand{font-size:15px;font-weight:800;color:var(--teal);border-bottom:2px solid var(--teal)}
+.fi-foot{margin-top:20px;display:flex;justify-content:space-between;font-size:11px;color:#444}
+.fi-sign{text-align:center;width:45%}.fi-sign .ln{margin-top:36px;border-top:1px solid #999;padding-top:4px}
+.fi-note{margin-top:14px;font-size:9.5px;color:#777;text-align:center;border-top:1px solid #ddd;padding-top:8px}
+</style>
+</head>
+<body>
+
+<div class="login" id="login">
+  <div class="logo">💰</div><h1>پنل مالی</h1><p>ATP Plus — مالی -۸</p>
+  <div class="box"><div class="err" id="loginErr"></div>
+    <input type="password" id="pin" inputmode="numeric" placeholder="رمز ورود" onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">ورود</button></div>
+</div>
+
+<div id="app" style="display:none">
+  <div class="topbar">
+    <div><div class="t">پنل مالی ATP+</div><div class="s"><span id="dt">-</span> · <span id="syncStat"></span></div></div>
+    <div><button class="ibtn" onclick="loadAll(true)" title="همگام‌سازی">🔄</button><button class="ibtn" onclick="openSettings()" title="تنظیمات">⚙️</button><button class="ibtn" onclick="lock()" title="قفل">🔒</button></div>
+  </div>
+  <div class="nav" id="nav"></div>
+  <div class="wrap">
+    <div id="demoBanner" class="banner" style="display:none"><span>⚠️ <b>حالت نمایشی</b> — داده‌ها نمونه است. برای اتصال واقعی، دو آدرس را در ⚙️ تنظیمات وارد کن.</span><button class="btn p sm" onclick="openSettings()">اتصال</button></div>
+
+    <div class="page on" id="pg-dash">
+      <div class="grid g4" style="margin-bottom:10px">
+        <div class="stat"><div class="v a" id="dWait">0</div><div class="l">منتظر مالی</div></div>
+        <div class="stat"><div class="v g" id="dApr">0</div><div class="l">تأیید مالی</div></div>
+        <div class="stat"><div class="v r" id="dRej">0</div><div class="l">رد مالی</div></div>
+        <div class="stat"><div class="v b" id="dIssued">0</div><div class="l">فاکتور صادرشده</div></div>
+      </div>
+      <div class="grid g4" style="margin-bottom:10px">
+        <div class="stat"><div class="v b" id="dCheque">0</div><div class="l">جمع چک (م)</div></div>
+        <div class="stat"><div class="v r" id="dRet">0</div><div class="l">جمع مرجوعی (م)</div></div>
+        <div class="stat"><div class="v a" id="dDueSoon">0</div><div class="l">چک سررسید این هفته</div></div>
+        <div class="stat"><div class="v g" id="dSup">0</div><div class="l">شرکت‌های پخش</div></div>
+      </div>
+      <div class="card"><h3>📊 وصولیت وصول هر ویزیتور (K5)</h3><div class="tscroll" id="k5Dash"></div></div>
+    </div>
+
+    <div class="page" id="pg-approve">
+      <div class="note">فاکتورهای «منتظر مالی». با تأیید: شماره FI بزن، اطلاعات چک را وارد کن، فاکتور قفل و رسمی می‌شود، به انبار می‌رود و می‌توانی فاکتور رسمی PDF چاپ کنی.</div>
+      <div class="card"><h3>⏳ منتظر تأیید مالی <span class="pill p-fin" id="apCount">0</span></h3><div id="apList"></div></div>
+    </div>
+
+    <div class="page" id="pg-issued">
+      <div class="card"><h3>🧾 فاکتورهای صادرشده (رسمی FI)</h3><div class="tscroll"><table id="issuedTable"></table></div></div>
+    </div>
+
+    <div class="page" id="pg-cheque">
+      <div class="note blue">همه‌ی دریافت‌ها به‌صورت اطلاعات چک ثبت می‌شوند (نقدی/کوتاه/بلند). دریافت نقدی جداگانه حذف شده است.</div>
+      <div class="card"><h3>🏦 ثبت چک</h3>
+        <div class="fr3">
+          <div class="fg"><label class="fl">مشتری</label><select class="fs" id="chCust"></select></div>
+          <div class="fg"><label class="fl">شماره چک</label><input class="fi" id="chNo"></div>
+          <div class="fg"><label class="fl">مبلغ (ریال)</label><input class="fi" id="chAmt" type="number"></div>
+        </div>
+        <div class="fr3">
+          <div class="fg"><label class="fl">بانک</label><input class="fi" id="chBank"></div>
+          <div class="fg"><label class="fl">شعبه</label><input class="fi" id="chBranch"></div>
+          <div class="fg"><label class="fl">تاریخ سررسید (1405/03/15)</label><input class="fi" id="chDue"></div>
+        </div>
+        <button class="btn p sm" onclick="saveCheque()">ثبت چک</button>
+      </div>
+      <div class="card"><h3>📋 گزارش چک‌ها و سررسید</h3><div class="tscroll" id="chequeTable"></div></div>
+    </div>
+
+    <div class="page" id="pg-return">
+      <div class="note warn">مرجوعی دومرحله‌ای: ویزیتور ثبت می‌کند ← انبار تأیید و کالا را به موجودی برمی‌گرداند ← <b>مالی تأیید نهایی</b> می‌کند و سند مرجوعی قطعی می‌شود. می‌توانی مرجوعی مستقیم هم ثبت کنی.</div>
+      <div class="card"><h3>↩️ مرجوعی‌های منتظر تأیید مالی <span class="pill p-wait" id="retPendCount">0</span></h3><div id="retPendList"></div></div>
+      <div class="card"><h3>➕ ثبت مرجوعی مستقیم</h3>
+        <div class="fr3">
+          <div class="fg"><label class="fl">مشتری</label><select class="fs" id="reCust"></select></div>
+          <div class="fg"><label class="fl">شماره فاکتور اصلی</label><input class="fi" id="reInv"></div>
+          <div class="fg"><label class="fl">مبلغ مرجوعی</label><input class="fi" id="reAmt" type="number"></div>
+        </div>
+        <div class="fg"><label class="fl">علت</label><input class="fi" id="reReason"></div>
+        <button class="btn p sm" onclick="saveReturn()">ثبت مرجوعی</button>
+      </div>
+      <div class="card"><h3>📜 مرجوعی‌ها</h3><div class="tscroll" id="returnTable"></div></div>
+    </div>
+
+    <div class="page" id="pg-consign">
+      <div class="note">فاکتورهای امانیِ منقضی‌شده (مهلتشان گذشته و مدیر فروش تعیین‌تکلیف نکرده). مالی تعیین‌تکلیف نهایی می‌کند: ثبت به‌عنوان فاکتور فروش + کسر از حساب مدیر فروش.</div>
+      <div class="card"><h3>📦 امانی‌های منتظر تسویهٔ مالی <span class="pill p-wait" id="cgCount">0</span></h3><div class="tscroll"><table id="cgTable"></table></div></div>
+    </div>
+
+    <div class="page" id="pg-promo">
+      <div class="note">درخواست‌های قلم تبلیغاتی از مدیر فروش. با تأیید تو، از موجودی انبار کسر و به‌عنوان «تخفیف کالایی» ثبت می‌شود (به سند فروش دست نمی‌خورد).</div>
+      <div class="card"><h3>🎁 درخواست‌های منتظر تأیید مالی <span class="pill p-wait" id="promoPendCount">0</span></h3><div id="promoPendList"></div></div>
+      <div class="card"><h3>📜 همه درخواست‌های اقلام تبلیغاتی</h3><div class="tscroll" id="promoTable"></div></div>
+    </div>
+
+    <div class="page" id="pg-promoitems">
+      <div class="note">لیست اقلام تبلیغاتی را اینجا تعریف کن (فقط نام). تعداد را انبار وارد می‌کند، سپس تو تأیید می‌کنی تا در پنل ویزیتور و مدیر فروش قابل انتخاب شود — مثل جریان محصول و موجودی.</div>
+      <div class="card"><h3>➕ تعریف قلم تبلیغاتی</h3>
+        <div class="fr2">
+          <div class="fg"><label class="fl">نام قلم تبلیغاتی</label><input class="fi" id="piName" placeholder="مثلاً شیکر ۷۰۰cc"></div>
+          <div class="fg"><label class="fl">&nbsp;</label><button class="btn p sm" style="width:100%" onclick="savePromoItem()">➕ افزودن قلم</button></div>
+        </div>
+        <div class="hint">تعداد را انبار پر می‌کند. بعد از ورود تعداد توسط انبار، دکمه «تأیید» را بزن.</div>
+      </div>
+      <div class="card"><h3>📋 اقلام تبلیغاتی تعریف‌شده</h3><div class="tscroll" id="promoItemTable"></div></div>
+    </div>
+
+    <div class="page" id="pg-promorules">
+      <div class="note blue">قانون اقلام تبلیغاتی شرطی: «اگر مقدار مشخصی از یک محصول خرید شد، تعداد مشخصی قلم تبلیغاتی تعلق می‌گیرد». این قوانین در اپ ویزیتور و پنل مدیر فروش فقط <b>نمایش</b> داده می‌شوند و در مبلغ فاکتور اثری ندارند.</div>
+      <div class="card"><h3>🧩 تعریف قانون اقلام تبلیغاتی</h3>
+        <div class="fr4">
+          <div class="fg"><label class="fl">اگر این محصول</label><select class="fs" id="prRuleSku"></select></div>
+          <div class="fg"><label class="fl">به تعداد ≥</label><input class="fi" id="prRuleQty" type="number" placeholder="5"></div>
+          <div class="fg"><label class="fl">این قلم تبلیغاتی</label><input class="fi" id="prRuleGive" placeholder="شیکر"></div>
+          <div class="fg"><label class="fl">به تعداد</label><input class="fi" id="prRuleGiveQty" type="number" placeholder="1"></div>
+        </div>
+        <div class="fg"><label class="fl">کانال</label><select class="fs" id="prRuleChan"><option value="داروخانه">داروخانه</option><option value="پخش">پخش</option><option value="هردو">هر دو</option></select></div>
+        <button class="btn p sm" onclick="savePromoRule()">➕ افزودن قانون</button>
+        <div class="hint">مثال: اگر «کراتین ۵۰۰» به تعداد ۵ خریده شد ← ۱ «شیکر». برای حذف یک قانون از جدول، دکمه حذف را بزن.</div>
+      </div>
+      <div class="card"><h3>🧩 قوانین تعریف‌شده</h3><div class="tscroll" id="promoRuleTable"></div></div>
+    </div>
+
+    <div class="page" id="pg-disc">
+      <div class="note blue">درصد تخفیف بر اساس شرط پرداخت. برای داروخانه و پخش جداگانه. هر شرط دو درصد دارد: «کالایی» و «ریالی». برای بلندمدت می‌توانی درصد منفی بزنی (یعنی به قیمت اضافه شود).</div>
+      <div class="card"><h3>💳 تخفیف پرداخت — داروخانه</h3>
+        <table><tr><th>شرط پرداخت</th><th>٪ کالایی</th><th>٪ ریالی</th></tr>
+          <tr><td>نقدی / چک تا ۲ ماه</td><td><input class="fi" id="dPhCashGoods" type="number"></td><td><input class="fi" id="dPhCashCash" type="number"></td></tr>
+          <tr><td>چک کوتاه (۲ تا ۴ ماه)</td><td><input class="fi" id="dPhShortGoods" type="number"></td><td><input class="fi" id="dPhShortCash" type="number"></td></tr>
+          <tr><td>بلندمدت (۳ ماه به بالا)</td><td><input class="fi" id="dPhLongGoods" type="number"></td><td><input class="fi" id="dPhLongCash" type="number"></td></tr>
+        </table>
+        <div class="hint">برای بلندمدت می‌توانی عدد منفی بزنی (مثلاً ۳- یعنی ۳٪ روی قیمت اضافه شود).</div>
+      </div>
+      <div class="card"><h3>🏭 تخفیف پرداخت — شرکت پخش</h3>
+        <table><tr><th>شرط پرداخت</th><th>٪ کالایی</th><th>٪ ریالی</th></tr>
+          <tr><td>نقدی / چک تا ۲ ماه</td><td><input class="fi" id="dDsCashGoods" type="number"></td><td><input class="fi" id="dDsCashCash" type="number"></td></tr>
+          <tr><td>چک کوتاه (۲ تا ۴ ماه)</td><td><input class="fi" id="dDsShortGoods" type="number"></td><td><input class="fi" id="dDsShortCash" type="number"></td></tr>
+          <tr><td>بلندمدت (۳ ماه به بالا)</td><td><input class="fi" id="dDsLongGoods" type="number"></td><td><input class="fi" id="dDsLongCash" type="number"></td></tr>
+        </table>
+      </div>
+      <button class="btn p" style="width:100%" onclick="saveDiscounts()">💾 ذخیره قوانین تخفیف</button>
+    </div>
+
+    <div class="page" id="pg-targets">
+      <div class="note blue">تارگت <b>تعدادی</b> برای هر محصول جداگانه. این عددها در پنل مدیر فروش و ویزیتور نمایش داده می‌شوند تا پیشرفت فروش هر محصول دیده شود.</div>
+      <div class="card"><h3>🎯 تارگت تعدادی هر محصول</h3>
+        <div class="tscroll" id="targetTable"></div>
+        <button class="btn p" style="width:100%;margin-top:10px" onclick="saveTargets()">💾 ذخیره تارگت‌ها</button>
+      </div>
+      <div class="card"><h3>📶 تارگت پلکانیِ پورسانت (هر محصول جدا)</h3>
+        <div class="note">برای هر محصول، پله‌های «تعداد ≥ ← درصد پورسانت» را تعریف کن. مثال کراتین: ۱ عدد=۱٪، ۳ عدد=۵٪. بالاترین پلهٔ واجد شرایط اعمال می‌شود. درصدِ هر محصول مستقل است.</div>
+        <div class="fr3">
+          <div class="fg"><label class="fl">محصول</label><select class="fs" id="ttProd"></select></div>
+          <div class="fg"><label class="fl">از تعداد ≥</label><input class="fi" id="ttQty" type="number" placeholder="3"></div>
+          <div class="fg"><label class="fl">درصد پورسانت (٪)</label><input class="fi" id="ttPct" type="number" placeholder="5"></div>
+        </div>
+        <button class="btn p sm" onclick="addTargetTier()">➕ افزودن پله</button>
+        <div class="tscroll" id="targetTierTable" style="margin-top:12px"></div>
+        <button class="btn p" style="width:100%;margin-top:10px" onclick="saveTargetTiers()">💾 ذخیره تارگت پلکانی</button>
+      </div>
+    </div>
+
+    <div class="page" id="pg-suppliers">
+      <div class="note blue">شرکت‌های پخش را اینجا تعریف می‌کنی. هنگام ثبت، مشخص کن محصولات این شرکت در «انبار ما»‌ست یا «انبار خودِ شرکت». این انتخاب تعیین می‌کند بعد از تأیید مالی، فاکتورِ پخش به انبار ما برود یا فقط فاکتور رسمی صادر شود. سیاست تخفیف فقط «آفر کالایی» است.</div>
+      <div class="card"><h3>🚚 ثبت / ویرایش شرکت پخش</h3>
+        <div class="fr3">
+          <div class="fg"><label class="fl">کد شرکت</label><input class="fi" id="spCode" placeholder="SUP-001"></div>
+          <div class="fg"><label class="fl">نام شرکت پخش</label><input class="fi" id="spName" placeholder="پخش سلامت پارسیان"></div>
+          <div class="fg"><label class="fl">کد سپیدار</label><input class="fi" id="spSepidar" placeholder="SEP-..."></div>
+        </div>
+        <div class="fr3">
+          <div class="fg"><label class="fl">تلفن</label><input class="fi" id="spTel"></div>
+          <div class="fg"><label class="fl">شخص رابط</label><input class="fi" id="spContact"></div>
+          <div class="fg"><label class="fl">سقف اعتبار (ریال)</label><input class="fi" id="spCredit" type="number"></div>
+        </div>
+        <label class="fl">محل نگهداری موجودی این شرکت</label>
+        <div class="seg" id="spWh"><button type="button" class="on" data-v="ours">📦 انبار ما (فاکتور به انبار می‌رود)</button><button type="button" data-v="theirs">🏭 انبار خودِ شرکت (فقط فاکتور رسمی)</button></div>
+        <div class="fg"><label class="fl">سیاست آفر کالایی (توضیح متنی)</label><input class="fi" id="spOffer" placeholder="مثلاً: به ازای هر ۱۰۰ عدد، ۵ عدد آفر"></div>
+        <button class="btn p sm" onclick="saveSupplier()">💾 ذخیره شرکت پخش</button>
+        <div class="hint">با ذخیره، این شرکت در اپ ویزیتور و پنل مدیر فروش برای انتخاب ظاهر می‌شود.</div>
+      </div>
+      <div class="card"><h3>🚚 شرکت‌های پخش ثبت‌شده</h3><div class="tscroll" id="supTable"></div></div>
+    </div>
+
+    <div class="page" id="pg-pricing">
+      <div class="note blue">قیمت هر محصول را دستی وارد کن: مصرف‌کننده، داروخانه (اپ ویزیتور) و پخش (پنل مدیر فروش). «قیمت خرید» فقط برای مالی است و در هیچ پنل دیگری دیده نمی‌شود.</div>
+      <div class="card"><h3>🏷️ ثبت / ویرایش قیمت محصول</h3>
+        <div class="fr2">
+          <div class="fg"><label class="fl">کد محصول (SKU)</label><input class="fi" id="prSku" placeholder="ATP-009"></div>
+          <div class="fg"><label class="fl">نام محصول</label><input class="fi" id="prName" placeholder="نام کامل محصول"></div>
+        </div>
+        <div class="fr2">
+          <div class="fg"><label class="fl">دسته</label><input class="fi" id="prCat" placeholder="مکمل"></div>
+          <div class="fg"><label class="fl">قیمت مصرف‌کننده (ریال)</label><input class="fi" id="prConsumer" type="number"></div>
+        </div>
+        <div class="fr3">
+          <div class="fg"><label class="fl">قیمت داروخانه (ریال)</label><input class="fi" id="prPharma" type="number"></div>
+          <div class="fg"><label class="fl">قیمت پخش (ریال)</label><input class="fi" id="prDist" type="number"></div>
+          <div class="fg"><label class="fl">🔒 قیمت خرید ما (محرمانه)</label><input class="fi" id="prBuy" type="number"></div>
+        </div>
+        <div class="fg"><label class="fl">توضیحات (اختیاری)</label><input class="fi" id="prDesc"></div>
+        <button class="btn p sm" onclick="savePrice()">💾 ذخیره قیمت محصول</button>
+        <div class="hint">برای ویرایش یک محصول موجود، همان SKU را وارد کن؛ مقدار قبلی بازنویسی می‌شود.</div>
+      </div>
+      <div class="card"><h3>🏷️ جدول کامل قیمت‌ها (فقط مالی)</h3><div class="tscroll" id="priceTable"></div></div>
+    </div>
+
+    <div class="page" id="pg-baskets">
+      <div class="note" style="background:#FCE7F3;border:1px solid #FBCFE8;color:#9D174D">سبدهای محصولی (گلد/نقره/برنز/مناستبی...) را تعریف کن. هر سبد می‌تواند آفر کالایی و اقلام تبلیغاتی مخصوص خودش داشته باشد. سبدها در اپ ویزیتور و پنل مدیر فروش برای انتخاب ظاهر می‌شوند.</div>
+      <div class="card"><h3>🧺 ثبت / ویرایش سبد محصولی</h3>
+        <div class="fr3">
+          <div class="fg"><label class="fl">کد سبد</label><input class="fi" id="bkCode" placeholder="BSK-GOLD"></div>
+          <div class="fg"><label class="fl">نام سبد</label><input class="fi" id="bkName" placeholder="سبد گلد"></div>
+          <div class="fg"><label class="fl">کانال</label><select class="fs" id="bkChan"><option value="داروخانه">داروخانه</option><option value="پخش">پخش</option><option value="هردو">هر دو</option></select></div>
+        </div>
+        <div class="fg"><label class="fl">توضیح سبد</label><input class="fi" id="bkDesc" placeholder="مثلاً: مناسب خرید بالای ۵۰ میلیون"></div>
+        <div class="fr2">
+          <div class="fg"><label class="fl">آفر کالایی سبد (متن)</label><input class="fi" id="bkOffer" placeholder="مثلاً: ۵٪ آفر کالایی"></div>
+          <div class="fg"><label class="fl">اقلام تبلیغاتی سبد (متن)</label><input class="fi" id="bkPromo" placeholder="مثلاً: ۱ شیکر + ۱ تی‌شرت"></div>
+        </div>
+        <button class="btn p sm" onclick="saveBasket()">💾 ذخیره سبد</button>
+      </div>
+      <div class="card"><h3>🧺 سبدهای تعریف‌شده</h3><div class="tscroll" id="basketTable"></div></div>
+    </div>
+
+    <div class="page" id="pg-inventory">
+      <div class="note">موجودی زنده انبار (نمایش).</div>
+      <div class="card"><h3>📦 موجودی زنده محصولات</h3><div class="tscroll" id="invTable"></div></div>
+    </div>
+
+    <div class="page" id="pg-k5">
+      <div class="card"><h3>📈 درصد وصول ویزیترها (K5)</h3><div class="tscroll" id="k5Table"></div>
+        <div class="hint">K5 از مبلغ سررسیده و وصول‌شده محاسبه می‌شود و در KPI ویزیتور اثر دارد.</div></div>
+    </div>
+
+    <div class="page" id="pg-comm">
+      <div class="card"><h3>💰 پورسانت کالایی و پله‌کانی (ریال/قطعه)</h3>
+        <div class="note">پورسانت هر محصول <b>درصدی و پله‌ای بر اساس تعداد</b> است و برای داروخانه و پخش جداگانه. مثال: کراتین ← ۱ عدد ۱٪، از ۳ عدد ۲٪. آستانه‌های پله برای هر محصول جداگانه تعریف می‌شود. مدیر فروش و ویزیتور فقط می‌بینند.</div>
+        <div class="fr3">
+          <div class="fg"><label class="fl">محصول</label><select class="fs" id="coProd"></select></div>
+          <div class="fg"><label class="fl">پله مرز ۱ / مرز ۲ (تعداد)</label><div class="fr2"><input class="fi" id="coT1" type="number" placeholder="50"><input class="fi" id="coT2" type="number" placeholder="150"></div></div>
+          <div class="fg"><label class="fl">&nbsp;</label><button class="btn s sm" style="width:100%" onclick="fillCoRates()">نمایش نرخ فعلی</button></div>
+        </div>
+        <div class="sec-h" style="margin:10px 2px 6px">🏥 درصد پورسانت داروخانه (٪)</div>
+        <div class="fr3">
+          <div class="fg"><label class="fl">نرخ پله ۱</label><input class="fi" id="coPh1" type="number"></div>
+          <div class="fg"><label class="fl">نرخ پله ۲</label><input class="fi" id="coPh2" type="number"></div>
+          <div class="fg"><label class="fl">نرخ پله ۳</label><input class="fi" id="coPh3" type="number"></div>
+        </div>
+        <div class="sec-h" style="margin:10px 2px 6px">🏭 درصد پورسانت پخش (٪)</div>
+        <div class="fr3">
+          <div class="fg"><label class="fl">نرخ پله ۱</label><input class="fi" id="coDs1" type="number"></div>
+          <div class="fg"><label class="fl">نرخ پله ۲</label><input class="fi" id="coDs2" type="number"></div>
+          <div class="fg"><label class="fl">نرخ پله ۳</label><input class="fi" id="coDs3" type="number"></div>
+        </div>
+        <button class="btn p sm" onclick="saveComm()">ذخیره نرخ این محصول</button>
+        <div class="tscroll" style="margin-top:12px" id="commTable"></div>
+      </div>
+    </div>
+
+    <div class="page" id="pg-cust">
+      <div class="card"><h3>🏠 مشتری‌ها (کد سپیدار)</h3><div class="tscroll"><table id="custTable"></table></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="ovPhoto"><div class="modal" style="max-width:92vw;background:transparent;box-shadow:none;text-align:center"><img id="ovPhotoImgM" src="" style="max-width:100%;max-height:85vh;border-radius:10px"></div></div>
+
+<div class="ov" id="ovApprove"><div class="modal">
+  <div class="mh"><span class="t">✅ تأیید فاکتور و ثبت چک</span><button class="x" onclick="closeOv('ovApprove')">✕</button></div>
+  <div class="mb">
+    <div class="note" id="apInfo"></div>
+    <div class="fg"><label class="fl">شماره رسمی فاکتور (FI)</label><input class="fi" id="apFI" placeholder="FI-1405-001"></div>
+    <div class="note blue">اطلاعات چک (همه پرداخت‌ها به‌صورت چک ثبت می‌شوند)</div>
+    <div class="fr2"><div class="fg"><label class="fl">شماره چک</label><input class="fi" id="apChNo"></div><div class="fg"><label class="fl">بانک</label><input class="fi" id="apChBank"></div></div>
+    <div class="fr2"><div class="fg"><label class="fl">شعبه</label><input class="fi" id="apChBranch"></div><div class="fg"><label class="fl">تاریخ سررسید</label><input class="fi" id="apChDue" placeholder="1405/03/15"></div></div>
+    <button class="btn ap" style="width:100%;margin-top:8px" onclick="confirmApprove()">تأیید نهایی ← قفل و ارسال به انبار</button>
+    <button class="btn p no-print" style="width:100%;margin-top:8px" onclick="printOfficialFromApprove()">🖨️ چاپ فاکتور رسمی (PDF)</button>
+  </div>
+</div></div>
+
+<div class="ov" id="ovSet"><div class="modal">
+  <div class="mh"><span class="t">⚙️ تنظیمات</span><button class="x" onclick="closeOv('ovSet')">✕</button></div>
+  <div class="mb">
+    <div class="fg"><label class="fl">۱) آدرس شیت فروش (برای تأیید/رد فاکتور + ارسال تعریف‌ها)</label><input class="fi" id="setSales" style="direction:ltr;text-align:left" placeholder="https://script.google.com/.../exec"></div>
+    <div class="fg"><label class="fl">۲) آدرس شیت مالی/سپیدار (برای چک/مرجوعی/پورسانت)</label><input class="fi" id="setFin" style="direction:ltr;text-align:left" placeholder="https://script.google.com/.../exec"></div>
+    <button class="btn p" style="width:100%" onclick="saveSync()">💾 ذخیره و اتصال</button>
+    <div class="hint" style="margin:8px 0 0">هر دو آدرس را وارد کن؛ اگر خالی بماند حالت نمایشی فعال می‌ماند.</div>
+    <div class="sec-h">🔁 بروزرسانی خودکار</div>
+    <div class="fg"><label class="fl">هر چند ثانیه یک‌بار تازه شود؟ (۰ = خاموش)</label><input class="fi" id="setAuto" type="number" value="0" min="0"></div>
+    <button class="btn s" style="width:100%" onclick="saveAuto()">ذخیره بروزرسانی خودکار</button>
+    <div class="sec-h">🔐 تغییر رمز</div>
+    <div class="fg"><label class="fl">رمز فعلی</label><input class="fi" type="password" id="pwOld"></div>
+    <div class="fr2"><div class="fg"><label class="fl">رمز جدید</label><input class="fi" type="password" id="pwNew"></div><div class="fg"><label class="fl">تکرار</label><input class="fi" type="password" id="pwNew2"></div></div>
+    <button class="btn s" style="width:100%" onclick="changePw()">تغییر رمز</button><div class="hint">رمز پیش‌فرض ۱۲۳۴۵.</div>
+  </div>
+</div></div>
+
+<div id="printArea"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const PRODUCTS=[
+ {sku:'ATP-001',name:'کراتین منوهیدرات ۵۰۰'},{sku:'ATP-002',name:'کراتین منوهیدرات ۲۵۰'},
+ {sku:'ATP-003',name:'BCAA ۵۰۰'},{sku:'ATP-004',name:'ال‌گلوتامین ۵۰۰'},
+ {sku:'ATP-005',name:'ال‌گلوتامین ۲۵۰'},{sku:'ATP-006',name:'سیترولین مالات ۲۵۰'},
+ {sku:'ATP-007',name:'استیل ال‌کارنیتین ۲۵۰'},{sku:'ATP-008',name:'بتا آلانین ۲۵۰'}];
+const PRICE_DEFAULT={
+ 'ATP-001':{name:'کراتین منوهیدرات ۵۰۰',cat:'کراتین',consumer:54327860,pharma:42060278,dist:35050232,buy:0,desc:''},
+ 'ATP-002':{name:'کراتین منوهیدرات ۲۵۰',cat:'کراتین',consumer:29400960,pharma:22762033,dist:18968361,buy:0,desc:''},
+ 'ATP-003':{name:'BCAA ۵۰۰',cat:'آمینواسید',consumer:40266532,pharma:31174090,dist:25978408,buy:0,desc:''},
+ 'ATP-004':{name:'ال‌گلوتامین ۵۰۰',cat:'آمینواسید',consumer:53049558,pharma:41070625,dist:34225521,buy:0,desc:''},
+ 'ATP-005':{name:'ال‌گلوتامین ۲۵۰',cat:'آمینواسید',consumer:27483506,pharma:21277553,dist:17731294,buy:0,desc:''},
+ 'ATP-006':{name:'سیترولین مالات ۲۵۰',cat:'آمینواسید',consumer:33747189,pharma:26126856,dist:21772380,buy:0,desc:''},
+ 'ATP-007':{name:'استیل ال‌کارنیتین ۲۵۰',cat:'آمینواسید',consumer:42056155,pharma:32559604,dist:27133003,buy:0,desc:''},
+ 'ATP-008':{name:'بتا آلانین ۲۵۰',cat:'آمینواسید',consumer:44740590,pharma:34637876,dist:28864897,buy:0,desc:''}};
+const SCLASS={'منتظر مدیر فروش':'p-wait','منتظر مالی':'p-fin','منتظر انبار':'p-wh','تحویل شد':'p-done','رد شده':'p-rej'};
+const SICON={'منتظر مدیر فروش':'🟡','منتظر مالی':'🔵','منتظر انبار':'🟣','تحویل شد':'🎉','رد شده':'❌'};
+const NAV=[['dash','📊 داشبورد'],['approve','⏳ تأیید فاکتور'],['issued','🧾 صادرشده‌ها'],['cheque','🏦 چک‌ها/سررسید'],['return','↩️ مرجوعی'],['consign','📦 امانی منقضی'],['promo','🎁 درخواست تبلیغاتی'],['promoitems','📋 لیست تبلیغاتی'],['promorules','🧩 قوانین تبلیغاتی'],['disc','٪ تخفیف پرداخت'],['targets','🎯 تارگت محصولی'],['suppliers','🚚 شرکت‌های پخش'],['pricing','🏷️ قیمت محصولات'],['baskets','🧺 سبدها'],['inventory','📦 موجودی'],['k5','📈 وصول K5'],['comm','💰 پورسانت'],['cust','🏠 مشتری‌ها']];
+
+let DB={invoices:[],customers:[],comm:{tiers:[50,150],defPharma:[1,2,3],defDist:[1,1.5,2],prod:{}},cheques:[],returns:[],issued:[],k5:[],summary:{},promoReq:[],inventory:[],changes:[],suppliers:[],products:[],baskets:[],promoRules:[],discounts:null,targets:null,promoItems:[],consign:[]};
+let settings={sales:'',fin:''},DEMO=false,curApprove=null,autoTimer=null,spWhMode='ours';
+
+function demoData(){return {
+ customers:[{code:'C001',name:'داروخانه دکتر احمدی',chan:'داروخانه',visitor:'V01',credit:200000000,sepidar:'SEP-001',status:'تأیید شده'},{code:'C002',name:'پخش سلامت پارسیان',chan:'شرکت پخش',visitor:'V02',credit:5000000000,sepidar:'SEP-002',status:'تأیید شده'}],
+ invoices:[
+  {id:'INV-2002',date:'2026-05-28',visitor:'V02',cust:'C002',custName:'پخش سلامت پارسیان',sku:'ATP-004',prod:'ال‌گلوتامین ۵۰۰',qty:60,unit:34225521,total:2053531260,type:'رسمی',pay:'چک کوتاه',sSales:'تأیید',sFin:'منتظر مالی',sWh:''},
+  {id:'INV-2005',date:'2026-05-28',visitor:'V01',cust:'C001',custName:'داروخانه دکتر احمدی',sku:'ATP-001',prod:'کراتین منوهیدرات ۵۰۰',qty:3,unit:42060278,total:126180834,type:'رسمی',pay:'نقدی',sSales:'تأیید',sFin:'منتظر مالی',sWh:''},
+  {id:'INV-2003',date:'2026-05-27',visitor:'V01',cust:'C001',custName:'داروخانه دکتر احمدی',sku:'ATP-008',prod:'بتا آلانین ۲۵۰',qty:10,unit:34637876,total:346378760,type:'رسمی',pay:'نقدی',sSales:'تأیید',sFin:'تأیید شده',sWh:'تحویل شد'}],
+ cheques:[{cheqNo:'8842',inv:'INV-2002',custName:'پخش سلامت پارسیان',bank:'صادرات',dueDate:'1405/03/12',amount:2053531260,status:'در جریان'}],
+ returns:[{retNo:'RET-001',inv:'INV-1990',custName:'داروخانه دکتر احمدی',visitor:'V01',sku:'ATP-003',name:'BCAA ۵۰۰',qty:2,amount:62000000,reason:'نزدیک انقضا',status:'منتظر تأیید مالی',date:'1405/03/03'}],
+ issued:[{inv:'INV-2003',fi:'FI-1405-001',date:'1405/03/05',type:'رسمی',custName:'داروخانه دکتر احمدی',visitor:'V01',final:346378760,status:'صادر شده'}],
+ k5:[{visitor:'V01',name:'ویزیتور ۱',due:346378760,collected:346378760,overdue:0,k5:'100%'},{visitor:'V02',name:'ویزیتور ۲',due:2053531260,collected:0,overdue:2053531260,k5:'0%'}],
+ comm:{tiers:[50,150],defPharma:[1,2,3],defDist:[1,1.5,2],prod:{}},
+ summary:{cheque:2053531260,ret:62000000,issued:1},
+ promoReq:[{date:'1405-03-04',reqNo:'PRMO-001',inv:'INV-2002',custName:'پخش سلامت پارسیان',code:'PR-001',name:'تی‌شرت ATP',qty:5,basis:'مبلغی',value:2000000000,status:'منتظر تأیید مالی',by:'مدیر فروش'}],
+ inventory:[{sku:'ATP-001',name:'کراتین منوهیدرات ۵۰۰',qty:14667,status:'موجود'},{sku:'ATP-007',name:'استیل ال‌کارنیتین ۲۵۰',qty:0,status:'بدون موجودی'}],
+ changes:[{date:'1405-03-05 09:10',id:'INV-2003',stage:'مالی',action:'تأیید',by:'مالی',desc:'فاکتور رسمی FI-1405-001 صادر شد'}],
+ suppliers:[{code:'SUP-001',name:'پخش سلامت پارسیان',sepidar:'SEP-002',tel:'02144556677',contact:'آقای رضایی',credit:5000000000,wh:'theirs',offer:'به ازای هر ۱۰۰ عدد، ۵ عدد آفر'}],
+ products:[],
+ promoItems:[{id:'PRM-1',name:'شیکر ۷۰۰cc',qty:120,approved:true},{id:'PRM-2',name:'تی‌شرت ATP',qty:0,approved:false}],
+ baskets:[{code:'BSK-GOLD',name:'سبد گلد',chan:'داروخانه',desc:'خرید بالای ۵۰ میلیون',offer:'۵٪ آفر کالایی',promo:'۱ شیکر + ۱ تی‌شرت'},{code:'BSK-SILVER',name:'سبد نقره‌ای',chan:'داروخانه',desc:'خرید بالای ۳۰ میلیون',offer:'۳٪ آفر کالایی',promo:'۱ شیکر'}],
+ promoRules:[{ifSku:'ATP-001',ifQty:5,giveName:'شیکر ۷۰۰cc',giveQty:1,chan:'داروخانه'}],
+ discounts:{pharma:{cash:{goods:0,cash:2},short:{goods:1,cash:0},long:{goods:0,cash:-3}},dist:{cash:{goods:0,cash:1},short:{goods:0,cash:0},long:{goods:0,cash:-2}}},
+ targets:{prod:{'ATP-001':50,'ATP-004':30}},
+};}
+
+function fa(n){return Number(n||0).toLocaleString('fa-IR');}
+function M(n){return fa(Math.round(Number(String(n).replace(/[^\d.-]/g,''))/1e6||0));}
+function num(n){return Number(String(n).replace(/[^\d.-]/g,''))||0;}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function closeOv(id){document.getElementById(id).classList.remove('show');}
+function openOv(id){document.getElementById(id).classList.add('show');}
+function nowTime(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function getPw(){return localStorage.getItem('atp_fin_pw')||'12345';}
+function setSyncStat(t){document.getElementById('syncStat').textContent=t;}
+function groupInvoices(){const g={};DB.invoices.forEach(r=>{const id=r.id;if(!g[id])g[id]={id:id,date:r.date,visitor:r.visitor,cust:r.cust,custName:r.custName,pay:r.pay,type:r.type,items:[],total:0,sSales:r.sSales,sFin:r.sFin,sWh:r.sWh,chequePhoto:r.chequePhoto||'',shelfPhoto:r.shelfPhoto||''};g[id].items.push({sku:r.sku,prod:r.prod,qty:Number(r.qty)||0,unit:Number(r.unit)||0,total:Number(r.total)||0});g[id].total+=Number(r.total)||0;});return Object.values(g);}
+function invStatus(v){const sw=String(v.sWh||''),sf=String(v.sFin||''),ss=String(v.sSales||'');if(sw.indexOf('تحویل')>=0)return 'تحویل شد';if(sw.indexOf('منتظر انبار')>=0)return 'منتظر انبار';if(sf.indexOf('رد')>=0)return 'رد شده';if(sf.indexOf('منتظر مالی')>=0)return 'منتظر مالی';if(sf.indexOf('تأیید')>=0)return 'منتظر انبار';if(ss.indexOf('منتظر مدیر')>=0)return 'منتظر مدیر فروش';if(ss.indexOf('تأیید')>=0)return 'منتظر مالی';return '—';}
+function tbl(headers,rows){return '<table><tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr>'+(rows.length?rows.map(r=>'<tr>'+r.map(c=>`<td>${c}</td>`).join('')+'</tr>').join(''):`<tr><td colspan="${headers.length}" class="empty">—</td></tr>`)+'</table>';}
+
+function doLogin(){if(document.getElementById('pin').value===getPw()){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';boot();}else document.getElementById('loginErr').textContent='رمز اشتباه است';}
+function lock(){document.getElementById('app').style.display='none';document.getElementById('login').style.display='flex';document.getElementById('pin').value='';document.getElementById('loginErr').textContent='';if(autoTimer){clearInterval(autoTimer);autoTimer=null;}}
+function changePw(){const o=document.getElementById('pwOld').value,n=document.getElementById('pwNew').value,n2=document.getElementById('pwNew2').value;if(o!==getPw()){toast('رمز فعلی اشتباه');return;}if(!n||n.length<4){toast('حداقل ۴ رقم');return;}if(n!==n2){toast('تکرار یکی نیست');return;}localStorage.setItem('atp_fin_pw',n);document.getElementById('pwOld').value='';document.getElementById('pwNew').value='';document.getElementById('pwNew2').value='';toast('✓ رمز تغییر کرد');}
+
+function boot(){
+ document.getElementById('dt').textContent=new Date().toLocaleDateString('fa-IR')+' '+nowTime();
+ settings=JSON.parse(localStorage.getItem('atp_fin_set')||'{"sales":"","fin":"","auto":0}');
+ document.getElementById('nav').innerHTML=NAV.map((n,i)=>`<button class="${i===0?'on':''}" data-pg="${n[0]}" onclick="go('${n[0]}')">${n[1]}</button>`).join('');
+ loadDefs();
+ document.getElementById('coProd').innerHTML=PRODUCTS.map(p=>`<option value="${p.sku}">${p.name}</option>`).join('');
+ document.getElementById('prRuleSku').innerHTML=PRODUCTS.map(p=>`<option value="${p.sku}">${p.name}</option>`).join('');
+ document.querySelectorAll('#spWh button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#spWh button').forEach(x=>x.classList.remove('on'));b.classList.add('on');spWhMode=b.dataset.v;});
+ if(settings.sales||settings.fin){setSyncStat('🔗 متصل');loadAll(false);startAuto();}
+ else{DEMO=true;applyDemo();}
+}
+function loadDefs(){try{
+ const s=JSON.parse(localStorage.getItem('atp_fin_defs')||'{}');
+ if(s.suppliers)DB.suppliers=s.suppliers;
+ if(s.products)DB.products=s.products;
+ if(s.baskets)DB.baskets=s.baskets;
+ if(s.promoRules)DB.promoRules=s.promoRules;
+ if(s.discounts)DB.discounts=s.discounts;
+ if(s.targets)DB.targets=s.targets;
+ if(s.comm)DB.comm=s.comm;
+ if(s.promoItems)DB.promoItems=s.promoItems;
+}catch(e){}}
+function saveDefs(){try{localStorage.setItem('atp_fin_defs',JSON.stringify({suppliers:DB.suppliers,products:DB.products,baskets:DB.baskets,promoRules:DB.promoRules,discounts:DB.discounts,targets:DB.targets,comm:DB.comm,promoItems:DB.promoItems}));}catch(e){}}
+
+function applyDemo(){const d=demoData();DB.customers=d.customers;DB.invoices=d.invoices;DB.cheques=d.cheques;DB.returns=d.returns;DB.issued=d.issued;DB.k5=d.k5;DB.comm=d.comm;DB.summary=d.summary;DB.promoReq=d.promoReq;DB.inventory=d.inventory;DB.changes=d.changes;
+ if(!DB.suppliers.length)DB.suppliers=d.suppliers;
+ if(!DB.products.length)DB.products=Object.keys(PRICE_DEFAULT).map(sku=>({sku,...PRICE_DEFAULT[sku]}));
+ if(!DB.baskets.length)DB.baskets=d.baskets;
+ if(!DB.promoRules.length)DB.promoRules=d.promoRules;
+ if(!DB.discounts)DB.discounts=d.discounts;
+ if(!DB.targets)DB.targets=d.targets;
+ if(!DB.promoItems||!DB.promoItems.length)DB.promoItems=d.promoItems;
+ document.getElementById('demoBanner').style.display='flex';setSyncStat('🧪 حالت نمایشی');buildLists();renderAll();}
+function go(pg){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.pg===pg));document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.getElementById('pg-'+pg).classList.add('on');}
+
+function startAuto(){if(autoTimer){clearInterval(autoTimer);autoTimer=null;}const sec=Number(settings.auto)||0;if(sec>=3)autoTimer=setInterval(()=>loadAll(false),sec*1000);}
+function loadAll(manual){if(!settings.sales&&!settings.fin){if(manual)toast('ابتدا آدرس‌ها را وارد کن');return;}
+ setSyncStat('⏳...');let done=0,need=(settings.sales?1:0)+(settings.fin?1:0);
+ const fin=()=>{done++;if(done>=need){DEMO=false;document.getElementById('demoBanner').style.display='none';
+   if(!DB.products.length)DB.products=Object.keys(PRICE_DEFAULT).map(sku=>({sku,...PRICE_DEFAULT[sku]}));
+   if(!DB.discounts)DB.discounts=demoData().discounts;if(!DB.targets)DB.targets=demoData().targets;
+   buildLists();renderAll();setSyncStat('✓ '+nowTime());if(manual)toast('✓ همگام شد');}};
+ if(settings.sales)fetch(settings.sales).then(r=>r.json()).then(d=>{if(d&&d.ok){DB.invoices=d.invoices||[];if(d.customers)DB.customers=d.customers;if(d.comm)DB.comm=d.comm;if(d.changes)DB.changes=d.changes;if(d.inventory)DB.inventory=d.inventory;if(Array.isArray(d.suppliers)&&d.suppliers.length)DB.suppliers=d.suppliers;if(Array.isArray(d.products)&&d.products.length)DB.products=d.products;if(Array.isArray(d.baskets)&&d.baskets.length)DB.baskets=d.baskets;if(Array.isArray(d.promoRules)&&d.promoRules.length)DB.promoRules=d.promoRules;if(d.discounts)DB.discounts=d.discounts;if(d.targets)DB.targets=d.targets;if(Array.isArray(d.promoItems)&&d.promoItems.length)DB.promoItems=d.promoItems;}fin();}).catch(()=>{setSyncStat('⚠ خطای فروش');fin();});
+ if(settings.fin)fetch(settings.fin).then(r=>r.json()).then(d=>{if(d&&d.ok){DB.cheques=d.cheques||[];DB.returns=d.returns||[];DB.issued=d.issued||[];DB.k5=d.k5||[];DB.summary=d.summary||{};DB.promoReq=d.promoReq||[];if(Array.isArray(d.consign))DB.consign=d.consign;if(d.inventory&&d.inventory.length)DB.inventory=d.inventory;if(d.customers&&d.customers.length)DB.customers=d.customers;}fin();}).catch(()=>{setSyncStat('⚠ خطای مالی');fin();});
+}
+function buildLists(){const opts='<option value="">— مشتری —</option>'+DB.customers.map(c=>`<option value="${c.code}">${c.name}</option>`).join('');['chCust','reCust'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=opts;});}
+function renderAll(){renderDash();renderApprove();renderIssued();renderCheque();renderReturn();renderPromo();renderPromoRules();renderPromoItems();renderDiscounts();renderTargets();renderSuppliers();renderPricing();renderBaskets();renderInventory();renderK5();renderComm();renderCust();renderConsign();renderTargetTiers();}
+
+function _jdiv(a,b){return ~~(a/b);}
+function _jalCal(jy){var bl=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];var gy=jy+621,leapJ=-14,jp=bl[0],jm,jump=0,leap,n,i,march;for(i=1;i<bl.length;i+=1){jm=bl[i];jump=jm-jp;if(jy<jm)break;leapJ=leapJ+_jdiv(jump,33)*8+_jdiv(jump%33,4);jp=jm;}n=jy-jp;leapJ=leapJ+_jdiv(n,33)*8+_jdiv((n%33+3),4);if((jump%33)===4&&(jump-n)===4)leapJ+=1;var leapG=_jdiv(gy,4)-_jdiv((_jdiv(gy,100)+1)*3,4)-150;march=20+leapJ-leapG;if((jump-n)<6)n=n-jump+_jdiv((jump+4),33)*33;leap=((((n+1)%33)-1)%4);if(leap===-1)leap=4;return{leap:leap,gy:gy,march:march};}
+function _g2d(gy,gm,gd){var d=_jdiv((gy+_jdiv((gm-8),6)+100100)*1461,4)+_jdiv((153*((gm+9)%12)+2),5)+gd-34840408;d=d-_jdiv((_jdiv((gy+100100+_jdiv((gm-8),6)),100)*3),4)+752;return d;}
+function _d2g(jdn){var j=4*jdn+139361631;j=j+_jdiv((_jdiv((4*jdn+183187720),146097)*3),4)*4-3908;var i=_jdiv((j%1461),4)*5+308;var gd=_jdiv((i%153),5)+1;var gm=(_jdiv(i,153)%12)+1;var gy=_jdiv(j,1461)-100100+_jdiv((8-gm),6);return{gy:gy,gm:gm,gd:gd};}
+function _j2d(jy,jm,jd){var r=_jalCal(jy);return _g2d(r.gy,3,r.march)+(jm-1)*31-_jdiv(jm,7)*(jm-7)+jd-1;}
+function jToG_(j){var m=String(j).match(/(\d{4})\/(\d{1,2})\/(\d{1,2})/);if(!m)return null;var g=_d2g(_j2d(+m[1],+m[2],+m[3]));return new Date(g.gy,g.gm-1,g.gd);}
+function dueSoon(due){if(!due)return false;const t=jToG_(due);if(!t)return false;const now=new Date();const diff=(t-now)/86400000;return diff>=0&&diff<=7;}
+
+function renderDash(){const invs=groupInvoices();
+ const wait=invs.filter(v=>invStatus(v)==='منتظر مالی').length;
+ const apr=invs.filter(v=>String(v.sFin||'').indexOf('تأیید')>=0).length;
+ const rej=invs.filter(v=>String(v.sFin||'').indexOf('رد')>=0).length;
+ document.getElementById('dWait').textContent=fa(wait);document.getElementById('dApr').textContent=fa(apr);document.getElementById('dRej').textContent=fa(rej);
+ document.getElementById('dIssued').textContent=fa(DB.issued.length);
+ document.getElementById('dCheque').textContent=M(DB.summary.cheque||DB.cheques.reduce((s,x)=>s+num(x.amount),0));
+ document.getElementById('dRet').textContent=M(DB.summary.ret||DB.returns.reduce((s,x)=>s+num(x.amount),0));
+ document.getElementById('dDueSoon').textContent=fa(DB.cheques.filter(c=>dueSoon(c.dueDate)&&String(c.status).indexOf('وصول')<0).length);
+ document.getElementById('dSup').textContent=fa((DB.suppliers||[]).length);
+ document.getElementById('k5Dash').innerHTML=tbl(['ویزیتور','سررسید(م)','وصول‌شده(م)','معوقه(م)','K5'],DB.k5.map(k=>[k.name||k.visitor,M(k.due),M(k.collected),M(k.overdue),k.k5||'-']));
+}
+
+function renderApprove(){const pend=groupInvoices().filter(v=>invStatus(v)==='منتظر مالی');document.getElementById('apCount').textContent=fa(pend.length);
+ document.getElementById('apList').innerHTML=pend.length?pend.map(v=>`<div class="card" style="box-shadow:none;border:1px solid var(--line)"><div style="display:flex;justify-content:space-between"><b>${v.custName}</b><span class="pill p-fin">🔵 ${v.id}</span></div><div style="font-size:11px;color:var(--muted);margin:5px 0">${v.visitor} · ${v.date} · ${v.pay||''} · ${v.type||''}</div><div style="font-size:12px">${v.items.map(i=>i.prod+' ×'+fa(i.qty)).join(' · ')}</div><div style="font-weight:800;color:var(--teal);margin:6px 0">جمع: ${fa(v.total)} ریال</div><div class="btn-row"><button class="btn ap sm" onclick="openApprove('${v.id}')">✓ تأیید و ثبت چک</button><button class="btn rj sm" onclick="rejectInv('${v.id}')">✕ رد</button><button class="btn s sm" onclick="printOfficial('${v.id}','')">🖨️ پیش‌نمایش رسمی</button></div></div>`).join(''):'<div class="empty"><div class="i">✅</div>فاکتوری منتظر مالی نیست</div>';
+}
+function demoGuard(){if(DEMO){toast('حالت نمایشی: برای ثبت واقعی، اول وصل شو');return true;}return false;}
+function showPhotoM(src){if(!src)return;var im=document.getElementById('ovPhotoImgM');if(im)im.src=src;openOv('ovPhoto');}
+function openApprove(id){const v=groupInvoices().find(x=>x.id===id);if(!v)return;curApprove=v;
+ document.getElementById('apInfo').innerHTML=`<b>${v.custName}</b> · ${v.id} · جمع ${fa(v.total)} ریال<br>${v.items.map(i=>i.prod+' ×'+fa(i.qty)).join(' · ')}`+(v.chequePhoto?`<div style="margin-top:8px"><span style="font-size:12px;color:#666">📷 عکس چک:</span><br><img src="${v.chequePhoto}" onclick="showPhotoM(this.src)" style="max-width:200px;border-radius:8px;border:1px solid #ddd;cursor:pointer"></div>`:'');
+ document.getElementById('apFI').value='';document.getElementById('apChNo').value='';document.getElementById('apChBank').value='';document.getElementById('apChBranch').value='';document.getElementById('apChDue').value='';
+ openOv('ovApprove');}
+function confirmApprove(){const v=curApprove;if(!v)return;if(demoGuard()){closeOv('ovApprove');return;}const fi=document.getElementById('apFI').value.trim();if(!fi){toast('شماره FI را وارد کن');return;}
+ postSales({kind:'decision',data:{stage:'finance',id:v.id,action:'approve',by:'مالی',fi:fi}});
+ postFin({kind:'issue',data:{inv:v.id,fi:fi,custName:v.custName,cust:v.cust,visitor:v.visitor,type:v.type,final:v.total,status:'صادر شده'}});
+ postFin({kind:'cheque',data:{inv:v.id,custName:v.custName,cust:v.cust,visitor:v.visitor,amount:v.total,cheqNo:document.getElementById('apChNo').value,bank:document.getElementById('apChBank').value,branch:document.getElementById('apChBranch').value,dueDate:document.getElementById('apChDue').value,status:'در جریان',by:'مالی'}});
+ closeOv('ovApprove');toast('✓ تأیید ← قفل و انبار + ثبت چک');setTimeout(()=>loadAll(false),1000);}
+function rejectInv(id){if(demoGuard())return;const reason=prompt('علت رد فاکتور '+id+'؟');if(reason===null)return;postSales({kind:'decision',data:{stage:'finance',id:id,action:'reject',by:'مالی',reason:reason}});toast('فاکتور رد شد');setTimeout(()=>loadAll(false),900);}
+
+function buildOfficialHTML(v,fi){const rows=v.items.map((it,idx)=>`<tr><td>${fa(idx+1)}</td><td>${it.sku}</td><td class="r">${it.prod}</td><td>${fa(it.qty)}</td><td>${fa(it.unit)}</td><td>${fa(it.qty*it.unit)}</td></tr>`).join('');
+ const c=(DB.customers.find(x=>x.code===v.cust)||{});
+ return `<div class="fi-doc"><div class="fi-head"><div class="fi-brand">ATP+ <small>مکمل‌های ورزشی atpplus</small></div><div class="fi-badge">فاکتور رسمی فروش<br>${fi||'(پیش‌نمایش)'}</div></div>
+ <div class="fi-meta"><div><b>شماره فاکتور (FI):</b> ${fi||'—'}</div><div><b>شماره داخلی:</b> ${v.id}</div><div><b>تاریخ:</b> ${v.date||'—'}</div><div><b>نوع:</b> ${v.type||'رسمی'}</div><div><b>مشتری:</b> ${v.custName}</div><div><b>کد مشتری:</b> ${v.cust||'—'}</div><div><b>کد سپیدار:</b> ${c.sepidar||'—'}</div><div><b>شرط پرداخت:</b> ${v.pay||'—'}</div><div><b>ویزیتور:</b> ${v.visitor||'—'}</div><div><b>تلفن/شهر:</b> ${c.city||'—'}</div></div>
+ <table class="fi-tbl"><thead><tr><th>ردیف</th><th>کد</th><th>شرح کالا</th><th>تعداد</th><th>مبلغ واحد</th><th>مبلغ کل</th></tr></thead><tbody>${rows}</tbody></table>
+ <div class="fi-tot"><div class="r"><span>جمع کل:</span><span>${fa(v.total)} ریال</span></div><div class="r grand"><span>مبلغ قابل پرداخت:</span><span>${fa(v.total)} ریال</span></div></div>
+ <div class="fi-foot"><div class="fi-sign">مهر و امضای فروشنده<div class="ln">ATP Plus</div></div><div class="fi-sign">مهر و امضای خریدار<div class="ln">${v.custName}</div></div></div>
+ <div class="fi-note">این فاکتور پس از تأیید واحد مالی صادر شده و سند رسمی فروش است. atpplus — مکمل‌های ورزشی</div></div>`;}
+function doPrint(html){const pa=document.getElementById('printArea');pa.innerHTML=html;window.print();setTimeout(()=>{pa.innerHTML='';},500);}
+function printOfficial(id,fi){const v=groupInvoices().find(x=>x.id===id);if(!v){toast('فاکتور یافت نشد');return;}let f=fi;if(!f){const is=DB.issued.find(x=>x.inv===id);f=is?is.fi:'';}doPrint(buildOfficialHTML(v,f));}
+function printOfficialFromApprove(){if(!curApprove){toast('فاکتوری انتخاب نشده');return;}doPrint(buildOfficialHTML(curApprove,document.getElementById('apFI').value.trim()));}
+
+function renderIssued(){document.getElementById('issuedTable').innerHTML='<tr><th>INV</th><th>رسمی FI</th><th>تاریخ</th><th>مشتری</th><th>ویزیتور</th><th>نهایی</th><th>چاپ</th></tr>'+(DB.issued.length?DB.issued.map(x=>`<tr><td>${x.inv}</td><td>${x.fi||'-'}</td><td>${x.date||'-'}</td><td>${x.custName}</td><td>${x.visitor||'-'}</td><td>${fa(x.final)}</td><td><button class="btn s sm" onclick="printOfficial('${x.inv}','${x.fi||''}')">🖨️</button></td></tr>`).join(''):'<tr><td colspan=7 class="empty">فاکتور صادرشده‌ای نیست</td></tr>');}
+
+function renderCheque(){document.getElementById('chequeTable').innerHTML=tbl(['شماره چک','مشتری','بانک','سررسید','مبلغ','وضعیت'],DB.cheques.map(c=>{const soon=dueSoon(c.dueDate)&&String(c.status).indexOf('وصول')<0;return [c.cheqNo,c.custName,c.bank||'-',`<span class="pill ${soon?'p-soon':''}">${c.dueDate||'-'}</span>`,fa(c.amount),`<span class="pill ${String(c.status).indexOf('وصول')>=0?'p-ok':'p-fin'}">${c.status||'-'}</span>`];}));}
+function saveCheque(){const code=document.getElementById('chCust').value,no=document.getElementById('chNo').value,amt=num(document.getElementById('chAmt').value);if(!code||!no||!amt){toast('مشتری، شماره چک و مبلغ لازم است');return;}if(demoGuard())return;const c=DB.customers.find(x=>x.code===code)||{};postFin({kind:'cheque',data:{cust:code,custName:c.name,visitor:c.visitor,cheqNo:no,amount:amt,bank:document.getElementById('chBank').value,branch:document.getElementById('chBranch').value,dueDate:document.getElementById('chDue').value,status:'در جریان',by:'مالی'}});document.getElementById('chNo').value='';document.getElementById('chAmt').value='';document.getElementById('chDue').value='';toast('✓ چک ثبت شد');setTimeout(()=>loadAll(false),900);}
+
+function renderReturn(){
+ const rs=(DB.returns||[]).filter(function(r){var st=String(r.status||'');return st.indexOf('منتظر تأیید مالی')>=0||st.indexOf('دریافت')>=0||st.indexOf('رد نهایی')>=0||st.indexOf('مرجوع شد')>=0;});
+ var cnt=document.getElementById('retPendCount'); if(cnt)cnt.textContent=fa(rs.length);
+ var box=document.getElementById('retPendList');
+ if(box){box.innerHTML=rs.length?rs.map(function(r){
+   var items=r.items||[{sku:r.sku,name:r.name,qty:r.qty,whReject:false,whNote:'',finStatus:''}];
+   var rows=items.map(function(it,idx){
+     var wh=it.whReject?'<span class="pill p-rej">انبار: رد</span>':'<span class="pill p-ok">انبار: سالم</span>';
+     var note=it.whNote?('<div class="hint">یادداشت انبار: '+it.whNote+'</div>'):'';
+     var act='';
+     if(it.finStatus==='approved')act='<span class="pill p-done">✓ تأیید مالی</span>';
+     else if(it.finStatus==='rejected')act='<span class="pill p-rej">رد نهایی (دیگر مرجوع نمی‌شود)</span>';
+     else act='<button class="btn ap sm" onclick="retItem(\''+(r.retNo||r.inv)+'\','+idx+',\'approve\')">✓ تأیید</button> <button class="btn rj sm" onclick="retItem(\''+(r.retNo||r.inv)+'\','+idx+',\'reject\')">✕ رد</button>';
+     return '<tr><td>'+(it.name||it.sku)+'</td><td>'+fa(it.qty)+'</td><td>'+wh+note+'</td><td>'+act+'</td></tr>';
+   }).join('');
+   var allDecided=items.every(function(it){return it.finStatus==='approved'||it.finStatus==='rejected';});
+   var st=String(r.status||'');
+   var finalBtn=(allDecided&&st.indexOf('دریافت')<0&&st.indexOf('مرجوع شد')<0)?'<button class="btn p" style="width:100%;margin-top:8px" onclick="retFinalize(\''+(r.retNo||r.inv)+'\')">نهایی‌سازی ← ارسال اقلام تأییدشده به انبار</button>':'';
+   return '<div class="card" style="box-shadow:none;border:1px solid var(--line)">'
+     +'<div style="display:flex;justify-content:space-between"><b>'+(r.custName||'-')+'</b><span class="pill p-fin">'+(r.retNo||'')+' · فاکتور '+(r.inv||'-')+'</span></div>'
+     +'<div class="hint">علت: '+(r.reason||'-')+' · تاریخ: '+(r.date||'-')+'</div>'
+     +'<table style="margin-top:6px"><tr><th>کالا</th><th>تعداد</th><th>وضعیت انبار</th><th>تصمیم مالی</th></tr>'+rows+'</table>'
+     +finalBtn+'</div>';
+ }).join(''):'<div class="empty">مرجوعی‌ای برای مالی نیست</div>';}
+ var t=document.getElementById('returnTable');
+ if(t)t.innerHTML=tbl(['تاریخ','فاکتور','مشتری','شماره مرجوعی','مبلغ','علت','وضعیت'],(DB.returns||[]).map(function(r){return [r.date||'-',r.inv||'-',r.custName,r.retNo||'-',fa(r.amount),r.reason||'-','<span class="pill '+(String(r.status).indexOf('مرجوع شد')>=0?'p-done':String(r.status).indexOf('رد')>=0?'p-rej':'p-wait')+'">'+(r.status||'-')+'</span>'];}));
+}
+function approveReturn(no){if(demoGuard())return;postFin({kind:'returnFinApprove',data:{retNo:no,by:'مالی'}});toast('✓ مرجوعی تأیید نهایی شد');setTimeout(()=>loadAll(false),900);}
+function rejectReturn(no){if(demoGuard())return;const reason=prompt('علت رد مرجوعی؟');if(reason===null)return;postFin({kind:'returnFinReject',data:{retNo:no,reason:reason,by:'مالی'}});toast('مرجوعی رد شد');setTimeout(()=>loadAll(false),900);}
+function saveReturn(){const code=document.getElementById('reCust').value,amt=num(document.getElementById('reAmt').value);if(!code||!amt){toast('مشتری و مبلغ لازم است');return;}if(demoGuard())return;const c=DB.customers.find(x=>x.code===code)||{};postFin({kind:'return',data:{cust:code,custName:c.name,inv:document.getElementById('reInv').value,amount:amt,reason:document.getElementById('reReason').value,status:'مرجوع شد',by:'مالی'}});document.getElementById('reAmt').value='';document.getElementById('reReason').value='';toast('✓ مرجوعی ثبت شد');setTimeout(()=>loadAll(false),900);}
+
+function renderPromo(){const pend=(DB.promoReq||[]).filter(r=>String(r.status||'').indexOf('منتظر تأیید مالی')>=0);document.getElementById('promoPendCount').textContent=fa(pend.length);
+ document.getElementById('promoPendList').innerHTML=pend.length?pend.map(r=>`<div class="card" style="box-shadow:none;border:1px solid var(--line)"><div style="display:flex;justify-content:space-between"><b>${r.name||r.code}</b><span class="pill p-wait">${r.reqNo||''}</span></div><div style="font-size:11px;color:var(--muted);margin:5px 0">فاکتور ${r.inv||'-'} · ${r.custName||'-'} · مبنا: ${r.basis||'-'}</div><div style="font-size:12px">تعداد: ${fa(r.qty)} · درخواست: ${r.by||'مدیر فروش'}</div><div class="btn-row" style="margin-top:6px"><button class="btn ap sm" onclick="approvePromo('${r.reqNo}')">✓ تأیید (کسر از انبار + تخفیف کالایی)</button><button class="btn rj sm" onclick="rejectPromo('${r.reqNo}')">✕ رد</button></div></div>`).join(''):'<div class="empty">درخواستی منتظر تأیید نیست</div>';
+ document.getElementById('promoTable').innerHTML=tbl(['تاریخ','شماره','فاکتور','مشتری','قلم','تعداد','مبنا','وضعیت'],(DB.promoReq||[]).map(r=>[r.date||'-',r.reqNo||'-',r.inv||'-',r.custName||'-',r.name||r.code,fa(r.qty),r.basis||'-',`<span class="pill ${String(r.status).indexOf('تأیید')>=0?'p-done':String(r.status).indexOf('رد')>=0?'p-rej':'p-wait'}">${r.status||'-'}</span>`]));}
+function approvePromo(no){if(demoGuard())return;postFin({kind:'promoApprove',data:{reqNo:no,by:'مالی'}});toast('✓ قلم تبلیغاتی تأیید شد');setTimeout(()=>loadAll(false),900);}
+function rejectPromo(no){if(demoGuard())return;const reason=prompt('علت رد درخواست؟');if(reason===null)return;postFin({kind:'promoReject',data:{reqNo:no,reason:reason,by:'مالی'}});toast('درخواست رد شد');setTimeout(()=>loadAll(false),900);}
+
+function prodName(sku){const p=PRODUCTS.find(x=>x.sku===sku);return p?p.name:sku;}
+function renderPromoRules(){
+ document.getElementById('promoRuleTable').innerHTML='<tr><th>اگر محصول</th><th>تعداد ≥</th><th>قلم تبلیغاتی</th><th>تعداد</th><th>کانال</th><th></th></tr>'+((DB.promoRules||[]).length?DB.promoRules.map((r,i)=>`<tr><td>${prodName(r.ifSku)}</td><td>${fa(r.ifQty)}</td><td>${r.giveName}</td><td>${fa(r.giveQty)}</td><td>${r.chan||'هردو'}</td><td><button class="btn rj sm" onclick="delPromoRule(${i})">حذف</button></td></tr>`).join(''):'<tr><td colspan=6 class="empty">قانونی تعریف نشده</td></tr>');
+}
+function savePromoRule(){const ifSku=document.getElementById('prRuleSku').value,ifQty=num(document.getElementById('prRuleQty').value),giveName=document.getElementById('prRuleGive').value.trim(),giveQty=num(document.getElementById('prRuleGiveQty').value)||1,chan=document.getElementById('prRuleChan').value;
+ if(!ifSku||!ifQty||!giveName){toast('محصول، تعداد و نام قلم لازم است');return;}
+ DB.promoRules.push({ifSku,ifQty,giveName,giveQty,chan});saveDefs();renderPromoRules();
+ postSales({kind:'promoRule',data:{ifSku,ifQty,giveName,giveQty,chan}});
+ document.getElementById('prRuleQty').value='';document.getElementById('prRuleGive').value='';document.getElementById('prRuleGiveQty').value='';
+ toast('✓ قانون اضافه شد');}
+function delPromoRule(i){if(!confirm('حذف این قانون؟'))return;DB.promoRules.splice(i,1);saveDefs();renderPromoRules();postSales({kind:'promoRuleSet',data:{rules:DB.promoRules}});toast('قانون حذف شد');}
+
+function renderDiscounts(){const d=DB.discounts||demoData().discounts;DB.discounts=d;
+ const set=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v;};
+ set('dPhCashGoods',d.pharma.cash.goods);set('dPhCashCash',d.pharma.cash.cash);
+ set('dPhShortGoods',d.pharma.short.goods);set('dPhShortCash',d.pharma.short.cash);
+ set('dPhLongGoods',d.pharma.long.goods);set('dPhLongCash',d.pharma.long.cash);
+ set('dDsCashGoods',d.dist.cash.goods);set('dDsCashCash',d.dist.cash.cash);
+ set('dDsShortGoods',d.dist.short.goods);set('dDsShortCash',d.dist.short.cash);
+ set('dDsLongGoods',d.dist.long.goods);set('dDsLongCash',d.dist.long.cash);}
+function saveDiscounts(){const g=id=>num(document.getElementById(id).value);
+ DB.discounts={pharma:{cash:{goods:g('dPhCashGoods'),cash:g('dPhCashCash')},short:{goods:g('dPhShortGoods'),cash:g('dPhShortCash')},long:{goods:g('dPhLongGoods'),cash:g('dPhLongCash')}},
+  dist:{cash:{goods:g('dDsCashGoods'),cash:g('dDsCashCash')},short:{goods:g('dDsShortGoods'),cash:g('dDsShortCash')},long:{goods:g('dDsLongGoods'),cash:g('dDsLongCash')}}};
+ saveDefs();postSales({kind:'discounts',data:DB.discounts});toast('✓ قوانین تخفیف ذخیره شد');}
+
+function renderTargets(){if(!DB.targets||!DB.targets.prod)DB.targets={prod:{}};const pr=DB.targets.prod;
+ document.getElementById('targetTable').innerHTML='<table><tr><th>کد</th><th>محصول</th><th>تارگت تعداد</th></tr>'+PRODUCTS.map(p=>'<tr><td>'+p.sku+'</td><td style="text-align:right">'+p.name+'</td><td><input class="fi" style="max-width:120px" id="tg_'+p.sku+'" type="number" value="'+(pr[p.sku]||'')+'" placeholder="0"></td></tr>').join('')+'</table>';}
+function saveTargets(){const pr={};PRODUCTS.forEach(p=>{const v=num(document.getElementById('tg_'+p.sku).value);if(v>0)pr[p.sku]=v;});
+ var _tt=(DB.targets&&DB.targets.tiers)||{};DB.targets={prod:pr,tiers:_tt};
+ saveDefs();postSales({kind:'targets',data:DB.targets});toast('✓ تارگت محصولی ذخیره شد');}
+
+function renderSuppliers(){
+ document.getElementById('supTable').innerHTML='<tr><th>کد</th><th>نام شرکت پخش</th><th>محل موجودی</th><th>تلفن</th><th>سقف اعتبار</th><th>آفر کالایی</th><th>سپیدار</th><th></th></tr>'+((DB.suppliers||[]).length?DB.suppliers.map(s=>`<tr><td>${s.code}</td><td>${s.name}</td><td><span class="pill ${s.wh==='theirs'?'p-theirs':'p-ours'}">${s.wh==='theirs'?'🏭 انبار خودشان':'📦 انبار ما'}</span></td><td>${s.tel||'-'}</td><td>${fa(s.credit||0)}</td><td style="font-size:11px">${s.offer||'-'}</td><td>${s.sepidar||'-'}</td><td><button class="btn s sm" onclick="editSupplier('${s.code}')">ویرایش</button></td></tr>`).join(''):'<tr><td colspan=8 class="empty">شرکت پخشی ثبت نشده</td></tr>');
+}
+function editSupplier(code){const s=(DB.suppliers||[]).find(x=>x.code===code);if(!s)return;document.getElementById('spCode').value=s.code;document.getElementById('spName').value=s.name;document.getElementById('spSepidar').value=s.sepidar||'';document.getElementById('spTel').value=s.tel||'';document.getElementById('spContact').value=s.contact||'';document.getElementById('spCredit').value=s.credit||'';document.getElementById('spOffer').value=s.offer||'';spWhMode=s.wh||'ours';document.querySelectorAll('#spWh button').forEach(b=>b.classList.toggle('on',b.dataset.v===spWhMode));toast('برای ویرایش، تغییر بده و ذخیره کن');}
+function saveSupplier(){const code=document.getElementById('spCode').value.trim(),name=document.getElementById('spName').value.trim();if(!code||!name){toast('کد و نام شرکت لازم است');return;}
+ const obj={code,name,sepidar:document.getElementById('spSepidar').value.trim(),tel:document.getElementById('spTel').value.trim(),contact:document.getElementById('spContact').value.trim(),credit:num(document.getElementById('spCredit').value),wh:spWhMode,offer:document.getElementById('spOffer').value.trim()};
+ const i=(DB.suppliers||[]).findIndex(x=>x.code===code);if(i>=0)DB.suppliers[i]=obj;else DB.suppliers.push(obj);
+ saveDefs();renderSuppliers();
+ postSales({kind:'supplier',data:obj});
+ ['spCode','spName','spSepidar','spTel','spContact','spCredit','spOffer'].forEach(id=>document.getElementById(id).value='');
+ spWhMode='ours';document.querySelectorAll('#spWh button').forEach((b,i)=>b.classList.toggle('on',i===0));
+ toast('✓ شرکت پخش ذخیره شد');}
+
+function renderPricing(){
+ const list=(DB.products&&DB.products.length)?DB.products:Object.keys(PRICE_DEFAULT).map(sku=>({sku,...PRICE_DEFAULT[sku]}));
+ document.getElementById('priceTable').innerHTML='<table><tr><th>SKU</th><th>نام</th><th>دسته</th><th>مصرف‌کننده</th><th>داروخانه</th><th>پخش</th><th>🔒 خرید</th><th></th></tr>'+(list.length?list.map(p=>`<tr><td>${p.sku}</td><td>${p.name}</td><td>${p.cat||'-'}</td><td>${fa(p.consumer)}</td><td style="font-weight:700;color:var(--teal)">${fa(p.pharma)}</td><td style="font-weight:700;color:var(--navy)">${fa(p.dist)}</td><td style="color:var(--red)">${fa(p.buy)}</td><td><button class="btn s sm" onclick="editPrice('${p.sku}')">ویرایش</button></td></tr>`).join(''):'<tr><td colspan=8 class="empty">محصولی نیست</td></tr>')+'</table>';
+}
+function editPrice(sku){const p=(DB.products||[]).find(x=>x.sku===sku)||(PRICE_DEFAULT[sku]?{sku,...PRICE_DEFAULT[sku]}:null);if(!p)return;document.getElementById('prSku').value=p.sku;document.getElementById('prName').value=p.name||'';document.getElementById('prCat').value=p.cat||'';document.getElementById('prConsumer').value=p.consumer||'';document.getElementById('prPharma').value=p.pharma||'';document.getElementById('prDist').value=p.dist||'';document.getElementById('prBuy').value=p.buy||'';document.getElementById('prDesc').value=p.desc||'';toast('برای ویرایش، تغییر بده و ذخیره کن');}
+function savePrice(){const sku=document.getElementById('prSku').value.trim(),name=document.getElementById('prName').value.trim();if(!sku||!name){toast('کد و نام محصول لازم است');return;}
+ const obj={sku,name,cat:document.getElementById('prCat').value.trim()||'مکمل',consumer:num(document.getElementById('prConsumer').value),pharma:num(document.getElementById('prPharma').value),dist:num(document.getElementById('prDist').value),buy:num(document.getElementById('prBuy').value),desc:document.getElementById('prDesc').value.trim()};
+ if(!DB.products||!DB.products.length)DB.products=Object.keys(PRICE_DEFAULT).map(s=>({sku:s,...PRICE_DEFAULT[s]}));
+ const i=DB.products.findIndex(x=>x.sku===sku);if(i>=0)DB.products[i]=obj;else DB.products.push(obj);
+ saveDefs();renderPricing();
+ const postObj={sku,name,cat:obj.cat,consumer:obj.consumer,pharma:obj.pharma,dist:obj.dist,desc:obj.desc};
+ postSales({kind:'product',data:postObj});
+ ['prSku','prName','prCat','prConsumer','prPharma','prDist','prBuy','prDesc'].forEach(id=>document.getElementById(id).value='');
+ toast('✓ قیمت محصول ذخیره شد');}
+
+function renderBaskets(){
+ document.getElementById('basketTable').innerHTML='<tr><th>کد</th><th>نام سبد</th><th>کانال</th><th>توضیح</th><th>آفر کالایی</th><th>اقلام تبلیغاتی</th><th></th></tr>'+((DB.baskets||[]).length?DB.baskets.map(b=>`<tr><td>${b.code}</td><td>${b.name}</td><td>${b.chan||'-'}</td><td style="font-size:11px">${b.desc||'-'}</td><td style="font-size:11px">${b.offer||'-'}</td><td style="font-size:11px">${b.promo||'-'}</td><td><button class="btn s sm" onclick="editBasket('${b.code}')">ویرایش</button></td></tr>`).join(''):'<tr><td colspan=7 class="empty">سبدی تعریف نشده</td></tr>');
+}
+function editBasket(code){const b=(DB.baskets||[]).find(x=>x.code===code);if(!b)return;document.getElementById('bkCode').value=b.code;document.getElementById('bkName').value=b.name;document.getElementById('bkChan').value=b.chan||'داروخانه';document.getElementById('bkDesc').value=b.desc||'';document.getElementById('bkOffer').value=b.offer||'';document.getElementById('bkPromo').value=b.promo||'';toast('برای ویرایش، تغییر بده و ذخیره کن');}
+function saveBasket(){const code=document.getElementById('bkCode').value.trim(),name=document.getElementById('bkName').value.trim();if(!code||!name){toast('کد و نام سبد لازم است');return;}
+ const obj={code,name,chan:document.getElementById('bkChan').value,desc:document.getElementById('bkDesc').value.trim(),offer:document.getElementById('bkOffer').value.trim(),promo:document.getElementById('bkPromo').value.trim()};
+ const i=(DB.baskets||[]).findIndex(x=>x.code===code);if(i>=0)DB.baskets[i]=obj;else DB.baskets.push(obj);
+ saveDefs();renderBaskets();
+ postSales({kind:'basket',data:obj});
+ ['bkCode','bkName','bkDesc','bkOffer','bkPromo'].forEach(id=>document.getElementById(id).value='');
+ toast('✓ سبد ذخیره شد');}
+
+function renderInventory(){document.getElementById('invTable').innerHTML=tbl(['کد','محصول','موجودی','وضعیت'],(DB.inventory||[]).map(i=>[i.sku,i.name,fa(i.qty),`<span class="pill ${i.qty>0?'p-ok':'p-rej'}">${i.status||(i.qty>0?'موجود':'ناموجود')}</span>`]));}
+function renderK5(){document.getElementById('k5Table').innerHTML=tbl(['ویزیتور','سررسید(م)','وصول‌شده(م)','معوق(م)','تعداد سررسید','K5'],DB.k5.map(k=>[k.name||k.visitor,M(k.due),M(k.collected),M(k.overdue),fa(k.dueCount||'-'),k.k5||'-']));}
+
+function fillCoRates(){const sku=document.getElementById('coProd').value;const r=(DB.comm.prod&&DB.comm.prod[sku]);
+ let ph,ds,tt;
+ if(r&&!Array.isArray(r)){ph=r.pharma||DB.comm.defPharma;ds=r.dist||DB.comm.defDist;tt=r.tiers||DB.comm.tiers;}
+ else if(Array.isArray(r)){ph=r;ds=r;tt=DB.comm.tiers;}
+ else{ph=DB.comm.defPharma;ds=DB.comm.defDist;tt=DB.comm.tiers;}
+ document.getElementById('coPh1').value=ph[0];document.getElementById('coPh2').value=ph[1];document.getElementById('coPh3').value=ph[2];
+ document.getElementById('coDs1').value=ds[0];document.getElementById('coDs2').value=ds[1];document.getElementById('coDs3').value=ds[2];
+ document.getElementById('coT1').value=tt[0];document.getElementById('coT2').value=tt[1];}
+function renderComm(){
+ document.getElementById('commTable').innerHTML='<table><tr><th>محصول</th><th>پله‌ها (تعداد)</th><th colspan=3 style="text-align:center;background:#ECFDF5">🏥 داروخانه ٪</th><th colspan=3 style="text-align:center;background:#EFF6FF">🏭 پخش ٪</th></tr>'+PRODUCTS.map(p=>{const r=(DB.comm.prod&&DB.comm.prod[p.sku]);let ph,ds,tt;if(r&&!Array.isArray(r)){ph=r.pharma||DB.comm.defPharma;ds=r.dist||DB.comm.defDist;tt=r.tiers||DB.comm.tiers;}else if(Array.isArray(r)){ph=r;ds=r;tt=DB.comm.tiers;}else{ph=DB.comm.defPharma;ds=DB.comm.defDist;tt=DB.comm.tiers;}var tier='۱-'+fa(tt[0])+' / '+fa(tt[0]+1)+'-'+fa(tt[1])+' / '+fa(tt[1]+1)+'+';return '<tr><td style="text-align:right;font-weight:700">'+p.name+'</td><td style="font-size:10px;color:var(--muted)">'+tier+'</td><td style="background:#F6FEFB">'+fa(ph[0])+'٪</td><td style="background:#F6FEFB">'+fa(ph[1])+'٪</td><td style="background:#F6FEFB">'+fa(ph[2])+'٪</td><td style="background:#F7FAFF">'+fa(ds[0])+'٪</td><td style="background:#F7FAFF">'+fa(ds[1])+'٪</td><td style="background:#F7FAFF">'+fa(ds[2])+'٪</td></tr>';}).join('')+'</table>';}
+function saveComm(){const sku=document.getElementById('coProd').value;
+ const ph=[num(document.getElementById('coPh1').value),num(document.getElementById('coPh2').value),num(document.getElementById('coPh3').value)];
+ const ds=[num(document.getElementById('coDs1').value),num(document.getElementById('coDs2').value),num(document.getElementById('coDs3').value)];
+ const t1=num(document.getElementById('coT1').value)||50,t2=num(document.getElementById('coT2').value)||150;
+ if(!DB.comm.prod)DB.comm.prod={};DB.comm.prod[sku]={tiers:[t1,t2],pharma:ph,dist:ds};DB.comm.tiers=[t1,t2];saveDefs();renderComm();
+ if(demoGuard())return;
+ postSales({kind:'commRule',data:{sku:sku,tiers:[t1,t2],pharma:ph,dist:ds,unit:'percent',by:'مالی'}});
+ toast('✓ درصد پورسانت (داروخانه+پخش) ذخیره شد');setTimeout(()=>loadAll(false),900);}
+
+function renderCust(){document.getElementById('custTable').innerHTML='<tr><th>کد</th><th>نام</th><th>کانال</th><th>ویزیتور</th><th>سقف اعتبار</th><th>کد سپیدار</th><th>وضعیت</th></tr>'+(DB.customers.length?DB.customers.map(c=>`<tr><td>${c.code}</td><td>${c.name}</td><td>${c.chan||'-'}</td><td>${c.visitor||'-'}</td><td>${fa(c.credit||0)}</td><td>${c.sepidar||'-'}</td><td><span class="pill ${String(c.status||'').indexOf('تأیید')>=0?'p-ok':'p-wait'}">${c.status||'-'}</span></td></tr>`).join(''):'<tr><td colspan=7 class="empty">مشتری‌ای نیست</td></tr>');}
+
+function renderPromoItems(){const list=DB.promoItems||[];
+ document.getElementById('promoItemTable').innerHTML='<table><tr><th>قلم تبلیغاتی</th><th>تعداد (انبار)</th><th>وضعیت</th><th></th></tr>'+(list.length?list.map((p,i)=>'<tr><td style="text-align:right;font-weight:700">'+p.name+'</td><td>'+fa(p.qty||0)+'</td><td><span class="pill '+(p.approved?'p-done':'p-wait')+'">'+(p.approved?'✓ تأیید‌شده':'منتظر تأیید')+'</span></td><td>'+(p.approved?'':'<button class="btn ap sm" onclick="approvePromoItem('+i+')">تأیید</button> ')+'<button class="btn rj sm" onclick="delPromoItem('+i+')">حذف</button></td></tr>').join(''):'<tr><td colspan=4 class="empty">قلمی تعریف نشده</td></tr>')+'</table>';}
+function savePromoItem(){const name=document.getElementById('piName').value.trim();if(!name){toast('نام قلم لازم است');return;}
+ if(!DB.promoItems)DB.promoItems=[];
+ if(DB.promoItems.some(x=>x.name===name)){toast('این قلم قبلاً تعریف شده');return;}
+ const obj={id:'PRM-'+Date.now(),name:name,qty:0,approved:false};
+ DB.promoItems.push(obj);saveDefs();renderPromoItems();
+ document.getElementById('piName').value='';
+ if(demoGuard())return;
+ postSales({kind:'promoItem',data:obj});toast('✓ قلم تبلیغاتی افزوده شد');}
+function approvePromoItem(i){const p=DB.promoItems[i];if(!p)return;p.approved=true;saveDefs();renderPromoItems();
+ if(demoGuard())return;
+ postSales({kind:'promoItemApprove',data:{id:p.id,name:p.name,qty:p.qty,approved:true}});toast('✓ تأیید شد — در پنل ویزیتور و فروش نمایش داده می‌شود');}
+function delPromoItem(i){if(!DB.promoItems[i])return;const p=DB.promoItems[i];DB.promoItems.splice(i,1);saveDefs();renderPromoItems();
+ if(demoGuard())return;
+ postSales({kind:'promoItemDel',data:{id:p.id}});toast('قلم حذف شد');}
+function retItem(retNo,idx,action){
+ if(typeof demoGuard==='function' && demoGuard()) return;
+ postFin({kind:'returnFinItemDecision',data:{retNo:retNo,itemIndex:idx,action:action,by:'مالی'}},function(){
+   var r=(DB.returns||[]).find(function(x){return x.retNo===retNo||x.inv===retNo;});
+   if(r){var items=r.items||(r.items=[{sku:r.sku,name:r.name,qty:r.qty,whReject:false,whNote:'',finStatus:''}]);if(items[idx]){items[idx].finStatus=action==='approve'?'approved':'rejected';}}
+   toast(action==='approve'?'✓ قلم تأیید شد':'قلم رد نهایی شد'); renderReturn();
+ });
+}
+function retFinalize(retNo){
+ if(typeof demoGuard==='function' && demoGuard()) return;
+ postFin({kind:'returnFinFinalize',data:{retNo:retNo,by:'مالی'}},function(){
+   var r=(DB.returns||[]).find(function(x){return x.retNo===retNo||x.inv===retNo;}); if(r){r.status='منتظر دریافت انبار';}
+   postSales({kind:'returnFinFinalize',data:{retNo:retNo}}, function(){});
+   toast('✓ اقلام تأییدشده به انبار رفت'); renderReturn();
+ });
+}
+function consignExpired(){
+ var today=new Date();
+ return (DB.consign||[]).filter(function(c){
+   var st=String(c.status||'');
+   if(st.indexOf('باز')<0 && st.indexOf('منقضی')<0) return false;
+   if(!c.deadline) return false;
+   var d=jToG_(c.deadline);
+   return d && d < today;
+ });
+}
+function renderConsign(){
+ var list=consignExpired();
+ var cnt=document.getElementById('cgCount'); if(cnt)cnt.textContent=fa(list.length);
+ var head=['شماره','تاریخ','مهلت','مشتری','تعداد قطعه','مبلغ','اقدام'];
+ var rows=list.map(function(c){
+   var qty=(c.items||[]).reduce(function(s2,i){return s2+(Number(i.qty)||0);},0);
+   var act='<button class="btn p sm" onclick="consignSettle(\''+c.id+'\')">تسویهٔ نهایی ← فاکتور + کسر از حساب مدیر فروش</button>';
+   return [c.id, c.date||'-', c.deadline||'-', c.custName||'-', fa(qty), fa(c.total||0), act];
+ });
+ var t=document.getElementById('cgTable'); if(t)t.innerHTML=tbl(head,rows);
+}
+function consignSettle(id){
+ if(typeof demoGuard==='function' && demoGuard()) return;
+ var c=(DB.consign||[]).find(function(x){return x.id===id;}); if(!c){toast('یافت نشد');return;}
+ postSales({kind:'invoice',data:{id:'INV-CG-'+String(c.id).slice(-5),source:'consign-settle',by:'مالی',chan:'پخش',custName:c.custName,pay:'چک بلند',type:'رسمی',items:(c.items||[]).map(function(i){return {sku:i.sku,name:i.name,qty:i.qty,price:i.price};}),qty:(c.items||[]).reduce(function(s2,i){return s2+(Number(i.qty)||0);},0),final:c.total||0}}, function(){});
+ postFin({kind:'consignSettle',data:{id:c.id,amount:c.total||0,by:'مالی'}},function(){
+   c.status='تسویه مالی (منقضی)';
+   toast('✓ تسویه شد: فاکتور صادر و از حساب مدیر فروش کسر شد'); renderConsign();
+ });
+}
+function renderTargetTiers(){
+ if(!DB.targets)DB.targets={prod:{}};
+ if(!DB.targets.tiers)DB.targets.tiers={};
+ var sel=document.getElementById('ttProd');
+ if(sel&&!sel.options.length)sel.innerHTML=PRODUCTS.map(function(p){return '<option value="'+p.sku+'">'+p.name+'</option>';}).join('');
+ var rows=[];
+ PRODUCTS.forEach(function(p){
+   var tiers=(DB.targets.tiers[p.sku]||[]).slice().sort(function(a,b){return a.qty-b.qty;});
+   tiers.forEach(function(t,idx){
+     rows.push([p.name, fa(t.qty)+' عدد ≥', fa(t.pct)+'٪', '<button class="btn rj sm" onclick="delTargetTier(\''+p.sku+'\','+idx+')">حذف</button>']);
+   });
+ });
+ var el=document.getElementById('targetTierTable'); if(el)el.innerHTML=tbl(['محصول','از تعداد','پورسانت','—'],rows);
+}
+function addTargetTier(){
+ var sku=document.getElementById('ttProd').value;
+ var qty=num(document.getElementById('ttQty').value), pct=num(document.getElementById('ttPct').value);
+ if(!sku||!qty||!pct){toast('محصول، تعداد و درصد لازم است');return;}
+ if(!DB.targets)DB.targets={prod:{}};
+ if(!DB.targets.tiers)DB.targets.tiers={};
+ if(!DB.targets.tiers[sku])DB.targets.tiers[sku]=[];
+ var arr=DB.targets.tiers[sku];
+ var i=arr.findIndex(function(x){return x.qty===qty;});
+ if(i>=0)arr[i].pct=pct; else arr.push({qty:qty,pct:pct});
+ saveDefs();renderTargetTiers();
+ document.getElementById('ttQty').value='';document.getElementById('ttPct').value='';
+ toast('✓ پله افزوده شد (برای ثبت نهایی، ذخیره را بزن)');
+}
+function delTargetTier(sku,idx){
+ if(!DB.targets||!DB.targets.tiers||!DB.targets.tiers[sku])return;
+ var arr=(DB.targets.tiers[sku]||[]).slice().sort(function(a,b){return a.qty-b.qty;});
+ arr.splice(idx,1);
+ DB.targets.tiers[sku]=arr;
+ saveDefs();renderTargetTiers();toast('پله حذف شد');
+}
+function saveTargetTiers(){
+ if(!DB.targets)DB.targets={prod:{}};
+ if(!DB.targets.tiers)DB.targets.tiers={};
+ saveDefs();postSales({kind:'targets',data:DB.targets});
+ toast('✓ تارگت پلکانیِ پورسانت ذخیره و ارسال شد');
+}
+function postSales(p,cb){if(!settings.sales){if(cb)cb();return;}fetch(settings.sales,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(p)}).then(function(){if(cb)cb();}).catch(function(){if(cb)cb();});}
+function postFin(p,cb){if(!settings.fin){toast('آدرس مالی وارد نشده');if(cb)cb();return;}fetch(settings.fin,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(p)}).then(function(){if(cb)cb();}).catch(function(){if(cb)cb();});}
+function openSettings(){document.getElementById('setSales').value=settings.sales||'';document.getElementById('setFin').value=settings.fin||'';document.getElementById('setAuto').value=settings.auto||0;openOv('ovSet');}
+function saveSync(){settings.sales=document.getElementById('setSales').value.trim();settings.fin=document.getElementById('setFin').value.trim();localStorage.setItem('atp_fin_set',JSON.stringify(settings));closeOv('ovSet');if(settings.sales||settings.fin){setSyncStat('🔗 متصل');loadAll(true);startAuto();}else applyDemo();}
+function saveAuto(){settings.auto=Number(document.getElementById('setAuto').value)||0;localStorage.setItem('atp_fin_set',JSON.stringify(settings));closeOv('ovSet');startAuto();toast(settings.auto>=3?('✓ هر '+settings.auto+' ثانیه'):'بروزرسانی خودکار خاموش شد');}
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
+</script>
+</body>
+</html>
