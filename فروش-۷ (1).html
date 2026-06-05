@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1F4E78">
+<title>پنل مدیر فروش ATP+</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1F4E78;--navy2:#2E75B6;--bg:#F1F4F9;--card:#fff;--ink:#1F2937;--muted:#6B7280;--line:#E5E7EB;--green:#0F9D6E;--green2:#10B981;--amber:#F59E0B;--red:#EF4444;--blue:#3B82F6;--violet:#8B5CF6}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;font-family:'Vazirmatn',Tahoma,sans-serif;background:var(--bg);color:var(--ink)}
+input,select,textarea,button{font-family:inherit}
+.login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff}
+.login .logo{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:44px;margin-bottom:16px}
+.login h1{font-size:22px;font-weight:800;margin:0}.login p{font-size:13px;opacity:.85;margin:6px 0 26px}
+.login .box{background:#fff;border-radius:16px;padding:20px;width:100%;max-width:320px;color:var(--ink)}
+.login input{width:100%;padding:13px;border:1.5px solid var(--line);border-radius:10px;font-size:18px;text-align:center;letter-spacing:3px;margin-bottom:12px}
+.login button{width:100%;padding:13px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.login .err{color:#FECACA;font-size:12px;text-align:center;height:16px;margin-bottom:6px}
+.topbar{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.topbar .t{font-size:15px;font-weight:700}.topbar .s{font-size:10px;opacity:.85;margin-top:2px}
+.ibtn{background:rgba(255,255,255,.18);border:none;color:#fff;width:34px;height:34px;border-radius:9px;font-size:15px;cursor:pointer;margin-right:4px}
+.nav{display:flex;gap:4px;background:#E3E8F0;padding:4px;overflow-x:auto;position:sticky;top:58px;z-index:40;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav button{flex:0 0 auto;padding:9px 13px;border:none;background:transparent;border-radius:9px;font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap}
+.nav button.on{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.wrap{max-width:1150px;margin:0 auto;padding:14px}
+.page{display:none}.page.on{display:block}
+.banner{background:#FFF7ED;border:1px solid #FED7AA;color:#9A3412;font-size:11.5px;padding:8px 12px;border-radius:9px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.banner b{font-weight:800}
+.grid{display:grid;gap:10px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:720px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}}
+.stat{background:#fff;border-radius:13px;padding:13px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.stat .v{font-size:20px;font-weight:800;color:var(--navy)}.stat .v.g{color:var(--green)}.stat .v.r{color:var(--red)}.stat .v.b{color:var(--blue)}
+.stat .l{font-size:11px;color:var(--muted);margin-top:3px}
+.card{background:#fff;border-radius:13px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:14px;color:var(--navy);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#F3F6FB;color:var(--navy);padding:8px 6px;text-align:right;font-weight:700;border-bottom:2px solid var(--line)}
+td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right}
+tr:hover td{background:#FAFBFD}
+.tscroll{overflow-x:auto}
+.pill{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px}
+.p-sales{background:#FEF3C7;color:#92400E}.p-fin{background:#DBEAFE;color:#1E40AF}.p-wh{background:#EDE9FE;color:#5B21B6}.p-done{background:#D1FAE5;color:#065F46}.p-rej{background:#FEE2E2;color:#991B1B}.p-wait{background:#FEF3C7;color:#92400E}.p-ok{background:#D1FAE5;color:#065F46}
+.p-phar{background:#DBEAFE;color:#1E40AF}.p-dist{background:#FEF3C7;color:#92400E}
+.p-ours{background:#D1FAE5;color:#065F46}.p-theirs{background:#FEF3C7;color:#92400E}
+.btn{padding:9px 14px;border:none;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;color:#fff}
+.btn.ap{background:var(--green2)}.btn.ed{background:var(--amber)}.btn.rj{background:var(--red)}.btn.p{background:linear-gradient(135deg,var(--navy),var(--navy2))}.btn.s{background:#EEF1F6;color:var(--ink)}
+.btn:active{transform:scale(.97)}.btn.sm{padding:6px 10px;font-size:11px;border-radius:7px}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap}
+.empty{text-align:center;padding:30px;color:var(--muted)}.empty .i{font-size:36px;opacity:.35}
+.fg{margin-bottom:11px}.fl{display:block;font-size:12px;font-weight:600;margin-bottom:5px;color:#374151}
+.fi,.fs{width:100%;padding:9px;border:1.5px solid var(--line);border-radius:9px;font-size:13px;text-align:right;background:#FAFBFC}
+.fi:focus,.fs:focus{outline:none;border-color:var(--navy2);background:#fff}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:14px}
+.ov.show{display:flex}
+.modal{background:#fff;width:100%;max-width:560px;border-radius:16px;max-height:92vh;overflow-y:auto}
+.mh{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff}
+.mh .t{font-size:15px;font-weight:700;color:var(--navy)}.mh .x{background:#F3F4F6;border:none;width:30px;height:30px;border-radius:8px;font-size:15px;cursor:pointer}
+.mb{padding:16px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1F2937;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;opacity:0;transition:.25s;z-index:300;pointer-events:none}
+.toast.show{opacity:1}
+.note{background:#EFF6FF;border:1px solid #BFDBFE;color:#1E40AF;font-size:11.5px;padding:9px 12px;border-radius:9px;margin-bottom:12px;line-height:1.7}
+.note.warn{background:#FFF7ED;border-color:#FED7AA;color:#9A3412}
+.hint{font-size:10.5px;color:var(--muted);margin-top:4px}
+.sec-h{font-size:13px;font-weight:800;color:var(--navy);margin:16px 2px 8px}
+.bar{height:7px;background:var(--line);border-radius:5px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--navy),var(--navy2))}
+.cart-line{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:12px}
+.qbtn{width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;border:none;font-size:15px;cursor:pointer}
+.seg{display:flex;gap:6px}.seg button{flex:1;padding:8px;border:2px solid var(--line);background:#fff;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:var(--muted)}.seg button.on{border-color:var(--navy);background:#EFF6FF;color:var(--navy)}
+.vr-card{background:#fff;border-radius:11px;padding:11px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);border-right:4px solid var(--line)}
+.vr-card.ok{border-right-color:var(--green2)}.vr-card.bad{border-right-color:var(--red)}.vr-card.wait{border-right-color:var(--amber)}
+.vr-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.vr-name{font-weight:700;font-size:13px}.vr-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.vr-reason{font-size:11px;color:var(--red);margin-top:4px}.vr-note{font-size:11px;color:var(--ink);margin-top:2px;background:#FFF7ED;padding:5px 8px;border-radius:6px}
+.chg{font-size:11px;padding:6px 0;border-bottom:1px solid var(--line)}.chg b{color:var(--navy)}.chg .tm{color:var(--muted);font-size:10px}
+.promo-box{background:#EFF6FF;border:1px dashed #93C5FD;border-radius:9px;padding:10px;margin-top:8px;font-size:12px;color:#1E40AF}
+.promo-box .ttl{font-weight:800;margin-bottom:5px}
+</style>
+</head>
+<body>
+
+<div class="login" id="login">
+  <div class="logo">📊</div><h1>پنل مدیر فروش</h1><p>ATP Plus — فروش -۶</p>
+  <div class="box"><div class="err" id="loginErr"></div>
+    <input type="password" id="pin" inputmode="numeric" placeholder="رمز ورود" onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">ورود</button></div>
+</div>
+
+<div id="app" style="display:none">
+  <div class="topbar">
+    <div><div class="t">پنل مدیر فروش ATP+</div><div class="s"><span id="dt">-</span> · <span id="syncStat"></span></div></div>
+    <div><button class="ibtn" onclick="loadAll(true)" title="همگام‌سازی">🔄</button><button class="ibtn" onclick="openSettings()" title="تنظیمات">⚙️</button><button class="ibtn" onclick="lock()" title="قفل">🔒</button></div>
+  </div>
+  <div class="nav" id="nav"></div>
+  <div class="wrap">
+    <div id="demoBanner" class="banner" style="display:none"><span>⚠️ <b>حالت نمایشی</b> — داده‌ها نمونه است. برای اتصال واقعی، آدرس Web App را در ⚙️ تنظیمات وارد کن.</span><button class="btn p sm" onclick="openSettings()">اتصال به شیت</button></div>
+
+  <!-- ===== ۴ Modal برای مرحلهٔ ۱ ===== -->
+  <!-- ۱) مرجوعی -->
+  <div class="ov" id="ovReturn"><div class="modal">
+    <div class="mh"><span class="t">↩️ ثبت مرجوعی (۳مرحله)</span><button class="x" onclick="closeOv('ovReturn')">✕</button></div>
+    <div class="mb">
+      <div class="note">شماره فاکتور اجباری است. تا ۴۰ روز پذیرش مرجوعی.</div>
+      <div class="fg"><label class="fl">شماره فاکتور</label><input class="fi" id="retInv" placeholder="INV-..."></div>
+      <div class="fg"><label class="fl">محصول</label><select class="fs" id="retSku"></select></div>
+      <div class="fg"><label class="fl">تعداد</label><input class="fi" id="retQty" type="number" value="1" min="1"></div>
+      <div class="fg"><label class="fl">علت</label><input class="fi" id="retReason" placeholder="نزدیک انقضا / ..."></div>
+      <button class="btn p" style="width:100%" onclick="saveReturn()">ثبت → انبار</button>
+    </div>
+  </div></div>
+
+  <!-- ۲) امانی -->
+  <div class="ov" id="ovConsign"><div class="modal">
+    <div class="mh"><span class="t">📋 فاکتور امانی (۲کاناله)</span><button class="x" onclick="closeOv('ovConsign')">✕</button></div>
+    <div class="mb">
+      <div class="note">سه سرنوشت: تبدیل به رسمی / برگشت به انبار / منقضی.</div>
+      <div class="fr2">
+        <div class="fg"><label class="fl">شماره فاکتور</label><input class="fi" id="consInv" placeholder="INV-..."></div>
+        <div class="fg"><label class="fl">کانال</label><select class="fs" id="consChan"><option>داروخانه</option><option>پخش</option></select></div>
+      </div>
+      <div class="fr2">
+        <div class="fg"><label class="fl">محصول</label><select class="fs" id="consSku"></select></div>
+        <div class="fg"><label class="fl">تعداد</label><input class="fi" id="consQty" type="number" value="1" min="1"></div>
+      </div>
+      <div class="fg"><label class="fl">سررسید</label><input class="fi" id="consDeadline" type="date"></div>
+      <button class="btn p" style="width:100%" onclick="saveConsign()">ثبت امانی</button>
+    </div>
+  </div></div>
+
+  <!-- ۳) چاپ فاکتور -->
+  <div class="ov" id="ovPrint"><div class="modal">
+    <div class="mh"><span class="t">🖨️ چاپ فاکتور</span><button class="x" onclick="closeOv('ovPrint')">✕</button></div>
+    <div class="mb">
+      <div class="fg"><label class="fl">شماره فاکتور</label><input class="fi" id="printInvNo" placeholder="INV-..."></div>
+      <button class="btn p" style="width:100%" onclick="printInvoice()">چاپ</button>
+    </div>
+  </div></div>
+
+  <!-- ۴) جستجوی GLN -->
+  <div class="ov" id="ovGLN"><div class="modal">
+    <div class="mh"><span class="t">🔍 جستجوی GLN</span><button class="x" onclick="closeOv('ovGLN')">✕</button></div>
+    <div class="mb">
+      <div class="fg"><label class="fl">نام مشتری</label><input class="fi" id="glnQuery" placeholder="نام یا GLN جستجو کن..." onkeyup="glnSearch()"></div>
+      <div id="glnResults" style="max-height:300px;overflow-y:auto;margin-top:10px"></div>
+    </div>
+  </div></div>
+
+    <div class="page on" id="pg-dash">
+      <div class="grid g4" style="margin-bottom:10px">
+        <div class="stat"><div class="v" id="dGross">0</div><div class="l">فروش ناخالص (م ریال)</div></div>
+        <div class="stat"><div class="v g" id="dNet">0</div><div class="l">فروش خالص (م ریال)</div></div>
+        <div class="stat"><div class="v b" id="dInv">0</div><div class="l">تعداد فاکتور</div></div>
+        <div class="stat"><div class="v" id="dQty">0</div><div class="l">تعداد قطعه</div></div>
+      </div>
+      <div class="grid g4" style="margin-bottom:10px">
+        <div class="stat"><div class="v g" id="dVok">0</div><div class="l">ویزیت موفق</div></div>
+        <div class="stat"><div class="v r" id="dVno">0</div><div class="l">ویزیت ناموفق</div></div>
+        <div class="stat"><div class="v b" id="dConv">0%</div><div class="l">نرخ تبدیل ویزیت→فروش</div></div>
+        <div class="stat"><div class="v" id="dColl">0</div><div class="l">وصولی (م ریال)</div></div>
+      </div>
+      <div class="card"><h3>📦 فروش به تفکیک کالا (قطعه)</h3><div id="byProduct"></div></div>
+      <div class="grid g2">
+        <div class="card"><h3>🏆 برترین مشتری‌ها</h3><div class="tscroll" id="topCust"></div></div>
+        <div class="card"><h3>📊 برترین محصولات</h3><div class="tscroll" id="topProd"></div></div>
+      </div>
+      <div class="grid g2">
+        <div class="card"><h3>👥 عملکرد ویزیتورها</h3><div class="tscroll" id="byVisitor"></div></div>
+        <div class="card"><h3>📅 KPI هفتگی</h3><div class="tscroll" id="weekly"></div></div>
+      </div>
+    </div>
+
+    <div class="page" id="pg-inbox">
+      <div class="note">فاکتورهای منتظر تأیید تو. تأیید (← مالی) / ویرایش / رد.</div>
+      <div class="card"><h3>📥 صندوق ورودی <span class="pill p-sales" id="inboxCount">0</span></h3><div id="inboxList"></div></div>
+    </div>
+
+    <div class="page" id="pg-visits">
+      <div class="note">گزارش ویزیت‌های ویزیتورها (موفق و ناموفق با علت و توضیح). با فیلتر ویزیتور و تاریخ.</div>
+      <div class="grid g4" style="margin-bottom:10px">
+        <div class="stat"><div class="v" id="vrTot">0</div><div class="l">کل ویزیت</div></div>
+        <div class="stat"><div class="v g" id="vrOk">0</div><div class="l">موفق</div></div>
+        <div class="stat"><div class="v r" id="vrBad">0</div><div class="l">ناموفق</div></div>
+        <div class="stat"><div class="v b" id="vrConv">0%</div><div class="l">نرخ تبدیل</div></div>
+      </div>
+      <div class="card">
+        <h3>📈 گزارش ویزیت‌ها
+          <span><select class="fs" id="vrFilterV" style="width:auto;display:inline-block" onchange="renderVisits()"></select></span>
+        </h3>
+        <div id="vrFailList"></div>
+      </div>
+    </div>
+
+    <div class="page" id="pg-inv">
+      <div class="card"><h3>🧾 همه فاکتورها <button class="btn p sm" onclick="openNewInvoice()">+ ثبت فاکتور جدید</button></h3><div class="tscroll"><table id="allInv"></table></div></div>
+    </div>
+
+    <div class="page" id="pg-supply">
+      <div class="note warn">صف تأمین فاکتورهای <b>شرکت پخش</b> که مالی تأیید کرده. بسته به نوع انبار شرکت: «انبار ما» → فاکتور باید به انبار برود و خروج بخورد؛ «انبار خودشان» → فقط فاکتور رسمی صادر می‌شود و به انبار ما کاری ندارد.</div>
+      <div class="grid g3" style="margin-bottom:10px">
+        <div class="stat"><div class="v b" id="spTot">0</div><div class="l">کل فاکتور پخش</div></div>
+        <div class="stat"><div class="v g" id="spOurs">0</div><div class="l">→ انبار ما</div></div>
+        <div class="stat"><div class="v a" id="spTheirs" style="color:var(--amber)">0</div><div class="l">فقط فاکتور رسمی</div></div>
+      </div>
+      <div class="card"><h3>🚚 صف تأمین شرکت‌های پخش</h3><div class="tscroll"><table id="supplyTable"></table></div></div>
+    </div>
+
+    <div class="page" id="pg-split">
+      <div class="note">گزارش تفکیک فروش بین دو کانال: <b>داروخانه</b> (از اپ ویزیتور) و <b>شرکت پخش</b> (از پنل مدیر فروش).</div>
+      <div class="grid g2" style="margin-bottom:10px">
+        <div class="card" style="border-top:3px solid var(--blue)"><h3 style="color:var(--blue)">🏥 داروخانه</h3><div class="tscroll" id="splitPharma"></div></div>
+        <div class="card" style="border-top:3px solid var(--amber)"><h3 style="color:#B45309">🏭 شرکت پخش</h3><div class="tscroll" id="splitDist"></div></div>
+      </div>
+      <div class="card"><h3>📊 مقایسه دو کانال</h3><div class="tscroll" id="splitCompare"></div></div>
+      <div class="card"><h3>📦 فروش هر محصول به تفکیک کانال (قطعه)</h3><div class="tscroll" id="splitByProd"></div></div>
+    </div>
+
+    <div class="page" id="pg-returns">
+      <div class="note">مرجوعی‌های منتظر تأیید مرحلهٔ اول (انبار). پس از تأیید انبار، به مالی می‌رود. اینجا برای اطلاع و پیگیری مدیر فروش است.</div>
+      <div style="margin-bottom:10px"><button class="btn p" onclick="openRet()">+ ثبت مرجوعی جدید</button></div>
+      <div class="card"><h3>↩️ مرجوعی‌ها <span class="pill p-wait" id="retCount">0</span></h3><div class="tscroll"><table id="retTable"></table></div></div>
+    </div>
+
+    <div class="page" id="pg-consign">
+      <div class="note">فاکتور امانی فقط برای مدیر فروش. پس از ذخیره قفل می‌شود و از موجودی کسر می‌گردد. سه سرنوشت: تبدیل به رسمی، برگشت به انبار، یا منقضی/نامشخص (به «امانی منقضی» مالی می‌رود).</div>
+      <div style="margin-bottom:10px"><button class="btn p" onclick="openConsign()">+ ثبت فاکتور امانی جدید</button></div>
+      <div class="card"><h3>📋 فاکتورهای امانی <span class="pill p-wait" id="cgCount">0</span></h3><div class="tscroll"><table id="cgList"></table></div></div>
+    </div>
+
+    <div class="page" id="pg-promo">
+      <div class="note">درخواست اقلام تبلیغاتی (تی‌شرت/ماگ/شیکر) برای یک فاکتور. درخواست تو به مالی می‌رود؛ بعد از تأیید مالی، از موجودی انبار کسر و به‌عنوان «تخفیف کالایی» ثبت می‌شود.</div>
+      <div class="card"><h3>🎁 ثبت درخواست قلم تبلیغاتی</h3>
+        <div class="fr2">
+          <div class="fg"><label class="fl">قلم تبلیغاتی</label><select class="fs" id="prItem"></select></div>
+          <div class="fg"><label class="fl">شماره فاکتور (اختیاری)</label><input class="fi" id="prInv" placeholder="INV-..."></div>
+        </div>
+        <div class="fr2">
+          <div class="fg"><label class="fl">مشتری (اختیاری)</label><select class="fs" id="prCust"></select></div>
+          <div class="fg"><label class="fl">تعداد</label><input class="fi" id="prQty" type="number" value="1" min="1"></div>
+        </div>
+        <div class="fg"><label class="fl">مبنای تخفیص</label>
+          <div class="seg" id="prBasis"><button type="button" class="on" data-v="مبلغی">بر اساس مبلغ فاکتور</button><button type="button" data-v="تعدادی">بر اساس تعداد قطعه</button></div>
+        </div>
+        <div class="fg"><label class="fl" id="prValLbl">ارزش/مبنا (ریال خرید یا تعداد قطعه)</label><input class="fi" id="prVal" type="number" placeholder="مثلاً 100000000"></div>
+        <button class="btn p" style="width:100%" onclick="submitPromoReq()">ثبت درخواست → مالی</button>
+      </div>
+      <div class="card"><h3>📋 درخواست‌های اقلام تبلیغاتی</h3><div class="tscroll"><table id="promoReqTable"></table></div></div>
+      <div class="card"><h3>📦 موجودی اقلام تبلیغاتی (انبار)</h3><div class="tscroll"><table id="promoStockTable"></table></div></div>
+    </div>
+
+    <div class="page" id="pg-cust">
+      <div class="note">با ویرایش مشتری و تغییر ویزیتور، مشتری به ویزیتور جدید منتقل می‌شود. ویزیتور قبلی دیگر نمی‌تواند برای او فاکتور بزند (ولی فاکتورهای قبلی‌اش در سابقه می‌ماند).</div>
+      <div class="card"><h3>⏳ مشتریان منتظر تأیید <span class="pill p-wait" id="pendCount">0</span></h3><div id="pendCust"></div></div>
+      <div class="card"><h3>🏠 همه مشتری‌ها <button class="btn p sm" onclick="openCust()">+ مشتری جدید</button></h3><div class="tscroll"><table id="custTable"></table></div></div>
+    </div>
+
+    <div class="page" id="pg-inventory">
+      <div class="note">موجودی زنده انبار (فقط نمایش). از شیت انبار خوانده می‌شود.</div>
+      <div class="card"><h3>📦 موجودی زنده محصولات</h3><div class="tscroll"><table id="invTable"></table></div></div>
+    </div>
+
+    <div class="page" id="pg-tgt">
+      <div class="note">تعریف/ویرایش تارگت هر ویزیتور.</div>
+      <div class="card"><h3>🎯 تارگت‌ها</h3><div class="tscroll"><table id="tgtTable"></table></div></div>
+    </div>
+
+    <div class="page" id="pg-kpi">
+      <div class="card"><h3>📊 KPI و امتیاز و پاداش هر ویزیتور</h3><div class="tscroll" id="kpiTable"></div>
+        <div class="hint">K1 ریالی۳۵٪ · K2 تعدادی۱۵٪ · K3 تنوعSKU۲۰٪ · K4 مشتری‌جدید۱۵٪ · K5 وصولی۱۵٪ — محاسبه زنده.</div></div>
+      <div class="card"><h3>🏅 توزیع پاداش دوره‌ای (بر اساس امتیاز)</h3><div class="tscroll" id="bonusDist"></div></div>
+    </div>
+
+    <div class="page" id="pg-bonus">
+      <div class="note">پاداش دستی را اینجا ثبت کنی با «تأیید»، برای ویزیتور نمایش داده می‌شود.</div>
+      <div class="grid g4" style="margin-bottom:10px">
+        <div class="stat"><div class="v" id="bBudget">0</div><div class="l">سقف بودجه (م)</div></div>
+        <div class="stat"><div class="v r" id="bUsed">0</div><div class="l">پاداش تأییدشده (م)</div></div>
+        <div class="stat"><div class="v g" id="bRemain">0</div><div class="l">مانده (م)</div></div>
+        <div class="stat"><div class="v b" id="bPct">0%</div><div class="l">درصد مصرف</div></div>
+      </div>
+      <div class="card"><h3>➕ ثبت پاداش دستی</h3>
+        <div class="fr3">
+          <div class="fg"><label class="fl">ویزیتور</label><select class="fs" id="mbV"></select></div>
+          <div class="fg"><label class="fl">مبلغ (ریال)</label><input class="fi" id="mbAmt" type="number"></div>
+          <div class="fg"><label class="fl">علت</label><input class="fi" id="mbReason"></div>
+        </div>
+        <button class="btn p sm" onclick="addManualBonus()">ثبت پاداش (منتظر تأیید)</button>
+      </div>
+      <div class="card"><h3>🎁 پاداش ویزیت‌ها (تأیید نهایی)</h3><div class="tscroll" id="bonusList"></div></div>
+      <div class="card"><h3>📜 سوابق پاداش دستی</h3><div class="tscroll" id="manualList"></div></div>
+    </div>
+
+    <div class="page" id="pg-price">
+      <div class="note">پورسانت را مالی برای هر کالا و به‌صورت پله‌کانی تعریف می‌کند؛ جداگانه برای داروخانه و پخش. اینجا فقط نمایش است. (در پنل ویزیتور فقط ستون داروخانه دیده می‌شود.)</div>
+      <div class="card"><h3>🏷️ قیمت دوگانه محصولات (داروخانه / پخش)</h3><div class="tscroll" id="priceTable"></div></div>
+      <div class="card"><h3>💰 پورسانت پله‌کانی — 🏥 داروخانه (درصد ٪)</h3><div class="tscroll" id="commPharma"></div></div>
+      <div class="card"><h3>💰 پورسانت پله‌کانی — 🏭 پخش (درصد ٪)</h3><div class="tscroll" id="commDist"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="ovDecision"><div class="modal"><div class="mh"><span class="t" id="decTitle">ویرایش</span><button class="x" onclick="closeOv('ovDecision')">✕</button></div><div class="mb" id="decBody"></div></div></div>
+<div class="ov" id="ovPhoto"><div class="modal" style="max-width:92vw;background:transparent;box-shadow:none;text-align:center"><img id="ovPhotoImg" src="" style="max-width:100%;max-height:85vh;border-radius:10px"></div></div>
+
+<div class="ov" id="ovDetail"><div class="modal"><div class="mh"><span class="t">🧾 جزئیات کامل فاکتور</span><button class="x" onclick="closeOv('ovDetail')">✕</button></div><div class="mb" id="detailBody"></div></div></div>
+<div class="ov" id="ovChanges"><div class="modal"><div class="mh"><span class="t">📝 شرح تغییرات</span><button class="x" onclick="closeOv('ovChanges')">✕</button></div><div class="mb" id="changesBody"></div></div></div>
+
+<div class="ov" id="ovInvoice"><div class="modal">
+  <div class="mh"><span class="t">🧾 ثبت فاکتور (مدیر فروش)</span><button class="x" onclick="closeOv('ovInvoice')">✕</button></div>
+  <div class="mb">
+    <div class="fg"><label class="fl">کانال فروش</label>
+      <div class="seg" id="niChan"><button type="button" class="on" data-v="داروخانه">🏥 داروخانه</button><button type="button" data-v="پخش">🏭 شرکت پخش</button></div>
+    </div>
+    <div class="note" id="niChanNote">کانال «داروخانه»: قیمت داروخانه اعمال می‌شود.</div>
+    <div class="fr2"><div class="fg"><label class="fl" id="niCustLbl">مشتری</label><select class="fs" id="niCust" onchange="niRender()"></select></div>
+      <div class="fg"><label class="fl">شرط پرداخت</label><select class="fs" id="niPay" onchange="niRender()"><option>نقدی</option><option>چک کوتاه</option><option>چک بلند</option></select></div></div>
+    <div class="fg" id="chqWrapS" style="display:none"><label class="fl">📷 عکس چک</label><input type="file" accept="image/*" capture="environment" id="chqImgS" onchange="pickChequeS(this)" style="font-size:12px"><div id="chqPrevS" style="margin-top:6px"></div></div>
+    <div class="fg" id="niBasketWrap" style="display:none"><label class="fl">سبد محصولی</label><select class="fs" id="niBasket" onchange="niRender()"><option value="">— بدون سبد —</option></select></div>
+    <div class="fg"><label class="fl">افزودن محصول</label><select class="fs" id="niProd"></select>
+      <div class="btn-row" style="margin-top:6px"><input class="fi" id="niQty" type="number" value="1" min="1" style="max-width:90px"><button class="btn p sm" onclick="niAdd()">+ افزودن</button></div></div>
+    <div id="niCart"></div>
+    <div id="niPromoBox"></div>
+    <div style="text-align:left;font-weight:800;color:var(--navy);margin-top:8px">جمع: <span id="niTotal">0</span> ریال</div>
+    <button class="btn p" style="width:100%;margin-top:10px" onclick="submitInvoice()">ثبت و ارسال به مالی</button>
+  </div>
+</div></div>
+
+<div class="ov" id="ovCust"><div class="modal">
+  <div class="mh"><span class="t" id="custTitle">مشتری</span><button class="x" onclick="closeOv('ovCust')">✕</button></div>
+  <div class="mb"><input type="hidden" id="cuCode"><input type="hidden" id="cuGLN"><input type="hidden" id="cuNatId">
+    <div class="fg"><label class="fl">🔎 جستجوی GLN (نام داروخانه/شرکت پخش)</label><input class="fi" id="glnQ" oninput="glnSearch()" placeholder="نام را تایپ کنید…" autocomplete="off"><div id="glnRes" style="max-height:190px;overflow:auto;border-radius:8px;margin-top:4px"></div></div>
+    <div class="fg"><label class="fl">نام مشتری</label><input class="fi" id="cuName"></div>
+    <div class="fr2"><div class="fg"><label class="fl">کانال</label><select class="fs" id="cuChan"><option>داروخانه</option><option>شرکت پخش</option><option>باشگاه</option><option>فروشگاه</option></select></div>
+      <div class="fg"><label class="fl">سطح قیمت</label><select class="fs" id="cuPL"></select></div></div>
+    <div class="fr3"><div class="fg"><label class="fl">استان</label><input class="fi" id="cuProv"></div><div class="fg"><label class="fl">شهر</label><input class="fi" id="cuCity"></div>
+      <div class="fg"><label class="fl">ویزیتور</label><select class="fs" id="cuVisitor"></select></div></div>
+    <div id="cuMoveNote" class="note warn" style="display:none"></div>
+    <div class="fr2"><div class="fg"><label class="fl">تلفن</label><input class="fi" id="cuPhone"></div><div class="fg"><label class="fl">سقف اعتبار</label><input class="fi" id="cuCredit" type="number"></div></div>
+    <button class="btn p" style="width:100%" onclick="saveCust()">ذخیره</button></div>
+</div></div>
+
+<div class="ov" id="ovConsign"><div class="modal">
+  <div class="mh"><span class="t">📋 فاکتور امانی (مدیر فروش)</span><button class="x" onclick="closeOv('ovConsign')">✕</button></div>
+  <div class="mb">
+    <div class="note">پس از ذخیره، فاکتور امانی قفل و غیرقابل‌ویرایش می‌شود و از موجودی کسر می‌گردد.</div>
+    <div class="fr2"><div class="fg"><label class="fl">مشتری</label><select class="fs" id="cgCust" onchange="cgRender()"></select></div>
+      <div class="fg"><label class="fl">مهلت (روز تا سررسید)</label><input class="fi" id="cgDays" type="number" value="30" min="1"></div></div>
+    <div class="fg"><label class="fl">افزودن محصول</label><select class="fs" id="cgProd"></select>
+      <div class="btn-row" style="margin-top:6px"><input class="fi" id="cgQty" type="number" value="1" min="1" style="max-width:90px"><button class="btn p sm" onclick="cgAdd()">+ افزودن</button></div></div>
+    <div id="cgCartBox"></div>
+    <div style="text-align:left;font-weight:800;margin-top:8px">جمع امانی: <span id="cgTotal">0</span></div>
+    <button class="btn p" style="width:100%;margin-top:12px" onclick="cgSubmit()">ذخیره و قفل فاکتور امانی</button>
+  </div>
+</div></div>
+
+<div class="ov" id="ovRet"><div class="modal">
+  <div class="mh"><span class="t">↩️ ثبت مرجوعی</span><button class="x" onclick="closeOv('ovRet')">✕</button></div>
+  <div class="mb">
+    <div class="fg"><label class="fl">شمارهٔ فاکتور (اجباری)</label><select class="fs" id="reInv" onchange="loadRetInv()"><option value="">— انتخاب فاکتور —</option></select></div>
+    <div class="note" id="reInfo">شمارهٔ فاکتور را انتخاب کن.</div>
+    <div id="reItems"></div>
+    <div class="fg" id="reReasonWrap" style="display:none"><label class="fl">علت مرجوعی</label><input class="fi" id="reReason"></div>
+    <button class="btn p" id="reSubmitBtn" style="width:100%;display:none" onclick="retSubmit()">ثبت → انبار</button>
+  </div>
+</div></div>
+
+<div class="ov" id="ovTgt"><div class="modal">
+  <div class="mh"><span class="t">🎯 ویرایش تارگت</span><button class="x" onclick="closeOv('ovTgt')">✕</button></div>
+  <div class="mb"><input type="hidden" id="tgV"><div class="fg"><label class="fl">ویزیتور</label><input class="fi" id="tgName" disabled></div>
+    <div class="fr2"><div class="fg"><label class="fl">تارگت ریالی</label><input class="fi" id="tgRial" type="number"></div><div class="fg"><label class="fl">تارگت قطعه</label><input class="fi" id="tgQty" type="number"></div></div>
+    <div class="fr2"><div class="fg"><label class="fl">تارگت کارتن</label><input class="fi" id="tgCarton" type="number"></div><div class="fg"><label class="fl">بودجه پاداش</label><input class="fi" id="tgBudget" type="number"></div></div>
+    <button class="btn p" style="width:100%" onclick="saveTgt()">ذخیره تارگت</button></div>
+</div></div>
+
+<div class="ov" id="ovSet"><div class="modal">
+  <div class="mh"><span class="t">⚙️ تنظیمات</span><button class="x" onclick="closeOv('ovSet')">✕</button></div>
+  <div class="mb"><div class="fg"><label class="fl">آدرس اتصال (Apps Script Web App)</label><input class="fi" id="setSync" style="direction:ltr;text-align:left" placeholder="https://script.google.com/.../exec"></div>
+    <button class="btn p" style="width:100%" onclick="saveSync()">💾 ذخیره و اتصال</button>
+    <div class="hint" style="margin-bottom:10px">بعد از ذخیره، اگر آدرس درست باشد «✓» می‌بینی. این همان Web App شیت فروش است.</div>
+    <div class="sec-h">🔁 بروزرسانی خودکار</div>
+    <div class="fg"><label class="fl">هر چند ثانیه یک‌بار وضعیت تازه شود؟ (۰ = خاموش)</label><input class="fi" id="setAuto" type="number" value="0" min="0"></div>
+    <button class="btn s" style="width:100%" onclick="saveAuto()">ذخیره بروزرسانی خودکار</button>
+    <div class="sec-h">🔐 تغییر رمز</div>
+    <div class="fg"><label class="fl">رمز فعلی</label><input class="fi" type="password" id="pwOld"></div>
+    <div class="fr2"><div class="fg"><label class="fl">رمز جدید</label><input class="fi" type="password" id="pwNew"></div><div class="fg"><label class="fl">تکرار</label><input class="fi" type="password" id="pwNew2"></div></div>
+    <button class="btn s" style="width:100%" onclick="changePw()">تغییر رمز</button><div class="hint">رمز پیش‌فرض ۱۲۳۴۵.</div></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const PRICE_LEVELS=['P1 مصرف','P2 داروخانه','P3 پخش','P4 باشگاه','P5 فروشگاه','P6 ویژه'];
+const PRODUCTS=[
+ {sku:'ATP-001',name:'کراتین منوهیدرات ۵۰۰g',p:[54327860,42060278,35050232,45565302,49070325,33297720]},
+ {sku:'ATP-002',name:'کراتین منوهیدرات ۲۵۰g',p:[29400960,22762033,18968361,24658869,26555705,18019943]},
+ {sku:'ATP-003',name:'BCAA ۵۰۰g',p:[40266532,31174090,25978408,33771930,36369771,24679488]},
+ {sku:'ATP-004',name:'ال‌گلوتامین ۵۰۰g',p:[53049558,41070625,34225521,44493177,47915729,32514245]},
+ {sku:'ATP-005',name:'ال‌گلوتامین ۲۵۰g',p:[27483506,21277553,17731294,23050682,24823812,16844729]},
+ {sku:'ATP-006',name:'سیترولین مالات ۲۵۰g',p:[33747189,26126856,21772380,28304094,30481332,20683761]},
+ {sku:'ATP-007',name:'استیل ال‌کارنیتین ۲۵۰g',p:[42056155,32559604,27133003,35272904,37986204,25776353]},
+ {sku:'ATP-008',name:'بتا آلانین ۲۵۰g',p:[44740590,34637876,28864897,37524366,40410856,27421652]},
+];
+const PAY={'نقدی':0.97,'چک کوتاه':1.00,'چک بلند':1.03};
+const KPIW={K1:.35,K2:.15,K3:.20,K4:.15,K5:.15};
+const BUDGET=1000000000, INDIV_CAP=5000000;
+const SCLASS={'منتظر مدیر فروش':'p-sales','منتظر مالی':'p-fin','منتظر انبار':'p-wh','تحویل شد':'p-done','رد شده':'p-rej'};
+const SICON={'منتظر مدیر فروش':'🟡','منتظر مالی':'🔵','منتظر انبار':'🟣','تحویل شد':'🎉','رد شده':'❌'};
+const NAV=[['dash','📊 داشبورد'],['inbox','📥 صندوق ورودی'],['visits','📈 گزارش ویزیت‌ها'],['inv','🧾 فاکتورها'],['supply','🚚 صف تأمین'],['split','📊 تفکیک کانال'],['returns','↩️ مرجوعی'],['consign','📋 امانی'],['promo','🎁 اقلام تبلیغاتی'],['cust','🏥 مشتری‌ها'],['inventory','📦 موجودی'],['tgt','🎯 تارگت'],['kpi','📊 KPI/پاداش‌ها'],['bonus','🎁 پاداش'],['price','💰 قیمت/پورسانت']];
+
+let DB={invoices:[],visits:[],collections:[],targets:[],visitors:[],customers:[],bonus:{},manualBonus:[],comm:{tiers:[50,150],def:[300000,450000,600000],prod:{}},returns:[],changes:[],promo:[],promoReq:[],inventory:[],suppliers:[],baskets:[],promoRules:[],products:[],discounts:null};
+let CUST=[],settings={sync:''},niCart=[],DEMO=false,prBasis='مبلغی',autoTimer=null,niChan='داروخانه';
+
+function demoData(){return {
+ visitors:[{code:'V01',name:'ویزیتور ۱'},{code:'V02',name:'ویزیتور ۲'},{code:'V03',name:'ویزیتور ۳'}],
+ customers:[
+  {code:'C001',name:'داروخانه دکتر احمدی',chan:'داروخانه',visitor:'V01',credit:200000000,plLabel:'P2 داروخانه',city:'تهران',status:'تأیید شده'},
+  {code:'C002',name:'پخش سلامت پارسیان',chan:'شرکت پخش',visitor:'V02',credit:5000000000,plLabel:'P3 پخش',city:'تهران',status:'تأیید شده'},
+  {code:'C011',name:'برلیان دارویی‌ان',chan:'داروخانه',visitor:'V01',credit:10000000,plLabel:'P2 داروخانه',city:'تهران',status:'منتظر تأیید'},
+ ],
+ invoices:[
+  {id:'INV-2001',date:'2026-05-28',visitor:'V01',cust:'C001',custName:'داروخانه دکتر احمدی',sku:'ATP-001',prod:'کراتین منوهیدرات ۵۰۰g',qty:5,unit:42060278,total:210301390,type:'رسمی',pay:'نقدی',chan:'داروخانه',sSales:'منتظر مدیر فروش',sFin:'',sWh:''},
+  {id:'INV-2002',date:'2026-05-28',visitor:'V02',cust:'C002',custName:'پخش سلامت پارسیان',sku:'ATP-004',prod:'ال‌گلوتامین ۵۰۰g',qty:60,unit:34225521,total:2053531260,type:'رسمی',pay:'چک کوتاه',chan:'پخش',sSales:'تأیید',sFin:'تأیید شده',sWh:''},
+  {id:'INV-2003',date:'2026-05-27',visitor:'V01',cust:'C001',custName:'داروخانه دکتر احمدی',sku:'ATP-008',prod:'بتا آلانین ۲۵۰g',qty:10,unit:34637876,total:346378760,type:'رسمی',pay:'نقدی',chan:'داروخانه',sSales:'تأیید',sFin:'تأیید شده',sWh:'تحویل شد'},
+  {id:'INV-2004',date:'2026-05-27',visitor:'V02',cust:'C002',custName:'پخش سلامت پارسیان',sku:'ATP-001',prod:'کراتین منوهیدرات ۵۰۰g',qty:100,unit:35050232,total:3505023200,type:'رسمی',pay:'چک بلند',chan:'پخش',sSales:'تأیید',sFin:'تأیید شده',sWh:''},
+ ],
+ visits:[
+  {id:'INV-2001',visitor:'V01',date:'1405/03/04',time:'10:20',custName:'داروخانه دکتر احمدی',result:'موفق',final:210301390,fail:'',failNote:''},
+  {id:'V-3001',visitor:'V01',date:'1405/03/04',time:'11:30',custName:'داروخانه شفا',result:'ناموفق',final:0,fail:'تصمیم‌گیر نبود',failNote:'مسئول خرید مرخصی بود، هفته بعد مراجعه می‌کنم'},
+  {id:'V-3002',visitor:'V02',date:'1405/03/04',time:'09:15',custName:'پخش البرز',result:'ناموفق',final:0,fail:'نیاز به مذاکره قیمت',failNote:'قیمت رقیب پایین‌تر؛ درخواست تخفیف ویژه دارد'},
+  {id:'INV-2002',visitor:'V02',date:'1405/03/04',time:'12:00',custName:'پخش سلامت پارسیان',result:'موفق',final:2053531260,fail:'',failNote:''},
+ ],
+ collections:[{visitor:'V01',amount:210000000},{visitor:'V02',amount:1500000000}],
+ targets:[{visitor:'V01',rial:500000000,qty:100,carton:50,budget:10000000},{visitor:'V02',rial:500000000,qty:100,carton:50,budget:10000000}],
+ bonus:{V01:3000000,V02:5000000},
+ manualBonus:[{date:'1405/03/01',visitor:'V01',amount:3000000,reason:'تلاش ویژه',by:'مدیر فروش',status:'تأیید'}],
+ comm:{tiers:[50,150],def:[300000,450000,600000],prod:{'ATP-001':{pharma:[300000,450000,600000],dist:[250000,380000,520000]},'ATP-004':{pharma:[320000,470000,620000],dist:[270000,400000,540000]}}},
+ returns:[{retNo:'RET-001',inv:'INV-1990',custName:'داروخانه دکتر احمدی',visitor:'V01',sku:'ATP-003',name:'BCAA ۵۰۰g',qty:2,amount:62000000,reason:'نزدیک انقضا',status:'منتظر تأیید انبار',date:'1405/03/03'}],
+ changes:[{date:'1405-03-04 10:25',id:'INV-2002',stage:'فروش',action:'ویرایش',by:'مدیر فروش',desc:'تعداد از ۵۰ به ۶۰ تغییر کرد'}],
+ promo:[{code:'PR-001',name:'تی‌شرت ATP',qty:120,price:2500000,status:'موجود'},{code:'PR-002',name:'شیکر ۷۰۰cc',qty:0,price:1200000,status:'بدون موجودی'}],
+ promoReq:[{date:'1405-03-04',reqNo:'PRMO-001',inv:'INV-2002',custName:'پخش سلامت پارسیان',code:'PR-001',name:'تی‌شرت ATP',qty:5,basis:'مبلغی',value:2000000000,status:'منتظر تأیید مالی',by:'مدیر فروش'}],
+ inventory:[{sku:'ATP-001',name:'کراتین منوهیدرات ۵۰۰g',qty:14667,status:'موجود'},{sku:'ATP-003',name:'BCAA ۵۰۰g',qty:10436,status:'موجود'},{sku:'ATP-007',name:'استیل ال‌کارنیتین ۲۵۰g',qty:0,status:'بدون موجودی'}],
+ suppliers:[{code:'SUP-001',name:'پخش سلامت پارسیان',wh:'theirs',offer:'به ازای هر ۱۰۰ عدد، ۵ عدد آفر'},{code:'SUP-002',name:'پخش البرز دارو',wh:'ours',offer:''}],
+ baskets:[{code:'BSK-GOLD',name:'سبد گلد',chan:'داروخانه',desc:'خرید بالای ۵۰ میلیون',offer:'۵٪ آفر کالایی',promo:'۱ شیکر + ۱ تی‌شرت'},{code:'BSK-DIST',name:'سبد پخش ویژه',chan:'پخش',desc:'مخصوص شرکت‌های پخش',offer:'۸٪ آفر کالایی',promo:'۱۰ تی‌شرت'}],
+ promoRules:[{ifSku:'ATP-001',ifQty:5,giveName:'شیکر ATP',giveQty:1,chan:'داروخانه'},{ifSku:'',ifQty:50,giveName:'تی‌شرت ATP',giveQty:5,chan:'پخش'}],
+ products:[],
+ discounts:{pharma:{cash:{goods:3,cash:2},short:{goods:0,cash:0},long:{goods:-3,cash:0}},dist:{cash:{goods:5,cash:3},short:{goods:1,cash:0},long:{goods:-2,cash:0}}},
+};}
+
+function fa(n){return Number(n||0).toLocaleString('fa-IR');}
+function M(n){return fa(Math.round(Number(n||0)/1e6));}
+function pct(n){return (Math.round(n*10)/10)+'%';}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function closeOv(id){document.getElementById(id).classList.remove('show');}
+function openOv(id){document.getElementById(id).classList.add('show');}
+function nowTime(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function getPw(){return localStorage.getItem('atp_mgr_pw')||'12345';}
+function setSyncStat(t){document.getElementById('syncStat').textContent=t;}
+function visitorsList(){return DB.visitors.length?DB.visitors:[{code:'V01',name:'ویزیتور ۱'},{code:'V02',name:'ویزیتور ۲'},{code:'V03',name:'ویزیتور ۳'},{code:'V04',name:'ویزیتور ۴'},{code:'V05',name:'ویزیتور ۵'}];}
+function suppliersList(){return DB.suppliers&&DB.suppliers.length?DB.suppliers:[];}
+function prodPrice(sku){const ov=(DB.products||[]).find(x=>x.sku===sku);return ov||null;}
+function unitPrice(sku,plLabel,pay,chan){
+ const ov=prodPrice(sku);
+ if(chan==='پخش'){
+   if(ov&&ov.dist)return Math.round(ov.dist*(PAY[pay]||1));
+   const pr=PRODUCTS.find(x=>x.sku===sku);return pr?Math.round(pr.p[2]*(PAY[pay]||1)):0;
+ }
+ if(ov&&ov.pharma){return Math.round(ov.pharma*(PAY[pay]||1));}
+ const pr=PRODUCTS.find(x=>x.sku===sku);if(!pr)return 0;let pl=PRICE_LEVELS.indexOf(plLabel);if(pl<0)pl=1;return Math.round(pr.p[pl]*(PAY[pay]||1));}
+function groupInvoices(){const g={};DB.invoices.forEach(r=>{const id=r.id;if(!g[id])g[id]={id:id,date:r.date,visitor:r.visitor,cust:r.cust,custName:r.custName,pay:r.pay,type:r.type,chan:r.chan,items:[],total:0,sSales:r.sSales,sFin:r.sFin,sWh:r.sWh,shelfPhoto:r.shelfPhoto||'',chequePhoto:r.chequePhoto||''};g[id].items.push({sku:r.sku,prod:r.prod,qty:Number(r.qty)||0,unit:Number(r.unit)||0,total:Number(r.total)||0});g[id].total+=Number(r.total)||0;});return Object.values(g);}
+function invStatus(v){const sw=String(v.sWh||''),sf=String(v.sFin||''),ss=String(v.sSales||'');if(sw.indexOf('تحویل')>=0)return'تحویل شد';if(sw.indexOf('منتظر انبار')>=0)return'منتظر انبار';if(sf.indexOf('رد')>=0||ss.indexOf('رد')>=0)return'رد شده';if(sf.indexOf('منتظر مالی')>=0)return'منتظر مالی';if(sf.indexOf('تأیید')>=0)return'منتظر انبار';if(ss.indexOf('منتظر مدیر')>=0)return'منتظر مدیر فروش';if(ss.indexOf('تأیید')>=0)return'منتظر مالی';return'—';}
+function tbl(headers,rows){return '<table><tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr>'+(rows.length?rows.map(r=>'<tr>'+r.map(c=>`<td>${c}</td>`).join('')+'</tr>').join(''):`<tr><td colspan="${headers.length}" class="empty">—</td></tr>`)+'</table>';}
+
+function doLogin(){if(document.getElementById('pin').value===getPw()){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';boot();}else document.getElementById('loginErr').textContent='رمز اشتباه است';}
+function lock(){document.getElementById('app').style.display='none';document.getElementById('login').style.display='flex';document.getElementById('pin').value='';document.getElementById('loginErr').textContent='';if(autoTimer){clearInterval(autoTimer);autoTimer=null;}}
+function changePw(){const o=document.getElementById('pwOld').value,n=document.getElementById('pwNew').value,n2=document.getElementById('pwNew2').value;if(o!==getPw()){toast('رمز فعلی اشتباه');return;}if(!n||n.length<4){toast('حداقل ۴ رقم');return;}if(n!==n2){toast('تکرار یکی نیست');return;}localStorage.setItem('atp_mgr_pw',n);document.getElementById('pwOld').value='';document.getElementById('pwNew').value='';document.getElementById('pwNew2').value='';toast('✓ رمز تغییر کرد');}
+
+function boot(){
+ document.getElementById('dt').textContent=new Date().toLocaleDateString('fa-IR')+' '+nowTime();
+ settings=JSON.parse(localStorage.getItem('atp_mgr_set')||'{"sync":"","auto":0}');
+ document.getElementById('nav').innerHTML=NAV.map((n,i)=>`<button class="${i===0?'on':''}" data-pg="${n[0]}" onclick="go('${n[0]}')">${n[1]}</button>`).join('');
+ document.getElementById('cuPL').innerHTML=PRICE_LEVELS.map(p=>`<option>${p}</option>`).join('');
+ document.getElementById('niProd').innerHTML=PRODUCTS.map(p=>`<option value="${p.sku}">${p.name}</option>`).join('');
+ // مرحلهٔ ۱: dropdowns اضافه کن
+ document.getElementById('retSku').innerHTML=PRODUCTS.map(p=>`<option value="${p.sku}">${p.name}</option>`).join('');
+ document.getElementById('consSku').innerHTML=PRODUCTS.map(p=>`<option value="${p.sku}">${p.name}</option>`).join('');
+ bindSeg('prBasis',v=>{prBasis=v;document.getElementById('prValLbl').textContent=v==='مبلغی'?'ارزش/مبنا (ریال خرید فاکتور)':'مبنا (تعداد قطعه فاکتور)';});
+ bindSeg('niChan',v=>{niChan=v;niChanged();});
+ document.getElementById('cuVisitor').addEventListener('change',custMoveCheck);
+ if(settings.sync){setSyncStat('🔗 متصل');loadAll(false);startAuto();}
+ else{DEMO=true;DB=demoData();document.getElementById('demoBanner').style.display='flex';setSyncStat('🧪 حالت نمایشی');buildLists();renderAll();}
+}
+function bindSeg(id,fn){document.querySelectorAll('#'+id+' button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.remove('on'));b.classList.add('on');fn(b.dataset.v);});}
+function go(pg){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.pg===pg));document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.getElementById('pg-'+pg).classList.add('on');}
+
+function startAuto(){if(autoTimer){clearInterval(autoTimer);autoTimer=null;}const sec=Number(settings.auto)||0;if(sec>=3)autoTimer=setInterval(()=>loadAll(false),sec*1000);}
+function loadAll(manual){if(!settings.sync){if(manual)toast('ابتدا آدرس اتصال');return;}setSyncStat('⏳...');
+ fetch(settings.sync).then(r=>r.json()).then(d=>{if(d&&d.ok){DEMO=false;document.getElementById('demoBanner').style.display='none';
+  DB.invoices=d.invoices||[];DB.visits=d.visits||[];DB.collections=d.collections||[];DB.targets=d.targets||[];DB.visitors=d.visitors||[];DB.customers=d.customers||[];DB.bonus=d.bonus||{};DB.manualBonus=d.manualBonus||[];if(d.comm)DB.comm=d.comm;
+  DB.returns=d.returns||d.returnQueue||[];DB.changes=d.changes||[];DB.promo=d.promo||[];DB.promoReq=d.promoReq||[];DB.inventory=d.inventory||[];
+  if(Array.isArray(d.suppliers))DB.suppliers=d.suppliers;if(Array.isArray(d.baskets))DB.baskets=d.baskets;if(Array.isArray(d.promoRules))DB.promoRules=d.promoRules;if(Array.isArray(d.products))DB.products=d.products;if(d.discounts)DB.discounts=d.discounts;
+  buildLists();renderAll();setSyncStat('✓ '+nowTime());if(manual)toast('✓ همگام شد');}else setSyncStat('⚠ خطا');
+ }).catch(e=>{setSyncStat('⚠ آفلاین');if(manual)toast('اتصال برقرار نشد');});
+}
+function buildLists(){
+ if(DB.customers.length)CUST=DB.customers.slice();
+ else{const m={};DB.invoices.forEach(r=>{if(r.cust&&!m[r.cust])m[r.cust]={code:r.cust,name:r.custName,visitor:r.visitor};});CUST=Object.values(m);}
+ const vis=visitorsList();
+ document.getElementById('cuVisitor').innerHTML=vis.map(v=>`<option value="${v.code}">${v.name} (${v.code})</option>`).join('');
+ document.getElementById('mbV').innerHTML=vis.map(v=>`<option value="${v.code}">${v.name} (${v.code})</option>`).join('');
+ document.getElementById('prCust').innerHTML='<option value="">— (اختیاری) —</option>'+CUST.map(c=>`<option value="${c.code}">${c.name}</option>`).join('');
+ document.getElementById('prItem').innerHTML=(DB.promo.length?DB.promo:[{code:'PR-001',name:'تی‌شرت'}]).map(p=>`<option value="${p.code}">${p.code} · ${p.name}</option>`).join('');
+ const nb=document.getElementById('niBasket');if(nb)nb.innerHTML='<option value="">— بدون سبد —</option>'+(DB.baskets||[]).map(b=>`<option value="${b.code}">${b.name}${b.chan?(' ('+b.chan+')'):''}</option>`).join('');
+ const vfilter=document.getElementById('vrFilterV');const cur=vfilter.value||'';vfilter.innerHTML='<option value="">همه ویزیتورها</option>'+vis.map(v=>`<option value="${v.code}">${v.name}</option>`).join('');vfilter.value=cur;
+ niBuildCust();
+}
+function niBuildCust(){
+ const sel=document.getElementById('niCust');if(!sel)return;
+ if(niChan==='پخش'){
+   const sup=suppliersList();
+   sel.innerHTML='<option value="">— انتخاب شرکت پخش —</option>'+sup.map(s=>`<option value="S:${s.code}">${s.name}${s.wh==='theirs'?' (انبار خودشان)':' (انبار ما)'}</option>`).join('')
+     +(CUST.filter(c=>String(c.chan||'').indexOf('پخش')>=0).map(c=>`<option value="${c.code}">${c.name}</option>`).join(''));
+ } else {
+   sel.innerHTML='<option value="">— انتخاب مشتری —</option>'+CUST.filter(c=>String(c.chan||'').indexOf('پخش')<0).map(c=>`<option value="${c.code}">${c.name}</option>`).join('');
+ }
+}
+function renderAll(){renderDash();renderInbox();renderVisits();renderAllInv();renderSupply();renderSplit();renderReturns();renderConsign();renderPromo();renderCust();renderInventory();renderTgt();renderKpi();renderBonus();renderPrice();renderComm();}
+
+function vAgg(){const invs=groupInvoices().filter(v=>invStatus(v)!=='رد شده');const a={};invs.forEach(v=>{const k=v.visitor||'?';if(!a[k])a[k]={sales:0,qty:0,inv:0,skus:{},custs:{}};a[k].sales+=v.total;a[k].inv++;v.items.forEach(i=>{a[k].qty+=i.qty;if(i.sku)a[k].skus[i.sku]=1;});if(v.cust)a[k].custs[v.cust]=1;});return a;}
+function renderDash(){
+ const invs=groupInvoices().filter(v=>invStatus(v)!=='رد شده');
+ const gross=invs.reduce((s,v)=>s+v.items.reduce((a,i)=>a+i.qty*i.unit,0),0);
+ const net=invs.reduce((s,v)=>s+v.total,0);
+ const qty=invs.reduce((s,v)=>s+v.items.reduce((a,i)=>a+i.qty,0),0);
+ const vok=DB.visits.filter(v=>v.result==='موفق').length,vno=DB.visits.filter(v=>v.result==='ناموفق').length,vtot=DB.visits.length;
+ const coll=DB.collections.reduce((s,c)=>s+(Number(c.amount)||0),0);
+ document.getElementById('dGross').textContent=M(gross);document.getElementById('dNet').textContent=M(net);
+ document.getElementById('dInv').textContent=fa(invs.length);document.getElementById('dQty').textContent=fa(qty);
+ document.getElementById('dVok').textContent=fa(vok);document.getElementById('dVno').textContent=fa(vno);
+ document.getElementById('dConv').textContent=(vtot?Math.round(vok/vtot*100):0)+'%';document.getElementById('dColl').textContent=M(coll);
+ const bp={};invs.forEach(v=>v.items.forEach(i=>{bp[i.prod]=(bp[i.prod]||0)+i.qty;}));const maxp=Math.max(1,...Object.values(bp));
+ document.getElementById('byProduct').innerHTML=Object.keys(bp).length?Object.entries(bp).sort((a,b)=>b[1]-a[1]).map(([k,q])=>`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px"><span>${k}</span><b>${fa(q)}</b></div><div class="bar"><i style="width:${q/maxp*100}%"></i></div></div>`).join(''):'<div class="empty">داده‌ای نیست</div>';
+ const tc={};invs.forEach(v=>tc[v.custName]=(tc[v.custName]||0)+v.total);const tcA=Object.entries(tc).sort((a,b)=>b[1]-a[1]).slice(0,10);const tcT=tcA.reduce((s,x)=>s+x[1],0)||1;
+ document.getElementById('topCust').innerHTML=tbl(['رتبه','مشتری','فروش(م)','سهم'],tcA.map((e,i)=>[fa(i+1),e[0],M(e[1]),Math.round(e[1]/tcT*100)+'%']));
+ const tp={};invs.forEach(v=>v.items.forEach(i=>{if(!tp[i.prod])tp[i.prod]={q:0,r:0};tp[i.prod].q+=i.qty;tp[i.prod].r+=i.total;}));
+ document.getElementById('topProd').innerHTML=tbl(['محصول','قطعه','فروش(م)'],Object.entries(tp).sort((a,b)=>b[1].r-a[1].r).map(e=>[e[0],fa(e[1].q),M(e[1].r)]));
+ const a=vAgg();document.getElementById('byVisitor').innerHTML=tbl(['ویزیتور','فاکتور','قطعه','فروش(م)'],Object.entries(a).sort((x,y)=>y[1].sales-x[1].sales).map(e=>[e[0],fa(e[1].inv),fa(e[1].qty),M(e[1].sales)]));
+ document.getElementById('weekly').innerHTML=tbl(['شاخص','مقدار'],[['فروش ناخالص',M(gross)+' م'],['فروش خالص',M(net)+' م'],['تعداد قطعه',fa(qty)],['تعداد فاکتور',fa(invs.length)],['میانگین فاکتور(م)',M(invs.length?net/invs.length:0)]]);
+}
+
+function renderInbox(){const pend=groupInvoices().filter(v=>invStatus(v)==='منتظر مدیر فروش');document.getElementById('inboxCount').textContent=fa(pend.length);
+ document.getElementById('inboxList').innerHTML=pend.length?pend.map(v=>`<div class="card" style="box-shadow:none;border:1px solid var(--line)"><div style="display:flex;justify-content:space-between"><b>${v.custName}</b><span class="pill ${v.chan==='پخش'?'p-dist':'p-phar'}">${v.chan==='پخش'?'🏭 پخش':'🏥 داروخانه'} · ${v.id}</span></div><div style="font-size:11px;color:var(--muted);margin:5px 0">${v.visitor} · ${v.date} · ${v.pay||''} · ${v.type||''}</div><div style="font-size:12px">${v.items.map(i=>i.prod+' ×'+fa(i.qty)).join(' · ')}</div><div style="font-weight:800;color:var(--navy);margin:6px 0">جمع: ${fa(v.total)} ریال</div><div class="btn-row"><button class="btn ap sm" onclick="decide('${v.id}','approve')">✓ تأیید</button><button class="btn ed sm" onclick="openEdit('${v.id}')">✎ ویرایش</button><button class="btn rj sm" onclick="decide('${v.id}','reject')">✕ رد</button><button class="btn s sm" onclick="showDetail('${v.id}')">جزئیات کامل</button></div></div>`).join(''):'<div class="empty"><div class="i">✅</div>فاکتور منتظری نیست</div>';
+}
+function demoGuard(){if(DEMO){toast('حالت نمایشی: برای ثبت واقعی، اول به شیت وصل شو');return true;}return false;}
+function decide(id,action){if(demoGuard())return;let reason='';if(action==='reject'){reason=prompt('علت رد '+id+'؟');if(reason===null)return;}post({kind:'decision',data:{stage:'sales',id:id,action:action,by:'مدیر فروش',reason:reason||''}},()=>{toast(action==='approve'?'✓ تأیید → مالی':'رد شد');setTimeout(()=>loadAll(false),800);});}
+function openEdit(id){const v=groupInvoices().find(x=>x.id===id);if(!v)return;document.getElementById('decTitle').textContent='ویرایش '+id;document.getElementById('decBody').innerHTML='<div class="note">تعداد هر قلم را تغییر بده.</div>'+v.items.map((i,idx)=>`<div class="cart-line"><span>${i.prod}</span><input class="fi" id="ed${idx}" type="number" value="${i.qty}" data-sku="${i.sku}" style="width:90px"></div>`).join('')+`<button class="btn p" style="width:100%;margin-top:12px" onclick="saveEdit('${id}',${v.items.length})">ذخیره → مالی</button>`;openOv('ovDecision');}
+function saveEdit(id,n){if(demoGuard()){closeOv('ovDecision');return;}const edits=[];for(let i=0;i<n;i++){const el=document.getElementById('ed'+i);edits.push({sku:el.dataset.sku,qty:Number(el.value)||0});}post({kind:'decision',data:{stage:'sales',id:id,action:'edit',by:'مدیر فروش',edits:edits}},()=>{closeOv('ovDecision');toast('✓ ویرایش → مالی');setTimeout(()=>loadAll(false),800);});}
+function showDetail(id){const v=groupInvoices().find(x=>x.id===id);if(!v)return;const st=invStatus(v);
+ let h=`<div class="note">وضعیت فعلی: <b>${SICON[st]||''} ${st}</b> · کانال: <b>${v.chan==='پخش'?'🏭 شرکت پخش':'🏥 داروخانه'}</b></div>`;
+ h+=`<table><tr><th>کد</th><th>محصول</th><th>تعداد</th><th>قیمت واحد</th><th>جمع</th></tr>${v.items.map(i=>`<tr><td>${i.sku}</td><td>${i.prod}</td><td>${fa(i.qty)}</td><td>${fa(i.unit)}</td><td>${fa(i.total)}</td></tr>`).join('')}</table>`;
+ h+=`<div style="margin-top:10px;font-size:13px"><div style="display:flex;justify-content:space-between;padding:4px 0"><span>مشتری:</span><b>${v.custName} (${v.cust||'-'})</b></div><div style="display:flex;justify-content:space-between;padding:4px 0"><span>ویزیتور:</span><b>${v.visitor}</b></div><div style="display:flex;justify-content:space-between;padding:4px 0"><span>تاریخ:</span><b>${v.date}</b></div><div style="display:flex;justify-content:space-between;padding:4px 0"><span>نوع/پرداخت:</span><b>${v.type||'-'} · ${v.pay||'-'}</b></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:15px;color:var(--navy);border-top:1px solid var(--line);margin-top:5px"><span>مبلغ کل:</span><b>${fa(v.total)} ریال</b></div></div>`;
+ if(v.shelfPhoto||v.chequePhoto){h+=`<div style="margin-top:10px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">📷 عکس‌ها</div>${v.shelfPhoto?`<div style="margin-bottom:6px"><span style="font-size:12px;color:#666">قفسهٔ فروشگاه:</span><br><img src="${v.shelfPhoto}" style="max-width:100%;border-radius:8px;border:1px solid #ddd"></div>`:''}${v.chequePhoto?`<div><span style="font-size:12px;color:#666">چک:</span><br><img src="${v.chequePhoto}" style="max-width:100%;border-radius:8px;border:1px solid #ddd"></div>`:''}</div>`;}
+ h+=`<button class="btn s" style="width:100%;margin-top:10px" onclick="showChanges('${id}')">📝 شرح تغییرات این فاکتور</button>`;
+ document.getElementById('detailBody').innerHTML=h;openOv('ovDetail');}
+function showChanges(id){const ch=(DB.changes||[]).filter(c=>String(c.id)===String(id));document.getElementById('changesBody').innerHTML=ch.length?ch.map(c=>`<div class="chg"><b>${c.stage} · ${c.action}</b> — ${c.by} <span class="tm">${c.date}</span><div>${c.desc||''}</div></div>`).join(''):'<div class="empty">تغییری ثبت نشده</div>';closeOv('ovDetail');openOv('ovChanges');}
+
+function showPhoto(src){if(!src)return;var im=document.getElementById('ovPhotoImg');if(im)im.src=src;openOv('ovPhoto');}
+function renderVisits(){
+ const f=document.getElementById('vrFilterV').value;
+ let vs=DB.visits.slice();if(f)vs=vs.filter(v=>v.visitor===f);
+ const ok=vs.filter(v=>v.result==='موفق').length,bad=vs.filter(v=>v.result==='ناموفق').length,tot=vs.length;
+ document.getElementById('vrTot').textContent=fa(tot);document.getElementById('vrOk').textContent=fa(ok);document.getElementById('vrBad').textContent=fa(bad);document.getElementById('vrConv').textContent=(tot?Math.round(ok/tot*100):0)+'%';
+ const sorted=vs.slice().sort((a,b)=>String(b.date+(b.time||'')).localeCompare(String(a.date+(a.time||''))));
+ document.getElementById('vrFailList').innerHTML=sorted.length?sorted.map(v=>{
+  const cls=v.result==='موفق'?'ok':v.result==='ناموفق'?'bad':'wait';
+  const vn=(visitorsList().find(x=>x.code===v.visitor)||{}).name||v.visitor||'';
+  let body='';
+  if(v.result==='موفق')body=`<div class="vr-sub">✓ موفق · ${v.id||''} · ${fa(v.final||0)} ریال</div>`;
+  else if(v.result==='ناموفق'){body=`<div class="vr-reason">علت: ${v.fail||'—'}</div>`;if(v.failNote)body+=`<div class="vr-note">${v.failNote}</div>`;}
+  else body=`<div class="vr-sub">⏳ معطل</div>`;
+  return `<div class="vr-card ${cls}"><div class="vr-top"><div><div class="vr-name">${v.custName||'-'}</div><div class="vr-sub">${vn} · ${v.date||''} ${v.time||''}</div>${body}</div><div style="font-size:11px;font-weight:700;color:${v.result==='موفق'?'var(--green)':v.result==='ناموفق'?'var(--red)':'var(--amber)'}">${v.result}</div></div>${v.shelfPhoto?`<img src="${v.shelfPhoto}" onclick="showPhoto(this.src)" style="max-width:180px;border-radius:8px;border:1px solid #ddd;margin-top:8px;cursor:pointer">`:''}</div>`;
+ }).join(''):'<div class="empty"><div class="i">📈</div>ویزیتی ثبت نشده</div>';
+}
+
+function renderAllInv(){const invs=groupInvoices().sort((a,b)=>(b.id+'').localeCompare(a.id+''));
+ document.getElementById('allInv').innerHTML='<tr><th>شماره</th><th>مشتری</th><th>کانال</th><th>ویزیتور</th><th>قطعه</th><th>مبلغ</th><th>وضعیت</th><th></th></tr>'+(invs.length?invs.map(v=>{const st=invStatus(v);const q=v.items.reduce((a,i)=>a+i.qty,0);return `<tr><td>${v.id}</td><td>${v.custName}</td><td><span class="pill ${v.chan==='پخش'?'p-dist':'p-phar'}">${v.chan==='پخش'?'پخش':'داروخانه'}</span></td><td>${v.visitor}</td><td>${fa(q)}</td><td>${fa(v.total)}</td><td><span class="pill ${SCLASS[st]||''}">${SICON[st]||''} ${st}</span></td><td><button class="btn s sm" onclick="showDetail('${v.id}')">جزئیات</button>${(st==='منتظر انبار'||st==='تحویل شد')?` <button class="btn p sm" onclick="printInvoice('${v.id}')">🖨 چاپ</button>`:''}</td></tr>`;}).join(''):'<tr><td colspan=8 class="empty">فاکتوری نیست</td></tr>');
+}
+
+/* ===== صف تأمین دوحالته (#4) ===== */
+function supWh(v){
+ if(v.cust&&String(v.cust).indexOf('S:')===0){const s=suppliersList().find(x=>x.code===String(v.cust).slice(2));if(s)return s.wh;}
+ const byName=suppliersList().find(s=>s.name===v.custName);if(byName)return byName.wh;
+ const c=CUST.find(x=>x.code===v.cust);if(c){const s2=suppliersList().find(x=>x.name===c.name);if(s2)return s2.wh;}
+ return 'ours';
+}
+function renderSupply(){
+ const dist=groupInvoices().filter(v=>v.chan==='پخش'&&String(v.sFin||'').indexOf('تأیید')>=0&&invStatus(v)!=='رد شده');
+ let ours=0,theirs=0;
+ const rows=dist.map(v=>{const wh=supWh(v);const isOurs=wh!=='theirs';if(isOurs)ours++;else theirs++;const st=invStatus(v);
+  const flow=isOurs?'<span class="pill p-ours">📦 انبار ما → خروج بزند</span>':'<span class="pill p-theirs">🏭 انبار خودشان → فقط فاکتور رسمی</span>';
+  const wstat=isOurs?(String(v.sWh||'').indexOf('تحویل')>=0?'<span class="pill p-done">🎉 خروج‌زده</span>':'<span class="pill p-wh">🟣 منتظر انبار</span>'):'<span class="pill p-ok">صرفاً سند رسمی</span>';
+  return [v.id,v.custName,fa(v.items.reduce((a,i)=>a+i.qty,0)),fa(v.total),flow,wstat];
+ });
+ document.getElementById('spTot').textContent=fa(dist.length);
+ document.getElementById('spOurs').textContent=fa(ours);
+ document.getElementById('spTheirs').textContent=fa(theirs);
+ document.getElementById('supplyTable').innerHTML=tbl(['فاکتور','شرکت پخش','قطعه','مبلغ','مسیر تأمین','وضعیت انبار'],rows);
+}
+
+/* ===== گزارش تفکیک کانال (#15) ===== */
+function chanAgg(chan){const invs=groupInvoices().filter(v=>invStatus(v)!=='رد شده'&&((chan==='پخش')?v.chan==='پخش':v.chan!=='پخش'));
+ const net=invs.reduce((s,v)=>s+v.total,0);const qty=invs.reduce((s,v)=>s+v.items.reduce((a,i)=>a+i.qty,0),0);
+ const custs={};invs.forEach(v=>{if(v.cust)custs[v.cust]=1;});
+ return {inv:invs.length,net:net,qty:qty,custs:Object.keys(custs).length,list:invs};
+}
+function renderSplit(){
+ const ph=chanAgg('داروخانه'),di=chanAgg('پخش');
+ document.getElementById('splitPharma').innerHTML=tbl(['شاخص','مقدار'],[['تعداد فاکتور',fa(ph.inv)],['فروش خالص(م)',M(ph.net)],['تعداد قطعه',fa(ph.qty)],['تعداد مشتری',fa(ph.custs)],['میانگین فاکتور(م)',M(ph.inv?ph.net/ph.inv:0)]]);
+ document.getElementById('splitDist').innerHTML=tbl(['شاخص','مقدار'],[['تعداد فاکتور',fa(di.inv)],['فروش خالص(م)',M(di.net)],['تعداد قطعه',fa(di.qty)],['تعداد شرکت',fa(di.custs)],['میانگین فاکتور(م)',M(di.inv?di.net/di.inv:0)]]);
+ const totNet=ph.net+di.net||1,totQty=ph.qty+di.qty||1;
+ document.getElementById('splitCompare').innerHTML=tbl(['کانال','فاکتور','قطعه','فروش(م)','سهم فروش'],[
+  ['🏥 داروخانه',fa(ph.inv),fa(ph.qty),M(ph.net),Math.round(ph.net/totNet*100)+'%'],
+  ['🏭 شرکت پخش',fa(di.inv),fa(di.qty),M(di.net),Math.round(di.net/totNet*100)+'%'],
+  ['<b>جمع</b>,',fa(ph.inv+di.inv),fa(ph.qty+di.qty),M(ph.net+di.net),'۱۰۰٪'],
+ ]);
+ const bp={};groupInvoices().filter(v=>invStatus(v)!=='رد شده').forEach(v=>{v.items.forEach(i=>{if(!bp[i.prod])bp[i.prod]={ph:0,di:0};if(v.chan==='پخش')bp[i.prod].di+=i.qty;else bp[i.prod].ph+=i.qty;});});
+ document.getElementById('splitByProd').innerHTML=tbl(['محصول','داروخانه (قطعه)','پخش (قطعه)','جمع'],Object.entries(bp).map(([k,o])=>[k,fa(o.ph),fa(o.di),fa(o.ph+o.di)]));
+}
+
+/* === بند۱: ثبت مرجوعی + اعتبارسنجی ۴۰ روز (افزودنی) === */
+function jToG_(j){var m=String(j).match(/(\d{4})\D(\d{1,2})\D(\d{1,2})/);if(!m)return null;var jy=+m[1]+1595,jm=+m[2],jd=+m[3];var days=-355668+(365*jy)+(Math.floor(jy/33)*8)+Math.floor(((jy%33)+3)/4)+jd+((jm<7)?(jm-1)*31:((jm-7)*30)+186);var gy=400*Math.floor(days/146097);days%=146097;if(days>36524){gy+=100*Math.floor(--days/36524);days%=36524;if(days>=365)days++;}gy+=4*Math.floor(days/1461);days%=1461;if(days>365){gy+=Math.floor((days-1)/365);days=(days-1)%365;}var gd=days+1,sal=[0,31,((gy%4===0&&gy%100!==0)||gy%400===0)?29:28,31,30,31,30,31,31,30,31,30,31],gm=0;for(gm=1;gm<=12;gm++){if(gd<=sal[gm])break;gd-=sal[gm];}return new Date(gy,gm-1,gd);}
+function gToJ_(gd){var gy=gd.getFullYear(),gm=gd.getMonth()+1,gd2=gd.getDate();var gdm=[0,31,59,90,120,151,181,212,243,273,304,334];var gy2=(gm>2)?(gy+1):gy;var days=355666+(365*gy)+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)+gd2+gdm[gm-1];var jy=-1595+(33*Math.floor(days/12053));days%=12053;jy+=4*Math.floor(days/1461);days%=1461;if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}var jm=(days<186)?1+Math.floor(days/31):7+Math.floor((days-186)/30);var jd=1+((days<186)?(days%31):((days-186)%30));return jy+'/'+('0'+jm).slice(-2)+'/'+('0'+jd).slice(-2);}
+function retDays_(ds){var g=jToG_(String(ds||'').replace(/-/g,'/'));if(!g)return null;return Math.floor((new Date()-g)/86400000);}
+let retCurInv=null;
+function openRet(){retCurInv=null;const sel=document.getElementById('reInv');const invs=groupInvoices().sort((a,b)=>(b.id+'').localeCompare(a.id+''));sel.innerHTML='<option value="">— انتخاب فاکتور —</option>'+invs.map(v=>`<option value="${v.id}">${v.id} — ${v.custName||''}</option>`).join('');const info=document.getElementById('reInfo');info.className='note';info.textContent='شمارهٔ فاکتور را انتخاب کن.';document.getElementById('reItems').innerHTML='';document.getElementById('reReasonWrap').style.display='none';document.getElementById('reReason').value='';document.getElementById('reSubmitBtn').style.display='none';openOv('ovRet');}
+function loadRetInv(){const id=document.getElementById('reInv').value;const info=document.getElementById('reInfo'),items=document.getElementById('reItems');retCurInv=null;items.innerHTML='';document.getElementById('reReasonWrap').style.display='none';document.getElementById('reSubmitBtn').style.display='none';if(!id){info.className='note';info.textContent='شمارهٔ فاکتور را انتخاب کن.';return;}const v=groupInvoices().find(x=>x.id===id);if(!v){info.className='note warn';info.textContent='فاکتور یافت نشد.';return;}const days=retDays_(v.date);if(days===null){info.className='note warn';info.innerHTML='⚠ تاریخ فاکتور نامعتبر است؛ اعتبارسنجی ۴۰ روز ممکن نیست. ثبت مرجوعی مجاز نیست.';return;}if(days>40){info.className='note warn';info.innerHTML=`⛔ ${fa(days)} روز از تاریخ فاکتور (${v.date}) گذشته است. سقف مجاز ۴۰ روز؛ ثبت مرجوعی امکان‌پذیر نیست.`;return;}retCurInv=v;info.className='note';info.innerHTML=`✅ مشتری: <b>${v.custName||'-'}</b> | ویزیتور: ${v.visitor||'-'} | تاریخ فاکتور: ${v.date||'-'} | ${fa(days)} روز گذشته (مجاز تا ۴۰).`;items.innerHTML='<div class="note">تعداد مرجوعی هر قلم را وارد کن (حداکثر = مقدار فاکتور).</div>'+v.items.map((it,idx)=>`<div class="cart-line"><span>${it.prod||it.sku} <small style="color:#888">(فاکتور: ${fa(it.qty)})</small></span><input class="fi" id="reQ${idx}" type="number" min="0" max="${it.qty}" value="0" data-sku="${it.sku}" data-name="${it.prod||it.sku}" data-max="${it.qty}" style="width:90px"></div>`).join('');document.getElementById('reReasonWrap').style.display='block';document.getElementById('reSubmitBtn').style.display='block';}
+function retSubmit(){if(!retCurInv){toast('فاکتور را انتخاب کن');return;}const v=retCurInv;const items=[];v.items.forEach((it,idx)=>{const el=document.getElementById('reQ'+idx);if(!el)return;let q=Number(el.value)||0;const mx=Number(el.dataset.max)||0;if(q>mx)q=mx;if(q>0)items.push({sku:el.dataset.sku,name:el.dataset.name,qty:q,whStatus:'',whReject:'',whNote:'',finStatus:''});});if(!items.length){toast('حداقل یک قلم با تعداد بیش از صفر');return;}const reason=document.getElementById('reReason').value.trim();if(!reason){toast('علت مرجوعی الزامی است');return;}const days=retDays_(v.date);if(days===null||days>40){toast('قانون ۴۰ روز رعایت نشده');return;}if(demoGuard()){closeOv('ovRet');return;}post({kind:'returnCreate',data:{retNo:'RET-'+String(Date.now()).slice(-5),inv:v.id,invDate:v.date,custName:v.custName,cust:v.cust,visitor:v.visitor,chan:v.chan,date:gToJ_(new Date()),reason:reason,status:'منتظر تأیید انبار',items:items,by:'مدیر فروش'}},()=>{closeOv('ovRet');toast('✓ مرجوعی ثبت شد → انبار');setTimeout(()=>loadAll(false),800);});}
+/* === بند۲: فاکتور امانی (افزودنی) === */
+let cgCart=[];
+function openConsign(){if(!DB.consign)DB.consign=[];cgCart=[];const cs=document.getElementById('cgCust');cs.innerHTML='<option value="">— انتخاب مشتری —</option>'+CUST.map(c=>`<option value="${c.code}">${c.name}${String(c.chan||'').indexOf('پخش')>=0?' (پخش)':''}</option>`).join('');document.getElementById('cgProd').innerHTML=PRODUCTS.map(p=>`<option value="${p.sku}">${p.name}</option>`).join('');document.getElementById('cgDays').value=30;cgRender();openOv('ovConsign');}
+function cgPrice_(){const c=CUST.find(x=>x.code===document.getElementById('cgCust').value);const pl=(c&&c.plLabel)||'P2 داروخانه';const chan=(c&&String(c.chan||'').indexOf('پخش')>=0)?'پخش':'داروخانه';return {pl:pl,chan:chan,cust:c};}
+function cgRender(){const p=cgPrice_();let total=0;document.getElementById('cgCartBox').innerHTML=cgCart.map((it,idx)=>{const pr=unitPrice(it.sku,p.pl,'نقدی',p.chan);total+=pr*it.qty;const nm=(PRODUCTS.find(x=>x.sku===it.sku)||{}).name;return `<div class="cart-line"><span>${nm}</span><span><button class="qbtn" onclick="cgChg(${idx},-1)">−</button> ${fa(it.qty)} <button class="qbtn" onclick="cgChg(${idx},1)">+</button> = ${fa(pr*it.qty)}</span></div>`;}).join('');document.getElementById('cgTotal').textContent=fa(total);}
+function cgAdd(){const sku=document.getElementById('cgProd').value,qty=Number(document.getElementById('cgQty').value)||1;const ex=cgCart.find(x=>x.sku===sku);if(ex)ex.qty+=qty;else cgCart.push({sku,qty});cgRender();}
+function cgChg(i,d){cgCart[i].qty+=d;if(cgCart[i].qty<=0)cgCart.splice(i,1);cgRender();}
+function cgSubmit(){if(!DB.consign)DB.consign=[];const p=cgPrice_();if(!p.cust){toast('مشتری را انتخاب کن');return;}if(!cgCart.length){toast('محصول اضافه کن');return;}const days=Number(document.getElementById('cgDays').value)||0;if(days<1){toast('مهلت معتبر وارد کن');return;}const items=cgCart.map(it=>({sku:it.sku,name:(PRODUCTS.find(x=>x.sku===it.sku)||{}).name,qty:it.qty,price:unitPrice(it.sku,p.pl,'نقدی',p.chan)}));const total=items.reduce((s,i)=>s+i.qty*i.price,0);const dd=new Date();dd.setDate(dd.getDate()+days);const rec={id:'CG-'+String(Date.now()).slice(-5),date:gToJ_(new Date()),deadline:gToJ_(dd),custCode:p.cust.code,custName:p.cust.name,chan:p.chan,items:items,total:total,status:'باز',by:'مدیر فروش'};DB.consign.push(rec);renderConsign();if(DEMO){closeOv('ovConsign');toast('✓ فاکتور امانی ثبت شد (نمایشی)');return;}post({kind:'consignInvoice',data:rec},()=>{closeOv('ovConsign');toast('✓ فاکتور امانی ثبت و قفل شد');setTimeout(()=>loadAll(false),800);});}
+function renderConsign(){const list=DB.consign||[];const open=list.filter(c=>String(c.status||'').indexOf('باز')>=0).length;var el=document.getElementById('cgCount');if(el)el.textContent=fa(open);var t=document.getElementById('cgList');if(!t)return;t.innerHTML='<tr><th>شماره</th><th>تاریخ</th><th>مهلت</th><th>مشتری</th><th>قطعه</th><th>مبلغ</th><th>وضعیت</th><th>اقدام</th></tr>'+(list.length?list.map(c=>{const qty=(c.items||[]).reduce((s,i)=>s+(Number(i.qty)||0),0);const isOpen=String(c.status||'').indexOf('باز')>=0;const act=isOpen?`<button class="btn p sm" onclick="cgConvert('${c.id}')">→ رسمی</button> <button class="btn s sm" onclick="cgReturn('${c.id}')">برگشت انبار</button> <button class="btn rj sm" onclick="cgExpire('${c.id}')">منقضی/نامشخص</button>`:'—';return `<tr><td>${c.id}</td><td>${c.date||'-'}</td><td>${c.deadline||'-'}</td><td>${c.custName||'-'}</td><td>${fa(qty)}</td><td>${fa(c.total||0)}</td><td><span class="pill ${isOpen?'p-wait':'p-done'}">${c.status||'-'}</span></td><td>${act}</td></tr>`;}).join(''):'<tr><td colspan=8 class="empty">فاکتور امانی‌ای نیست</td></tr>');}
+function cgFind_(id){return (DB.consign||[]).find(x=>x.id===id);}
+function cgConvert(id){const c=cgFind_(id);if(!c)return;c.status='تبدیل به رسمی';renderConsign();if(demoGuard())return;post({kind:'consignConvert',data:{id:id,custCode:c.custCode,custName:c.custName,chan:c.chan,items:c.items,total:c.total,by:'مدیر فروش'}},()=>{toast('✓ تبدیل به فاکتور رسمی');setTimeout(()=>loadAll(false),800);});}
+function cgReturn(id){const c=cgFind_(id);if(!c)return;c.status='برگشت به انبار';renderConsign();if(demoGuard())return;post({kind:'consignReturn',data:{id:id,custName:c.custName,date:gToJ_(new Date()),items:(c.items||[]).map(i=>({sku:i.sku,name:i.name,qty:i.qty})),by:'مدیر فروش'}},()=>{toast('✓ به «برگشت امانی» انبار رفت');setTimeout(()=>loadAll(false),800);});}
+function cgExpire(id){const c=cgFind_(id);if(!c)return;c.status='منقضی';renderConsign();if(demoGuard())return;post({kind:'consignExpire',data:{id:id,custName:c.custName,total:c.total,by:'مدیر فروش'}},()=>{toast('✓ به «امانی منقضی» مالی رفت');setTimeout(()=>loadAll(false),800);});}
+/* === بند۳: چاپ فاکتور رسمی (افزودنی) === */
+function printInvoice(id){var v=groupInvoices().find(function(x){return x.id===id;});if(!v){toast('فاکتور یافت نشد');return;}var c=CUST.find(function(x){return x.code===v.cust;})||{};var rows=v.items.map(function(i,idx){return `<tr><td>${fa(idx+1)}</td><td style="text-align:right">${i.prod||i.sku||'-'}</td><td>${fa(i.qty)}</td><td>${fa(i.unit||0)}</td><td>${fa(i.total||0)}</td></tr>`;}).join('');var html=`<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>فاکتور ${v.id}</title><style>body{font-family:Tahoma,Arial,sans-serif;color:#1a2332;padding:24px;max-width:820px;margin:auto}.hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #1f4e79;padding-bottom:12px;margin-bottom:16px}.brand{font-size:26px;font-weight:900;color:#1f4e79}.brand small{display:block;font-size:12px;color:#666;font-weight:400}.title{font-size:18px;font-weight:800;text-align:left}.meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;font-size:13px;margin-bottom:16px}.meta div{padding:4px 0;border-bottom:1px dotted #ddd}.meta b{color:#1f4e79}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid #cbd5e0;padding:8px;text-align:center}th{background:#1f4e79;color:#fff}tfoot td{font-weight:800;background:#eef3f9}.ft{margin-top:28px;font-size:12px;color:#666;display:flex;justify-content:space-between}@media print{.noprint{display:none}body{padding:0}}</style></head><body><div class="hd"><div class="brand">ATP+<small>مکمل‌های ورزشی</small></div><div class="title">فاکتور رسمی<br><span style="font-size:13px;color:#666">شماره: ${v.id}</span></div></div><div class="meta"><div><b>مشتری:</b> ${v.custName||'-'}</div><div><b>تاریخ:</b> ${v.date||'-'}</div><div><b>کد GLN:</b> ${c.gln||'—'}</div><div><b>شناسه ملی:</b> ${c.natId||'—'}</div><div><b>کانال:</b> ${v.chan==='پخش'?'شرکت پخش':'داروخانه'}</div><div><b>ویزیتور:</b> ${v.visitor||'-'}</div><div><b>استان/شهر:</b> ${(c.prov||'-')+' / '+(c.city||'-')}</div><div><b>شرط پرداخت:</b> ${v.pay||'-'}</div></div><table><thead><tr><th>ردیف</th><th>شرح کالا</th><th>تعداد</th><th>قیمت واحد (ریال)</th><th>مبلغ (ریال)</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td colspan="4">جمع کل (ریال)</td><td>${fa(v.total||0)}</td></tr></tfoot></table><div class="ft"><span>مهر و امضای فروشنده</span><span>مهر و امضای خریدار</span></div><button class="noprint" style="margin-top:20px;padding:10px 20px;background:#1f4e79;color:#fff;border:none;border-radius:8px;cursor:pointer" onclick="window.print()">🖨 چاپ این فاکتور</button></body></html>`;var w=window.open('','_blank');if(!w){toast('اجازهٔ باز شدن پنجره را بده');return;}w.document.write(html);w.document.close();w.focus();}
+function renderReturns(){const rs=DB.returns||[];const pend=rs.filter(r=>String(r.status||'').indexOf('انبار')>=0);document.getElementById('retCount').textContent=fa(pend.length);
+ document.getElementById('retTable').innerHTML='<tr><th>شماره</th><th>فاکتور</th><th>مشتری</th><th>ویزیتور</th><th>کالا</th><th>تعداد</th><th>علت</th><th>وضعیت</th></tr>'+(rs.length?rs.map(r=>{const hi=r.items&&r.items.length;const nm=hi?r.items.map(it=>it.name||it.sku).join('، '):(r.name||r.sku||'-');const qy=hi?r.items.reduce((a,it)=>a+(Number(it.qty)||0),0):r.qty;return `<tr><td>${r.retNo||'-'}</td><td>${r.inv||'-'}</td><td>${r.custName||'-'}</td><td>${r.visitor||'-'}</td><td>${nm}</td><td>${fa(qy)}</td><td>${r.reason||'-'}</td><td><span class="pill ${String(r.status).indexOf('مرجوع شد')>=0?'p-done':'p-wait'}">${r.status||'-'}</span></td></tr>`;}).join(''):'<tr><td colspan=8 class="empty">مرجوعی‌ای نیست</td></tr>');
+}
+
+function renderPromo(){
+ document.getElementById('promoStockTable').innerHTML='<tr><th>کد</th><th>نام قلم</th><th>موجودی</th><th>قیمت</th><th>وضعیت</th></tr>'+((DB.promo||[]).length?DB.promo.map(p=>`<tr><td>${p.code}</td><td>${p.name}</td><td>${fa(p.qty)}</td><td>${fa(p.price)}</td><td><span class="pill ${p.qty>0?'p-ok':'p-rej'}">${p.status||'-'}</span></td></tr>`).join(''):'<tr><td colspan=5 class="empty">قلمی ثبت نشده (در پنل انبار اضافه می‌شود)</td></tr>');
+ document.getElementById('promoReqTable').innerHTML='<tr><th>تاریخ</th><th>شماره</th><th>فاکتور</th><th>مشتری</th><th>قلم</th><th>تعداد</th><th>مبنا</th><th>وضعیت</th></tr>'+((DB.promoReq||[]).length?DB.promoReq.map(r=>`<tr><td>${r.date||'-'}</td><td>${r.reqNo||'-'}</td><td>${r.inv||'-'}</td><td>${r.custName||'-'}</td><td>${r.name||r.code}</td><td>${fa(r.qty)}</td><td>${r.basis||'-'}</td><td><span class="pill ${String(r.status).indexOf('تأیید')>=0?'p-done':String(r.status).indexOf('رد')>=0?'p-rej':'p-wait'}">${r.status||'-'}</span></td></tr>`).join(''):'<tr><td colspan=8 class="empty">درخواستی نیست</td></tr>');
+}
+function submitPromoReq(){const code=document.getElementById('prItem').value;const qty=Number(document.getElementById('prQty').value)||0;if(!code||!qty){toast('قلم و تعداد را وارد کن');return;}if(demoGuard())return;
+ const cust=document.getElementById('prCust').value;const c=CUST.find(x=>x.code===cust);const name=(DB.promo.find(p=>p.code===code)||{}).name||'';
+ post({kind:'promoRequest',data:{code:code,name:name,qty:qty,inv:document.getElementById('prInv').value||'',cust:cust,custName:c?c.name:'',basis:prBasis,value:Number(document.getElementById('prVal').value)||0,by:'مدیر فروش'}},()=>{toast('✓ درخواست → مالی');document.getElementById('prQty').value=1;document.getElementById('prVal').value='';setTimeout(()=>loadAll(false),800);});}
+
+function renderInventory(){document.getElementById('invTable').innerHTML='<tr><th>کد</th><th>محصول</th><th>موجودی</th><th>وضعیت</th></tr>'+((DB.inventory||[]).length?DB.inventory.map(i=>`<tr><td>${i.sku}</td><td>${i.name}</td><td>${fa(i.qty)}</td><td><span class="pill ${i.qty>0?'p-ok':'p-rej'}">${i.status||(i.qty>0?'موجود':'ناموجود')}</span></td></tr>`).join(''):'<tr><td colspan=4 class="empty">موجودی از شیت انبار خوانده می‌شود</td></tr>');}
+
+/* ===== مشتری‌ها — با انتقال ویزیتور ===== */
+function renderCust(){const pend=CUST.filter(c=>String(c.status||'').indexOf('تأیید')<0&&String(c.status||'')!=='');document.getElementById('pendCount').textContent=fa(pend.length);
+ document.getElementById('pendCust').innerHTML=pend.length?pend.map(c=>`<div class="cart-line"><span><b>${c.name}</b> <span style="color:var(--muted);font-size:11px">${c.code} · ${c.chan||''} · ${c.visitor||''}</span></span><button class="btn ap sm" onclick="approveCust('${c.code}')">✓ تأیید مشتری</button></div>`).join(''):'<div class="empty">مشتری منتظری نیست</div>';
+ document.getElementById('custTable').innerHTML='<tr><th>کد</th><th>نام</th><th>کانال</th><th>سطح</th><th>ویزیتور</th><th>سقف اعتبار</th><th>وضعیت</th><th></th></tr>'+(CUST.length?CUST.map(c=>`<tr><td>${c.code}</td><td>${c.name}</td><td>${c.chan||'-'}</td><td>${c.plLabel||'-'}</td><td><b>${visitorName(c.visitor)}</b></td><td>${fa(c.credit||0)}</td><td><span class="pill ${String(c.status||'').indexOf('تأیید')>=0?'p-ok':'p-wait'}">${c.status||'-'}</span></td><td><button class="btn s sm" onclick="openCust('${c.code}')">ویرایش</button></td></tr>`).join(''):'<tr><td colspan=8 class="empty">مشتری‌ای نیست</td></tr>');
+}
+function visitorName(code){const v=visitorsList().find(x=>x.code===code);return v?v.name:(code||'-');}
+function approveCust(code){if(demoGuard())return;post({kind:'customerApprove',data:{code:code}},()=>{toast('✓ مشتری تأیید شد');setTimeout(()=>loadAll(false),800);});}
+let curCustOrigVisitor='';
+/* === بند۴: جستجوی GLN (افزودنی) === */
+const GLN_DEMO=[
+ {gln:'0001800100051',legal:'داروخانه دکتر رضایی',real:'علی رضایی',natId:'10380268548',prov:'خراسان رضوی',city:'مشهد',type:'داروخانه',search:'داروخانه دکتر رضایی علی رضایی'},
+ {gln:'2596110030011',legal:'شرکت پخش سراسری سلامت پارس',real:'',natId:'10101234567',prov:'تهران',city:'تهران',type:'پخش',search:'شرکت پخش سراسری سلامت پارس'},
+ {gln:'1187220045003',legal:'داروخانه شبانه روزی مرکزی',real:'مریم احمدی',natId:'10860112233',prov:'اصفهان',city:'اصفهان',type:'داروخانه',search:'داروخانه شبانه روزی مرکزی مریم احمدی'},
+ {gln:'3344550066007',legal:'پخش دارویی البرز',real:'',natId:'10500445566',prov:'البرز',city:'کرج',type:'پخش',search:'پخش دارویی البرز'},
+ {gln:'7788990011002',legal:'داروخانه دکتر موسوی',real:'سید حسن موسوی',natId:'',prov:'فارس',city:'شیراز',type:'داروخانه',search:'داروخانه دکتر موسوی سید حسن موسوی'}
+];
+function glnNorm(x){return String(x||'').replace(/\u064A/g,'\u06CC').replace(/\u0643/g,'\u06A9').replace(/\u200c/g,' ').replace(/\s+/g,' ').trim();}
+function glnSearch(){
+ const box=document.getElementById('glnRes');const q=glnNorm(document.getElementById('glnQ').value);
+ if(q.length<2){box.innerHTML='';box._res=[];return;}
+ const res=GLN_DEMO.filter(r=>glnNorm(r.search).indexOf(q)>=0).slice(0,8);
+ box._res=res;
+ box.innerHTML=res.length?res.map((r,i)=>`<div style="padding:7px 9px;border-bottom:1px solid #eee;cursor:pointer" onclick="glnPick(${i})"><b>${r.legal}</b>${r.real?(' — '+r.real):''}<br><span style="font-size:12px;color:#666">GLN ${r.gln} | ${r.prov} - ${r.city} | ${r.type}</span></div>`).join(''):'<div style="padding:8px;color:#999;font-size:13px">نتیجه‌ای یافت نشد (در حالت واقعی از شیت مرجع جستجو می‌شود)</div>';
+}
+function glnPick(i){
+ const box=document.getElementById('glnRes');const r=(box._res||[])[i];if(!r)return;
+ document.getElementById('cuName').value=r.legal||r.real||'';
+ document.getElementById('cuProv').value=r.prov||'';
+ document.getElementById('cuCity').value=r.city||'';
+ document.getElementById('cuGLN').value=r.gln||'';
+ document.getElementById('cuNatId').value=r.natId||'';
+ const ch=document.getElementById('cuChan');const map={'داروخانه':'داروخانه','پخش':'شرکت پخش'};const want=map[r.type]||'';
+ if(want&&Array.prototype.some.call(ch.options,o=>o.value===want))ch.value=want;
+ document.getElementById('glnQ').value=r.legal||'';box.innerHTML='';
+}
+function openCust(code){const c=code?CUST.find(x=>x.code===code):null;curCustOrigVisitor=c?(c.visitor||''):'';document.getElementById('custTitle').textContent=c?'ویرایش مشتری':'مشتری جدید';document.getElementById('cuCode').value=c?c.code:'';document.getElementById('cuName').value=c?c.name:'';document.getElementById('cuPhone').value=c?(c.phone||''):'';document.getElementById('cuCredit').value=c?(c.credit||''):'';document.getElementById('cuProv').value=c?(c.prov||''):'';document.getElementById('cuCity').value=c?(c.city||''):'';document.getElementById('cuChan').value=(c&&c.chan)||'داروخانه';document.getElementById('cuPL').value=(c&&c.plLabel)||'P2 داروخانه';document.getElementById('cuVisitor').value=(c&&c.visitor)||(visitorsList()[0]||{}).code;document.getElementById('cuGLN').value=c?(c.gln||''):'';document.getElementById('cuNatId').value=c?(c.natId||''):'';document.getElementById('glnQ').value='';document.getElementById('glnRes').innerHTML='';document.getElementById('cuMoveNote').style.display='none';openOv('ovCust');}
+function custMoveCheck(){const note=document.getElementById('cuMoveNote');const code=document.getElementById('cuCode').value;const nv=document.getElementById('cuVisitor').value;if(code&&curCustOrigVisitor&&nv&&nv!==curCustOrigVisitor){note.style.display='block';note.innerHTML=`🔄 این مشتری از <b>${visitorName(curCustOrigVisitor)}</b> به <b>${visitorName(nv)}</b> منتقل می‌شود. ویزیتور قبلی دیگر نمی‌تواند برای او فاکتور بزند (فاکتورهای قبلی در سابقه می‌ماند).`;}else note.style.display='none';}
+function saveCust(){
+ const code=document.getElementById('cuCode').value;
+ const newVisitor=document.getElementById('cuVisitor').value;
+ const data={code:code||('C-'+String(Date.now()).slice(-4)),name:document.getElementById('cuName').value.trim(),chan:document.getElementById('cuChan').value,plLabel:document.getElementById('cuPL').value,prov:document.getElementById('cuProv').value,city:document.getElementById('cuCity').value,visitor:newVisitor,phone:document.getElementById('cuPhone').value,credit:Number(document.getElementById('cuCredit').value)||0,gln:document.getElementById('cuGLN').value,natId:document.getElementById('cuNatId').value};
+ if(!data.name){toast('نام الزامی');return;}
+ const moved=code&&curCustOrigVisitor&&newVisitor&&newVisitor!==curCustOrigVisitor;
+ if(moved)data.prevVisitor=curCustOrigVisitor;
+ // اعمال محلی فوری (هم در دمو هم بلافاصله در حالت واقعی تا کاربر تغییر را ببیند)
+ const idx=CUST.findIndex(x=>x.code===data.code);
+ if(idx>=0){const old=CUST[idx];CUST[idx]=Object.assign({},old,data,{status:old.status||'تأیید شده'});}
+ else CUST.push(Object.assign({status:'منتظر تأیید'},data));
+ buildLists();renderCust();renderAllInv();
+ if(DEMO){closeOv('ovCust');toast(moved?('✓ منتقل شد به '+visitorName(newVisitor)):'✓ ذخیره شد (نمایشی)');return;}
+ post({kind:code?'customerUpdate':'customer',data:data},()=>{closeOv('ovCust');toast(moved?('✓ منتقل شد به '+visitorName(newVisitor)):'✓ ذخیره شد');setTimeout(()=>loadAll(false),900);});
+}
+
+function renderTgt(){const vis=visitorsList();const tm={};DB.targets.forEach(t=>{tm[t.visitor]=t;});
+ document.getElementById('tgtTable').innerHTML='<tr><th>ویزیتور</th><th>ریالی</th><th>قطعه</th><th>کارتن</th><th>بودجه پاداش</th><th></th></tr>'+vis.map(v=>{const t=tm[v.code]||tm[v.name]||{};return `<tr><td>${v.name} (${v.code})</td><td>${fa(t.rial||0)}</td><td>${fa(t.qty||0)}</td><td>${fa(t.carton||0)}</td><td>${fa(t.budget||0)}</td><td><button class="btn s sm" onclick="openTgt('${v.code}','${v.name}')">ویرایش</button></td></tr>`;}).join('');}
+function openTgt(code,name){const t=DB.targets.find(x=>x.visitor===code||x.visitor===name)||{};document.getElementById('tgV').value=code;document.getElementById('tgName').value=name+' ('+code+')';document.getElementById('tgRial').value=t.rial||'';document.getElementById('tgQty').value=t.qty||'';document.getElementById('tgCarton').value=t.carton||'';document.getElementById('tgBudget').value=t.budget||'';openOv('ovTgt');}
+function saveTgt(){if(demoGuard()){closeOv('ovTgt');return;}post({kind:'target',data:{visitor:document.getElementById('tgV').value,rial:Number(document.getElementById('tgRial').value)||0,qty:Number(document.getElementById('tgQty').value)||0,carton:Number(document.getElementById('tgCarton').value)||0,budget:Number(document.getElementById('tgBudget').value)||0}},()=>{closeOv('ovTgt');toast('✓ تارگت ذخیره شد');setTimeout(()=>loadAll(false),800);});}
+
+function tierMult(s){if(s<80)return 0;if(s<90)return .5;if(s<100)return .75;if(s<110)return 1;if(s<125)return 1.3;return 1.6;}
+function kpiRows(){const a=vAgg();const tm={};DB.targets.forEach(t=>{tm[t.visitor]=t;});return visitorsList().map(v=>{const ag=a[v.code]||{sales:0,qty:0,skus:{},custs:{}};const t=tm[v.code]||tm[v.name]||{};const tr=Number(t.rial)||500000000,tq=Number(t.qty)||100,ts=Number(t.sku)||6,tn=Number(t.newCust)||2;
+ const k1=tr?ag.sales/tr*100:0,k2=tq?ag.qty/tq*100:0,k3=ts?Object.keys(ag.skus||{}).length/ts*100:0,k4=tn?Object.keys(ag.custs||{}).length/tn*100:0,k5=100;
+ const score=KPIW.K1*k1+KPIW.K2*k2+KPIW.K3*k3+KPIW.K4*k4+KPIW.K5*k5;const mult=tierMult(score);const kpiB=Math.round(mult*INDIV_CAP);
+ return{v:v,k1,k2,k3,k4,k5,score,mult,kpiB};});}
+function renderKpi(){const rows=kpiRows();
+ document.getElementById('kpiTable').innerHTML=tbl(['ویزیتور','K1 ریالی','K2 تعدادی','K3 SKU','K4 جدید','K5 وصول','امتیاز','ضریب','پاداش KPI'],rows.map(r=>[r.v.name,pct(r.k1),pct(r.k2),pct(r.k3),pct(r.k4),pct(r.k5),pct(r.score),r.mult.toFixed(2),fa(r.kpiB)]));
+ const ranked=rows.slice().sort((a,b)=>b.score-a.score);
+ document.getElementById('bonusDist').innerHTML=tbl(['رتبه','ویزیتور','امتیاز','ضریب','پاداش KPI'],ranked.map((r,i)=>[fa(i+1),r.v.name,pct(r.score),r.mult.toFixed(2),fa(r.kpiB)]));
+}
+function renderBonus(){const used=Object.values(DB.bonus).reduce((s,x)=>s+(Number(x)||0),0);
+ document.getElementById('bBudget').textContent=M(BUDGET);document.getElementById('bUsed').textContent=M(used);document.getElementById('bRemain').textContent=M(BUDGET-used);document.getElementById('bPct').textContent=(BUDGET?Math.round(used/BUDGET*100):0)+'%';
+ document.getElementById('bonusList').innerHTML=tbl(['ویزیتور','پاداش تأییدشده','اقدام'],visitorsList().map(v=>[v.name+' ('+v.code+')',fa(DB.bonus[v.code]||0),`<button class="btn ap sm" onclick="approveBonus('${v.code}')">تأیید همه پاداش‌ها</button>`]));
+ document.getElementById('manualList').innerHTML=tbl(['تاریخ','ویزیتور','مبلغ','علت','ثبت‌کننده','وضعیت'],(DB.manualBonus||[]).map(b=>[b.date||'-',b.visitor||'-',fa(b.amount),b.reason||'-',b.by||'-',`<span class="pill ${String(b.status).indexOf('تأیید')>=0?'p-ok':'p-wait'}">${b.status||'-'}</span>`]));
+}
+function addManualBonus(){const v=document.getElementById('mbV').value,amt=Number(document.getElementById('mbAmt').value)||0,reason=document.getElementById('mbReason').value;if(!amt){toast('مبلغ را وارد کن');return;}if(demoGuard())return;const name=(visitorsList().find(x=>x.code===v)||{}).name||'';post({kind:'bonusAdd',data:{visitor:v,visitorName:name,amount:amt,reason:reason,by:'مدیر فروش'}},()=>{document.getElementById('mbAmt').value='';document.getElementById('mbReason').value='';toast('✓ پاداش ثبت شد');setTimeout(()=>loadAll(false),800);});}
+function approveBonus(code){if(demoGuard())return;post({kind:'bonusApprove',data:{visitor:code,by:'مدیر فروش'}},()=>{toast('✓ پاداش تأیید شد');setTimeout(()=>loadAll(false),800);});}
+
+/* ===== قیمت و پورسانت تفکیکی per-product per-channel پله‌کانی ===== */
+function renderPrice(){
+ const list=(DB.products&&DB.products.length)?DB.products:null;
+ if(list){document.getElementById('priceTable').innerHTML=tbl(['SKU','محصول','قیمت داروخانه','قیمت پخش'],list.map(p=>[p.sku,p.name,fa(p.pharma),fa(p.dist)]));}
+ else{document.getElementById('priceTable').innerHTML=tbl(['محصول','قیمت داروخانه (P2)','قیمت پخش (P3)'],PRODUCTS.map(p=>[p.name,fa(p.p[1]),fa(p.p[2])]));}
+}
+function commRow(sku,chan){const pr=DB.comm.prod&&DB.comm.prod[sku];if(pr){if(chan==='dist'&&pr.dist)return pr.dist;if(chan==='pharma'&&pr.pharma)return pr.pharma;if(Array.isArray(pr))return pr;}return (chan==='dist'?(DB.comm.defDist||DB.comm.def):(DB.comm.defPharma||DB.comm.def))||[0,0,0];}
+function commTiers(sku){const pr=DB.comm.prod&&DB.comm.prod[sku];if(pr&&Array.isArray(pr.tiers)&&pr.tiers.length>=2)return pr.tiers;return DB.comm.tiers||[50,150];}
+function renderComm(){
+ const head=['محصول','پله‌ها (تعداد)','نرخ پله۱ (٪)','نرخ پله۲ (٪)','نرخ پله۳ (٪)'];
+ const mk=(chan)=>tbl(head,PRODUCTS.map(p=>{const r=commRow(p.sku,chan);const t=commTiers(p.sku);const tierTxt='۱-'+fa(t[0])+' · '+fa(t[0]+1)+'-'+fa(t[1])+' · '+fa(t[1]+1)+'+';return[p.name,tierTxt,fa(r[0])+'٪',fa(r[1])+'٪',fa(r[2])+'٪'];}));
+ document.getElementById('commPharma').innerHTML=mk('pharma');
+ document.getElementById('commDist').innerHTML=mk('dist');
+}
+
+/* ===== فاکتور جدید (دو-مسیره) ===== */
+function niChanged(){
+ document.getElementById('niChanNote').textContent=niChan==='پخش'?'کانال «شرکت پخش»: قیمت پخش اعمال می‌شود؛ فقط شرکت‌های پخش قابل انتخاب‌اند.':'کانال «داروخانه»: قیمت داروخانه اعمال می‌شود.';
+ document.getElementById('niCustLbl').textContent=niChan==='پخش'?'شرکت پخش':'مشتری';
+ document.getElementById('niBasketWrap').style.display='block';
+ niBuildCust();niRender();
+}
+/* === مرحله۳: عکس چک فروش (افزودنی) === */
+let invChequePhoto='';
+function compressImg_(file,cb){try{var r=new FileReader();r.onload=function(){var img=new Image();img.onload=function(){var w=img.width,h=img.height,M=900;if(w>h&&w>M){h=Math.round(h*M/w);w=M;}else if(h>=w&&h>M){w=Math.round(w*M/h);h=M;}var cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);cb(cv.toDataURL('image/jpeg',0.6));};img.onerror=function(){cb('');};img.src=r.result;};r.onerror=function(){cb('');};r.readAsDataURL(file);}catch(e){cb('');}}
+function pickChequeS(inp){var f=inp.files&&inp.files[0];if(!f)return;compressImg_(f,function(d){invChequePhoto=d;var p=document.getElementById('chqPrevS');if(p)p.innerHTML=d?('<img src="'+d+'" style="max-width:140px;border-radius:8px;border:1px solid #ddd"> <button class="btn s sm" onclick="clearChequeS()">حذف</button>'):'';});}
+function clearChequeS(){invChequePhoto='';var a=document.getElementById('chqImgS');if(a)a.value='';var p=document.getElementById('chqPrevS');if(p)p.innerHTML='';}
+function openNewInvoice(){niCart=[];document.getElementById('niQty').value=1;niChan='داروخانه';invChequePhoto='';var _ci=document.getElementById('chqImgS');if(_ci)_ci.value='';var _cp=document.getElementById('chqPrevS');if(_cp)_cp.innerHTML='';document.querySelectorAll('#niChan button').forEach((b,i)=>b.classList.toggle('on',i===0));niChanged();openOv('ovInvoice');}
+function niAdd(){const sku=document.getElementById('niProd').value,qty=Number(document.getElementById('niQty').value)||1;const ex=niCart.find(x=>x.sku===sku);if(ex)ex.qty+=qty;else niCart.push({sku,qty});niRender();}
+function selCustObj(){const val=document.getElementById('niCust').value;if(!val)return null;if(val.indexOf('S:')===0){const sup=suppliersList().find(s=>s.code===val.slice(2));return sup?{code:val,name:sup.name,plLabel:'P3 پخش',isSupplier:true,wh:sup.wh}:null;}return CUST.find(x=>x.code===val)||null;}
+function niRender(){
+ const c=selCustObj();const plLabel=(c&&c.plLabel)||(niChan==='پخش'?'P3 پخش':'P2 داروخانه');const pay=document.getElementById('niPay').value;let total=0;var _cw=document.getElementById('chqWrapS');if(_cw)_cw.style.display=(String(pay||'').indexOf('چک')>=0)?'block':'none';
+ document.getElementById('niCart').innerHTML=niCart.map((it,idx)=>{const pr=unitPrice(it.sku,plLabel,pay,niChan);total+=pr*it.qty;const nm=(PRODUCTS.find(p=>p.sku===it.sku)||{}).name;return `<div class="cart-line"><span>${nm}</span><span><button class="qbtn" onclick="niChg(${idx},-1)">−</button> ${fa(it.qty)} <button class="qbtn" onclick="niChg(${idx},1)">+</button> = ${fa(pr*it.qty)}</span></div>`;}).join('');
+ document.getElementById('niTotal').textContent=fa(total);
+ niRenderPromo();
+}
+function niChg(i,d){niCart[i].qty+=d;if(niCart[i].qty<=0)niCart.splice(i,1);niRender();}
+function niRenderPromo(){
+ const box=document.getElementById('niPromoBox');const lines=[];
+ const basket=document.getElementById('niBasket').value;
+ if(basket){const b=(DB.baskets||[]).find(x=>x.code===basket);if(b){if(b.offer)lines.push('🎁 آفر سبد: '+b.offer);if(b.promo)lines.push('🎀 اقلام سبد: '+b.promo);}}
+ (DB.promoRules||[]).forEach(r=>{
+  const chanOk=!r.chan||r.chan==='هردو'||(niChan==='پخش'?r.chan==='پخش':r.chan==='داروخانه');
+  if(!chanOk)return;
+  const inCart=niCart.find(it=>it.sku===r.ifSku);
+  const qtyHave=r.ifSku?(inCart?inCart.qty:0):niCart.reduce((s,it)=>s+it.qty,0);
+  if(qtyHave>=r.ifQty){const pname=r.ifSku?((PRODUCTS.find(p=>p.sku===r.ifSku)||{}).name||r.ifSku):'مجموع خرید';lines.push(`✅ با خرید ${fa(r.ifQty)} از «${pname}» → ${fa(r.giveQty)} عدد «${r.giveName}»`);}
+ });
+ box.innerHTML=lines.length?`<div class="promo-box"><div class="ttl">🎁 اقلام تبلیغاتی قابل دریافت (نمایشی — در مبلغ فاکتور نیست)</div>${lines.map(l=>`<div>${l}</div>`).join('')}</div>`:'';
+}
+function submitInvoice(){const c=selCustObj();if(!c){toast(niChan==='پخش'?'شرکت پخش را انتخاب کن':'مشتری را انتخاب کن');return;}if(!niCart.length){toast('محصول اضافه کن');return;}if(demoGuard()){closeOv('ovInvoice');return;}
+ const plLabel=c.plLabel||(niChan==='پخش'?'P3 پخش':'P2 داروخانه');const pay=document.getElementById('niPay').value;
+ const items=niCart.map(it=>({sku:it.sku,name:(PRODUCTS.find(p=>p.sku===it.sku)||{}).name,qty:it.qty,price:unitPrice(it.sku,plLabel,pay,niChan)}));
+ const final=items.reduce((s,i)=>s+i.qty*i.price,0);
+ const basketCode=document.getElementById('niBasket').value;const basket=(DB.baskets||[]).find(b=>b.code===basketCode);
+ post({kind:'invoice',data:{id:'INV-'+String(Date.now()).slice(-5),source:'sales',by:'مدیر فروش',chan:niChan,visitor:(c.visitor)||'',cust:c.isSupplier?c.code:c.code,custName:c.name,pay:pay,type:'رسمی',basket:basketCode,basketName:basket?basket.name:'',items:items,qty:items.reduce((s,i)=>s+i.qty,0),final:final,chequePhoto:(document.getElementById('niPay').value.indexOf('چک')>=0?invChequePhoto:'')}},()=>{closeOv('ovInvoice');toast('✓ ثبت → مالی');setTimeout(()=>loadAll(false),800);});}
+
+function post(payload,cb){if(!settings.sync){toast('ابتدا آدرس اتصال');return;}fetch(settings.sync,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)});setTimeout(cb||function(){},300);}
+function openSettings(){document.getElementById('setSync').value=settings.sync||'';document.getElementById('setAuto').value=settings.auto||0;openOv('ovSet');}
+function saveSync(){settings.sync=document.getElementById('setSync').value.trim();localStorage.setItem('atp_mgr_set',JSON.stringify(settings));closeOv('ovSet');if(settings.sync){setSyncStat('🔗 متصل');loadAll(true);startAuto();}else{DEMO=true;DB=demoData();document.getElementById('demoBanner').style.display='flex';setSyncStat('🧪 حالت نمایشی');buildLists();renderAll();}}
+function saveAuto(){settings.auto=Number(document.getElementById('setAuto').value)||0;localStorage.setItem('atp_mgr_set',JSON.stringify(settings));closeOv('ovSet');startAuto();toast(settings.auto>=3?('✓ هر '+settings.auto+' ثانیه'):'بروزرسانی خودکار خاموش شد');}
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
+
+/* ===== مرحلهٔ ۱ — ۴ بخش جدید ===== */
+/* ۱) مرجوعی + ۲) امانی + ۳) چاپ + ۴) GLN */
+function renderReturns(){const approved=DB.returns.filter(r=>String(r.status||'').indexOf('منتظر')>=0);document.getElementById('retTable').innerHTML=tbl(['ش.مرجوعی','فاکتور','مشتری','محصول','تعداد','علت','وضعیت'],approved.map(r=>[r.retNo||'',r.inv||'',r.custName||'',r.name||'',fa(r.qty||0),r.reason||'',`<span class="pill ${String(r.status).indexOf('انبار')>=0?'p-wh':String(r.status).indexOf('مالی')>=0?'p-fin':'p-sales'}">${r.status||''}</span>`]));}
+function openReturn(){document.getElementById('retInv').value='';document.getElementById('retSku').value='';document.getElementById('retQty').value='';document.getElementById('retReason').value='';openOv('ovReturn');}
+function saveReturn(){const invNo=document.getElementById('retInv').value,sku=document.getElementById('retSku').value,qty=Number(document.getElementById('retQty').value)||0,reason=document.getElementById('retReason').value;if(!invNo||!sku||!qty){toast('فاکتور/محصول/تعداد الزامی');return;}if(demoGuard())return;const retNo='RET-'+String(Date.now()).slice(-6);DB.returns.push({retNo:retNo,inv:invNo,sku:sku,name:(PRODUCTS.find(p=>p.sku===sku)||{}).name,qty:qty,reason:reason,status:'منتظر تأیید انبار',date:new Date().toLocaleDateString('fa-IR')});renderReturns();closeOv('ovReturn');toast('✓ مرجوعی ثبت شد');}
+function renderConsign(){const cons=(DB.invoices||[]).filter(r=>String(r.type||'').indexOf('امانی')>=0);document.getElementById('cgList').innerHTML=tbl(['فاکتور','مشتری','کانال','سررسید','جمع'],cons.map(c=>[c.id||'',c.custName||'',c.chan||'',c.deadline||'',fa(c.total||0)]));}
+function openConsign(){document.getElementById('consInv').value='';document.getElementById('consChan').value='داروخانه';document.getElementById('consSku').value=PRODUCTS[0]?.sku||'';document.getElementById('consQty').value='1';document.getElementById('consDeadline').value='';openOv('ovConsign');}
+function saveConsign(){const inv=document.getElementById('consInv').value,chan=document.getElementById('consChan').value,sku=document.getElementById('consSku').value,qty=Number(document.getElementById('consQty').value)||0,deadline=document.getElementById('consDeadline').value;if(!inv||!chan||!sku||!qty){toast('داده‌های الزامی');return;}if(demoGuard())return;const prod=PRODUCTS.find(p=>p.sku===sku)||{};DB.invoices.push({id:inv,type:'امانی',chan:chan,sku:sku,prod:prod.name,qty:qty,unit:unitPrice(sku,'P'+(chan==='پخش'?3:2),'نقدی',chan),deadline:deadline,status:'امانی باز',date:new Date().toLocaleDateString('fa-IR')});renderConsign();renderAllInv();closeOv('ovConsign');toast('✓ فاکتور امانی ثبت شد');}
+function printInvoice(){const invNo=document.getElementById('printInvNo').value;if(!invNo){toast('شماره فاکتور را وارد کن');return;}const grouped=groupInvoices(),inv=grouped.find(i=>i.id===invNo);if(!inv){toast('فاکتور پیدا نشد');return;}const html=`<html dir="rtl"><head><meta charset="UTF-8"><style>body{font-family:Tahoma;margin:20px;}</style></head><body><h2>فاکتور فروش</h2><p><b>شماره:</b> ${inv.id}<br><b>تاریخ:</b> ${inv.date}<br><b>مشتری:</b> ${inv.custName}<br><b>کانال:</b> ${inv.chan}</p><table border="1" style="width:100%;border-collapse:collapse;"><tr><th>محصول</th><th>تعداد</th><th>واحد</th><th>جمع</th></tr>${inv.items.map(i=>`<tr><td>${i.prod}</td><td>${fa(i.qty)}</td><td>${fa(i.unit)}</td><td>${fa(i.total)}</td></tr>`).join('')}<tr><td colspan="3" align="left"><b>جمع کل:</b></td><td><b>${fa(inv.total)}</b></td></tr></table></body></html>`;const w=window.open('','print');w.document.write(html);w.document.close();setTimeout(()=>w.print(),500);}
+function glnSearch(){const q=document.getElementById('glnQuery').value.toLowerCase();if(!q){toast('نام مشتری را جستجو کن');return;}const results=[{gln:'6221234567890',name:'داروخانه دکتر احمدی',city:'تهران'},{gln:'6229876543210',name:'پخش سلامت پارسیان',city:'تهران'},{gln:'6220000000001',name:'فروشگاه تندرستی',city:'شیراز'}].filter(g=>g.name.indexOf(q)>=0||g.gln.indexOf(q)>=0);document.getElementById('glnResults').innerHTML=results.length?results.map(g=>`<div style="padding:8px;border:1px solid #ddd;margin:4px;cursor:pointer;" onclick="selectGln('${g.gln}','${g.name}','${g.city}')"><b>${g.name}</b><br>${g.gln} — ${g.city}</div>`).join(''):'<p class="empty">نتیجه نشد</p>';}
+function selectGln(gln,name,city){document.getElementById('cuName').value=name;document.getElementById('cuCity').value=city;document.getElementById('cuGLN').value=gln;closeOv('ovGLN');}
+function openGlnSearch(){document.getElementById('glnQuery').value='';document.getElementById('glnResults').innerHTML='';openOv('ovGLN');}
+
+</script>
+</body>
+</html>
