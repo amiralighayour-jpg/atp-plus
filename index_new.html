@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B3D2E">
+<title>ATP+ — سیستم مدیریت فروش</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--g:#0B3D2E;--g2:#15795B;--gold:#C9A227;--bg:#F2F5F3;--card:#fff;--ink:#1F2937;--muted:#6B7280;--green:#0F9D6E;--red:#EF4444}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Vazirmatn',Tahoma,sans-serif;background:linear-gradient(135deg,var(--g),var(--g2));min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:var(--ink)}
+.wrap{max-width:600px;width:100%;text-align:center}
+.logo{font-size:72px;margin-bottom:20px}
+h1{color:#fff;font-size:32px;margin-bottom:8px;font-weight:800}
+.subtitle{color:rgba(255,255,255,0.85);font-size:14px;margin-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:30px}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+.btn-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:var(--card);border-radius:14px;border:none;cursor:pointer;text-decoration:none;color:var(--ink);transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.1);font-family:inherit;font-weight:700}
+.btn-panel:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(0,0,0,0.15);background:rgba(255,255,255,0.95)}
+.btn-panel:active{transform:translateY(-2px)}
+.btn-panel .icon{font-size:36px;margin-bottom:8px}
+.btn-panel .name{font-size:16px;color:var(--g);margin-bottom:4px}
+.btn-panel .desc{font-size:11px;color:var(--muted)}
+.status{background:rgba(255,255,255,0.15);color:#fff;padding:12px;border-radius:10px;font-size:12px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.3)}
+.badge{display:inline-block;background:var(--green);color:#fff;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:700;margin-left:8px}
+.footer{color:rgba(255,255,255,0.7);font-size:12px;margin-top:30px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+ <div class="logo">🚀</div>
+ <h1>ATP+</h1>
+ <p class="subtitle">سیستم مدیریت فروش و انبار مکمل‌های ورزشی</p>
+ 
+ <div class="status">
+  ✅ تمام پنل‌ها آماده است <span class="badge">LIVE</span>
+ </div>
+
+ <div class="grid">
+  <a href="admin.html" class="btn-panel">
+   <div class="icon">👑</div>
+   <div class="name">مدیر عامل</div>
+   <div class="desc">Dashboard + Reports</div>
+  </a>
+
+  <a href="finance.html" class="btn-panel">
+   <div class="icon">💰</div>
+   <div class="name">مالی</div>
+   <div class="desc">فاکتور و تسویه</div>
+  </a>
+
+  <a href="warehouse.html" class="btn-panel">
+   <div class="icon">📦</div>
+   <div class="name">انبار</div>
+   <div class="desc">موجودی و مرجوعی</div>
+  </a>
+
+  <a href="sales.html" class="btn-panel">
+   <div class="icon">🔷</div>
+   <div class="name">فروش</div>
+   <div class="desc">سفارش‌ها و تخفیف</div>
+  </a>
+
+  <a href="visitor.html" class="btn-panel">
+   <div class="icon">👤</div>
+   <div class="name">ویزیتور</div>
+   <div class="desc">سفارش موبایلی</div>
+  </a>
+
+  <button class="btn-panel" onclick="alert('⚙️ تنظیمات')" style="cursor:pointer">
+   <div class="icon">⚙️</div>
+   <div class="name">تنظیمات</div>
+   <div class="desc">اتصال و همگام‌سازی</div>
+  </button>
+ </div>
+
+ <div class="footer">
+  <p>ATP+ v2.0 | تمام حقوق محفوظ است</p>
+  <p style="margin-top:8px;font-size:11px">رمز ورود: <b>1234</b></p>
+ </div>
+</div>
+
+</body>
+</html>
