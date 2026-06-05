@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATP+ - سیستم مدیریت</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #1F4E78 0%, #0B3D2E 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .programs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .program-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .program-card .emoji {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .program-card h2 {
+            color: #1F4E78;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        
+        .program-card .description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .program-card .password {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #333;
+            font-family: monospace;
+            margin-bottom: 15px;
+        }
+        
+        .program-card .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #1F4E78 0%, #0B3D2E 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .program-card .btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .programs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 ATP+ سیستم مدیریت</h1>
+            <p>سیستم یکپارچهٔ فروش، مالی، انبار و ویزیتور</p>
+        </div>
+        
+        <div class="programs">
+            <!-- مدیر عامل -->
+            <a href="./مدیرعامل_Supabase.html" class="program-card">
+                <div class="emoji">👑</div>
+                <h2>مدیر عامل</h2>
+                <p class="description">مشاهدهٔ کاملِ سیستم</p>
+                <div class="password">رمز: ceo123</div>
+                <div class="btn">ورود</div>
+            </a>
+            
+            <!-- مدیر فروش -->
+            <a href="./فروش_Supabase.html" class="program-card">
+                <div class="emoji">💼</div>
+                <h2>مدیر فروش</h2>
+                <p class="description">مدیریت سفارشات و فاکتورها</p>
+                <div class="password">رمز: sales123</div>
+                <div class="btn">ورود</div>
+            </a>
+            
+            <!-- مدیر مالی -->
+            <a href="./مالی_Supabase.html" class="program-card">
+                <div class="emoji">💰</div>
+                <h2>مدیر مالی</h2>
+                <p class="description">مدیریت پرداخت‌ها و وصولی‌ها</p>
+                <div class="password">رمز: fin123</div>
+                <div class="btn">ورود</div>
+            </a>
+            
+            <!-- مدیر انبار -->
+            <a href="./انبار_Supabase.html" class="program-card">
+                <div class="emoji">📦</div>
+                <h2>مدیر انبار</h2>
+                <p class="description">مدیریت موجودی و تحویل</p>
+                <div class="password">رمز: wh123</div>
+                <div class="btn">ورود</div>
+            </a>
+            
+            <!-- ویزیتور -->
+            <a href="./ویزیتور_Supabase_Complete.html" class="program-card">
+                <div class="emoji">📱</div>
+                <h2>ویزیتور</h2>
+                <p class="description">فاکتور و وصولی‌ها</p>
+                <div class="password">بدون رمز</div>
+                <div class="btn">ورود</div>
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>🔐 تمام اطلاعات از طریق Supabase محفوظ می‌شود</p>
+            <p>© 2024 ATP+ - سیستم مدیریت</p>
+        </div>
+    </div>
+</body>
+</html>
